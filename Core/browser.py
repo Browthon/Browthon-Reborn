@@ -21,3 +21,8 @@ class Browser(QWidget):
         self.setLayout(self.grid)
         self.show()
     
+    def closeEvent(self, event):
+        if QMessageBox().question(self, "Quitter ?", "Voulez vous quitter Browthon ?", QMessageBox.Yes, QMessageBox.No) == 16384:
+            event.accept()
+        else:
+            event.ignore()
