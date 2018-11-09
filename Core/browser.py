@@ -14,9 +14,18 @@ class Browser(QWidget):
 
         self.browserWidget = BrowserWidget(self)
         self.urlInput = UrlInput(self)
+        self.back = QPushButton("<")
+        self.forward = QPushButton(">")
+        self.reload = QPushButton("↺")
 
         self.grid.addWidget(self.browserWidget, 1, 0)
-        self.grid.addWidget(self.urlInput, 0, 0)
+        self.reload.clicked.connect(self.browserWidget.reload)
+        self.back.clicked.connect(self.browserWidget.back)
+        self.forward.clicked.connect(self.browserWidget.forward)
+        self.grid.addWidget(self.back, 0, 0)
+        self.grid.addWidget(self.reload, 0, 1)
+        self.grid.addWidget(self.forward, 0, 2)
+        self.grid.addWidget(self.urlInput, 0, 3)
 
         self.setLayout(self.grid)
         self.show()
