@@ -28,8 +28,12 @@ class Browser(QWidget):
         self.grid.addWidget(self.urlInput, 0, 3)
 
         self.setLayout(self.grid)
+        self.setGeometry(100, 100, 1200, 1200)
+        self.setWindowTitle('Browthon')
         self.show()
     
+    def setTitle(self):
+        self.setWindowTitle(self.browserWidget.title() + " - Browthon")
     def closeEvent(self, event):
         if QMessageBox().question(self, "Quitter ?", "Voulez vous quitter Browthon ?", QMessageBox.Yes, QMessageBox.No) == 16384:
             event.accept()
