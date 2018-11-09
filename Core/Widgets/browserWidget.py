@@ -9,3 +9,6 @@ class BrowserWidget(QWebEngineView):
         super(BrowserWidget, self).__init__(parent)
         self.parent = parent
         self.load(QUrl("http://google.com"))
+        self.urlChanged.connect(self.parent.urlInput.setUrl)
+        self.titleChanged.connect(self.parent.setTitle)
+        self.iconChanged.connect(self.parent.tabWidget.setIcon)
