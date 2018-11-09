@@ -10,13 +10,17 @@ class TabWidget(QTabWidget):
     def __init__(self, parent):
         super(TabWidget, self).__init__(parent)
         self.parent = parent
-        self.addTabButton = QPushButton("+")
-        self.setCornerWidget(self.addTabButton)
+        self.addTabButton =  QPushButton(QIcon("Icons/Tabs/tabs-add.png"), "")
+
         self.tabCloseRequested.connect(self.requestsRemoveTab)
         self.currentChanged.connect(self.onTabChange)
         self.addTabButton.clicked.connect(self.requestsAddTab)
+
         self.setTabsClosable(True)
         self.setMovable(True)
+        self.setCornerWidget(self.addTabButton)
+        close_icon_path = "Icons/Tabs/tabs-close.png"
+        self.setStyleSheet("QTabBar::close-button { image: url("+close_icon_path+"); }")
     
     def requestsRemoveTab(self, index):
         if self.count()==1:

@@ -3,6 +3,7 @@
 
 from PyQt5.QtWidgets import QWidget, QGridLayout, QMessageBox, QPushButton
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QIcon
 
 from Core.Widgets.browserWidget import BrowserWidget
 from Core.Widgets.urlInput import UrlInput
@@ -15,9 +16,8 @@ class Browser(QWidget):
         self.grid = QGridLayout()
 
         self.urlInput = UrlInput(self)
-        self.back = QPushButton("<")
-        self.forward = QPushButton(">")
-        self.reload = QPushButton("↺")
+        self.back =  QPushButton(QIcon("Icons/NavigationBar/back.png"), "")
+        self.forward =  QPushButton(QIcon("Icons/NavigationBar/forward.png"), "")
         self.tabWidget = TabWidget(self)
 
         self.tabWidget.requestsAddTab()
