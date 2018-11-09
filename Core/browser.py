@@ -18,6 +18,7 @@ class Browser(QWidget):
         self.urlInput = UrlInput(self)
         self.back =  QPushButton(QIcon("Icons/NavigationBar/back.png"), "")
         self.forward =  QPushButton(QIcon("Icons/NavigationBar/forward.png"), "")
+        self.reload =  QPushButton(QIcon("Icons/NavigationBar/reload.png"), "")
         self.tabWidget = TabWidget(self)
 
         self.tabWidget.requestsAddTab()
@@ -50,7 +51,16 @@ class Browser(QWidget):
             self.tabWidget.requestsRemoveTab(self.tabWidget.currentIndex())
     
     def closeEvent(self, event):
-        if QMessageBox().question(self, "Quitter ?", "Voulez vous quitter Browthon ?", QMessageBox.Yes, QMessageBox.No) == 16384:
+        if self.tabWidget.count() == 0:
             event.accept()
+        elif self.tabWidget.count() != 1:
+            if QMessageBox().question(self, "Quitter ?", "Voulez vous quitter tous les onglets ?", QMessageBox.Yes, QMessageBox.No) == 16384:
+                event.accept()
+            else:
+                event.ignore()
+                self.tabWidget.requestsRemoveTab(self.tabWidget.currentIndex())
         else:
-            event.ignore()
+            if QMessageBox().question(self, "Quitter ?", "Voulez vous quitter Browthon ?", QMessageBox.Yes, QMessageBox.No) == 16384:
+                event.accept()
+            else:
+                event.ignore()

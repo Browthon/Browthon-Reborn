@@ -24,8 +24,10 @@ class TabWidget(QTabWidget):
     
     def requestsRemoveTab(self, index):
         if self.count()==1:
-            self.requestsAddTab()
-        self.removeTab(index)
+            if QMessageBox().question(self, "Quitter ?", "Voulez vous quitter Browthon ?", QMessageBox.Yes, QMessageBox.No) == 16384:
+                self.parent.close()
+        else:
+            self.removeTab(index)
     
     def setTitle(self):
         if len(self.parent.browserWidget.title()) >= 13:
@@ -54,3 +56,4 @@ class TabWidget(QTabWidget):
         browserWidget = BrowserWidget(self.parent)
         self.addTab(browserWidget, QIcon('logo.png'), "Nouvel Onglet")
         browserWidget.show()
+        self.setCurrentWidget(browserWidget)
