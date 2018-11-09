@@ -2,6 +2,7 @@
 # coding: utf-8
 
 from PyQt5.QtWidgets import QWidget, QGridLayout, QMessageBox, QPushButton
+from PyQt5.QtCore import Qt
 
 from Core.Widgets.browserWidget import BrowserWidget
 from Core.Widgets.urlInput import UrlInput
@@ -39,6 +40,14 @@ class Browser(QWidget):
     def setTitle(self):
         self.setWindowTitle(self.browserWidget.title() + " - Browthon")
         self.tabWidget.setTitle()
+    
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key_R or event.key() == Qt.Key_F5:
+            self.browserWidget.reload()
+        elif event.key() == Qt.Key_N:
+            self.tabWidget.requestsAddTab()
+        elif event.key() == Qt.Key_Q:
+            self.tabWidget.requestsRemoveTab(self.tabWidget.currentIndex())
     
     def closeEvent(self, event):
         if QMessageBox().question(self, "Quitter ?", "Voulez vous quitter Browthon ?", QMessageBox.Yes, QMessageBox.No) == 16384:
