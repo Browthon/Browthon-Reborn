@@ -21,4 +21,4 @@ class UrlInput(QLineEdit):
         self.enterUrlGiven(url)
 
     def setUrl(self):
-        self.setText(self.main.browserWidget.url().toString())
+        self.setText(self.parent.browserWidget.url().toString())
