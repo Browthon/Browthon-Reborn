@@ -40,9 +40,12 @@ class TabWidget(QTabWidget):
     def onTabChange(self):
         self.parent.browserWidget = self.currentWidget()
         self.parent.urlInput.setUrl()
-        self.parent.forward.disconnect()
-        self.parent.back.disconnect()
-        self.parent.reload.disconnect()
+        try:
+            self.parent.forward.disconnect()
+            self.parent.back.disconnect()
+            self.parent.reload.disconnect()
+        except:
+            pass
         self.parent.back.clicked.connect(self.parent.browserWidget.back)
         self.parent.forward.clicked.connect(self.parent.browserWidget.forward)
         self.parent.reload.clicked.connect(self.parent.browserWidget.reload)
