@@ -16,20 +16,14 @@ class Browser(QWidget):
     def __init__(self):
         super(Browser, self).__init__()
         self.dbConnection = DBConnection("data.db")
-        self.dbConnection.executeWithoutReturn("""
-CREATE TABLE IF NOT EXISTS parameters(
-    id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
-    home TEXT
-)
-""")
-        if self.dbConnection.executeWithReturn("""SELECT home FROM parameters""") == [] :
-            self.dbConnection.executeWithoutReturn("""INSERT INTO parameters(home) VALUES("http://google.com")""")
+        self.dbConnection.createDB()
         self.createUI()
         self.show()
 
     def setTitle(self):
         self.setWindowTitle(self.browserWidget.title() + " - Browthon")
         self.tabWidget.setTitle()
+        self.dbConnection.executeWithoutReturn("""INSERT INTO history(name, url) VALUES(?, ?)""", (self.browserWidget.title(), self.browserWidget.url().toString()))
     
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_R or event.key() == Qt.Key_F5:
