@@ -17,12 +17,25 @@ class Browser(QWidget):
         super(Browser, self).__init__()
         self.dbConnection = DBConnection("data.db")
         self.dbConnection.createDB()
+
         self.createUI()
+
+        self.historyWindow = HistoryWindow(self)
+
         self.show()
 
     def setTitle(self):
         self.setWindowTitle(self.browserWidget.title() + " - Browthon")
         self.tabWidget.setTitle()
+    
+    def openNewOngletWithUrl(self, url):
+        url = getGoodUrl(url)
+        self.tabWidget.requestsAddTab()
+        self.browserWidget.load(QUrl(url))
+
+    def openHistory(self):
+        self.historyWindow.setWindowModality(Qt.ApplicationModal)
+        self.historyWindow.showUpdate()
         self.dbConnection.executeWithoutReturn("""INSERT INTO history(name, url) VALUES(?, ?)""", (self.browserWidget.title(), self.browserWidget.url().toString()))
     
     def keyPressEvent(self, event):
@@ -32,6 +45,9 @@ class Browser(QWidget):
             self.tabWidget.requestsAddTab()
         elif event.key() == Qt.Key_Q:
             self.tabWidget.requestsRemoveTab(self.tabWidget.currentIndex())
+        elif event.key() == Qt.Key_H:
+            self.historyWindow.setWindowModality(Qt.ApplicationModal)
+            self.historyWindow.showUpdate()
     
     def closeEvent(self, event):
         if self.tabWidget.count() == 0:
@@ -65,7 +81,7 @@ class Browser(QWidget):
 
         self.tabWidget.requestsAddTab()
 
-        self.parameterMenu.addAction("Historique", lambda: print("Historique"))
+        self.parameterMenu.addAction("Historique", self.openHistory)
         self.parameterMenu.addAction("Favoris", lambda: print("Favoris"))
         self.parameterMenu.addSeparator()
         self.parameterMenu.addAction("Paramètres", lambda: print("Paramètres"))
