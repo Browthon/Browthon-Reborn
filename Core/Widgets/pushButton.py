@@ -3,9 +3,9 @@
 
 from PyQt5.QtWidgets import QPushButton
 
-class MyPushButton(QPushButton):
+class PushButton(QPushButton):
     def __init__(self, texte, icon = ""):
         if icon == "":
-            super(MyPushButton, self).__init__(texte)
+            super(PushButton, self).__init__(texte)
         else:
-            super(MyPushButton, self).__init__(icon, texte)
+            super(PushButton, self).__init__(icon, texte)

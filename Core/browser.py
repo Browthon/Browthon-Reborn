@@ -2,13 +2,13 @@
 # coding: utf-8
 
 from PyQt5.QtWidgets import QWidget, QGridLayout, QMessageBox, QPushButton, QMenu
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QUrl
 from PyQt5.QtGui import QIcon
 
 from Core.Widgets.browserWidget import BrowserWidget
 from Core.Widgets.urlInput import UrlInput
 from Core.Widgets.tabWidget import TabWidget
-from Core.Widgets.pushButton import MyPushButton
+from Core.Widgets.pushButton import PushButton
 from Core.Utils.dbUtils import DBConnection
 
 
@@ -55,11 +55,11 @@ class Browser(QWidget):
         self.grid = QGridLayout()
 
         self.urlInput = UrlInput(self)
-        self.back = MyPushButton("", QIcon("Icons/NavigationBar/back.png"))
-        self.forward = MyPushButton("", QIcon("Icons/NavigationBar/forward.png"))
-        self.reload = MyPushButton("", QIcon("Icons/NavigationBar/reload.png"))
-        self.home = MyPushButton("", QIcon("Icons/NavigationBar/home.png"))
-        self.parameter = MyPushButton("", QIcon("Icons/NavigationBar/param.png"))
+        self.back = PushButton("", QIcon("Icons/NavigationBar/back.png"))
+        self.forward = PushButton("", QIcon("Icons/NavigationBar/forward.png"))
+        self.reload = PushButton("", QIcon("Icons/NavigationBar/reload.png"))
+        self.home = PushButton("", QIcon("Icons/NavigationBar/home.png"))
+        self.parameter = PushButton("", QIcon("Icons/NavigationBar/param.png"))
         self.parameterMenu = QMenu()
         self.tabWidget = TabWidget(self)
 
