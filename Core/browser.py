@@ -13,29 +13,7 @@ from Core.Widgets.tabWidget import TabWidget
 class Browser(QWidget):
     def __init__(self):
         super(Browser, self).__init__()
-        self.grid = QGridLayout()
-
-        self.urlInput = UrlInput(self)
-        self.back =  QPushButton(QIcon("Icons/NavigationBar/back.png"), "")
-        self.forward =  QPushButton(QIcon("Icons/NavigationBar/forward.png"), "")
-        self.reload =  QPushButton(QIcon("Icons/NavigationBar/reload.png"), "")
-        self.tabWidget = TabWidget(self)
-
-        self.tabWidget.requestsAddTab()
-
-        self.reload.clicked.connect(self.browserWidget.reload)
-        self.back.clicked.connect(self.browserWidget.back)
-        self.forward.clicked.connect(self.browserWidget.forward)
-
-        self.grid.addWidget(self.back, 0, 0)
-        self.grid.addWidget(self.reload, 0, 1)
-        self.grid.addWidget(self.forward, 0, 2)
-        self.grid.addWidget(self.urlInput, 0, 3)
-        self.grid.addWidget(self.tabWidget, 1, 0, 1, 4)
-
-        self.setLayout(self.grid)
-        self.setGeometry(100, 100, 1200, 1200)
-        self.setWindowTitle('Browthon')
+        self.createUI()
         self.show()
     
     def setTitle(self):
@@ -64,3 +42,32 @@ class Browser(QWidget):
                 event.accept()
             else:
                 event.ignore()
+    def createUI(self):
+        self.grid = QGridLayout()
+
+        self.urlInput = UrlInput(self)
+        self.back = MyPushButton("", QIcon("Icons/NavigationBar/back.png"))
+        self.forward = MyPushButton("", QIcon("Icons/NavigationBar/forward.png"))
+        self.reload = MyPushButton("", QIcon("Icons/NavigationBar/reload.png"))
+        self.home = MyPushButton("", QIcon("Icons/NavigationBar/home.png"))
+        self.parameter = MyPushButton("", QIcon("Icons/NavigationBar/param.png"))
+        self.tabWidget = TabWidget(self)
+
+        self.tabWidget.requestsAddTab()
+
+        self.reload.clicked.connect(self.browserWidget.reload)
+        self.back.clicked.connect(self.browserWidget.back)
+        self.forward.clicked.connect(self.browserWidget.forward)
+        self.home.clicked.connect(lambda: self.urlInput.enterUrlGiven(self.dbConnection.executeWithReturn("""SELECT home FROM parameters""")[0][0]))
+
+        self.grid.addWidget(self.back, 0, 0)
+        self.grid.addWidget(self.reload, 0, 1)
+        self.grid.addWidget(self.forward, 0, 2)
+        self.grid.addWidget(self.urlInput, 0, 3)
+        self.grid.addWidget(self.home, 0, 4)
+        self.grid.addWidget(self.parameter, 0, 5)
+        self.grid.addWidget(self.tabWidget, 1, 0, 1, 6)
+
+        self.setLayout(self.grid)
+        self.setGeometry(100, 100, 1200, 1200)
+        self.setWindowTitle('Browthon')
