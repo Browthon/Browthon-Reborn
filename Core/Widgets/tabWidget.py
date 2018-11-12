@@ -19,8 +19,7 @@ class TabWidget(QTabWidget):
         self.setTabsClosable(True)
         self.setMovable(True)
         self.setCornerWidget(self.addTabButton)
-        close_icon_path = "Icons/Tabs/tabs-close.png"
-        self.setStyleSheet("QTabBar::close-button { image: url("+close_icon_path+"); }")
+        self.setStyleSheet("""QTabBar::close-button { image: url("Icons/Tabs/tabs-close.png"); }""")
     
     def requestsRemoveTab(self, index):
         if self.count()==1:
