@@ -10,6 +10,8 @@ from Core.Widgets.urlInput import UrlInput
 from Core.Widgets.tabWidget import TabWidget
 from Core.Widgets.pushButton import PushButton
 from Core.Utils.dbUtils import DBConnection
+from Core.Utils.urlUtils import getGoodUrl
+from Core.Windows.historyWindow import HistoryWindow
 
 
 class Browser(QWidget):
@@ -36,6 +38,8 @@ class Browser(QWidget):
     def openHistory(self):
         self.historyWindow.setWindowModality(Qt.ApplicationModal)
         self.historyWindow.showUpdate()
+    
+    def addHistory(self):
         self.dbConnection.executeWithoutReturn("""INSERT INTO history(name, url) VALUES(?, ?)""", (self.browserWidget.title(), self.browserWidget.url().toString()))
     
     def keyPressEvent(self, event):

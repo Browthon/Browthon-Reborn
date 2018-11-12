@@ -10,6 +10,7 @@ class TabWidget(QTabWidget):
     def __init__(self, parent):
         super(TabWidget, self).__init__(parent)
         self.parent = parent
+        self.changedOnce = False
         self.addTabButton =  QPushButton(QIcon("Icons/Tabs/tabs-add.png"), "")
 
         self.tabCloseRequested.connect(self.requestsRemoveTab)
@@ -47,6 +48,10 @@ class TabWidget(QTabWidget):
             self.parent.reload.disconnect()
         except:
             pass
+        if self.changedOnce:
+            self.parent.addHistory()
+        else:
+            self.changedOnce = True
         self.parent.back.clicked.connect(self.parent.browserWidget.back)
         self.parent.forward.clicked.connect(self.parent.browserWidget.forward)
         self.parent.reload.clicked.connect(self.parent.browserWidget.reload)
@@ -55,4 +60,5 @@ class TabWidget(QTabWidget):
         browserWidget = BrowserWidget(self.parent)
         self.addTab(browserWidget, QIcon('logo.png'), "Nouvel Onglet")
         browserWidget.show()
+        self.changedOnce = False
         self.setCurrentWidget(browserWidget)
