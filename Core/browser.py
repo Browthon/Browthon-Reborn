@@ -8,14 +8,25 @@ from PyQt5.QtGui import QIcon
 from Core.Widgets.browserWidget import BrowserWidget
 from Core.Widgets.urlInput import UrlInput
 from Core.Widgets.tabWidget import TabWidget
+from Core.Widgets.pushButton import MyPushButton
+from Core.Utils.dbUtils import DBConnection
 
 
 class Browser(QWidget):
     def __init__(self):
         super(Browser, self).__init__()
+        self.dbConnection = DBConnection("data.db")
+        self.dbConnection.executeWithoutReturn("""
+CREATE TABLE IF NOT EXISTS parameters(
+    id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+    home TEXT
+)
+""")
+        if self.dbConnection.executeWithReturn("""SELECT home FROM parameters""") == [] :
+            self.dbConnection.executeWithoutReturn("""INSERT INTO parameters(home) VALUES("http://google.com")""")
         self.createUI()
         self.show()
-    
+
     def setTitle(self):
         self.setWindowTitle(self.browserWidget.title() + " - Browthon")
         self.tabWidget.setTitle()
@@ -30,18 +41,22 @@ class Browser(QWidget):
     
     def closeEvent(self, event):
         if self.tabWidget.count() == 0:
+            self.dbConnection.disconnect()
             event.accept()
         elif self.tabWidget.count() != 1:
             if QMessageBox().question(self, "Quitter ?", "Voulez vous quitter tous les onglets ?", QMessageBox.Yes, QMessageBox.No) == 16384:
+                self.dbConnection.disconnect()
                 event.accept()
             else:
                 event.ignore()
                 self.tabWidget.requestsRemoveTab(self.tabWidget.currentIndex())
         else:
             if QMessageBox().question(self, "Quitter ?", "Voulez vous quitter Browthon ?", QMessageBox.Yes, QMessageBox.No) == 16384:
+                self.dbConnection.disconnect()
                 event.accept()
             else:
                 event.ignore()
+
     def createUI(self):
         self.grid = QGridLayout()
 
