@@ -1,7 +1,7 @@
 #!/usr/bin/python3.7
 # coding: utf-8
 
-from PyQt5.QtWidgets import QWidget, QGridLayout, QMessageBox, QPushButton
+from PyQt5.QtWidgets import QWidget, QGridLayout, QMessageBox, QPushButton, QMenu
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 
@@ -60,14 +60,23 @@ class Browser(QWidget):
         self.reload = MyPushButton("", QIcon("Icons/NavigationBar/reload.png"))
         self.home = MyPushButton("", QIcon("Icons/NavigationBar/home.png"))
         self.parameter = MyPushButton("", QIcon("Icons/NavigationBar/param.png"))
+        self.parameterMenu = QMenu()
         self.tabWidget = TabWidget(self)
 
         self.tabWidget.requestsAddTab()
+
+        self.parameterMenu.addAction("Historique", lambda: print("Historique"))
+        self.parameterMenu.addAction("Favoris", lambda: print("Favoris"))
+        self.parameterMenu.addSeparator()
+        self.parameterMenu.addAction("Paramètres", lambda: print("Paramètres"))
+        self.parameterMenu.addSeparator()
+        self.parameterMenu.addAction("Informations", lambda: print("Informations"))
 
         self.reload.clicked.connect(self.browserWidget.reload)
         self.back.clicked.connect(self.browserWidget.back)
         self.forward.clicked.connect(self.browserWidget.forward)
         self.home.clicked.connect(lambda: self.urlInput.enterUrlGiven(self.dbConnection.executeWithReturn("""SELECT home FROM parameters""")[0][0]))
+        self.parameter.setMenu(self.parameterMenu)
 
         self.grid.addWidget(self.back, 0, 0)
         self.grid.addWidget(self.reload, 0, 1)
