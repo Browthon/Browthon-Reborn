@@ -40,6 +40,7 @@ class HistoryWindow(QWidget):
                     break
 
     def showUpdate(self):
+        self.listeW.deleteAllItems()
         self.liste = self.parent.dbConnection.executeWithReturn("""SELECT * FROM history""")
         self.listeW.updateList(self.liste)
         self.show()
@@ -49,7 +50,8 @@ class HistoryWindow(QWidget):
             for i in self.liste:
                 if i[1] == self.listeW.currentItem().text():
                     self.parent.dbConnection.executeWithoutReturn("""DELETE FROM history WHERE id = ?""", (i[0],))
+        self.showUpdate()
     
     def deleteAll(self):
-        self.listeW.deleteAllItems()
         self.parent.dbConnection.executeWithoutReturn("""DELETE FROM history""")
+        self.showUpdate()
