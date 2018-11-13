@@ -4,6 +4,7 @@
 from PyQt5.QtWidgets import QWidget, QGridLayout, QMessageBox, QPushButton, QMenu
 from PyQt5.QtCore import Qt, QUrl
 from PyQt5.QtGui import QIcon
+from PyQt5.QtWebEngineWidgets import QWebEngineSettings
 
 from Core.Widgets.browserWidget import BrowserWidget
 from Core.Widgets.urlInput import UrlInput
@@ -23,6 +24,7 @@ class Browser(QWidget):
 
         self.createUI()
 
+        QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)
         self.historyWindow = HistoryWindow(self)
         self.bookmarksWindow = BookmarksWindow(self)
 
