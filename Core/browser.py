@@ -12,6 +12,7 @@ from Core.Widgets.pushButton import PushButton
 from Core.Utils.dbUtils import DBConnection
 from Core.Utils.urlUtils import getGoodUrl
 from Core.Windows.historyWindow import HistoryWindow
+from Core.Windows.bookmarksWindow import BookmarksWindow
 
 
 class Browser(QWidget):
@@ -23,6 +24,7 @@ class Browser(QWidget):
         self.createUI()
 
         self.historyWindow = HistoryWindow(self)
+        self.bookmarksWindow = BookmarksWindow(self)
 
         self.show()
 
@@ -34,6 +36,10 @@ class Browser(QWidget):
         url = getGoodUrl(url)
         self.tabWidget.requestsAddTab()
         self.browserWidget.load(QUrl(url))
+
+    def openFav(self):
+        self.bookmarksWindow.setWindowModality(Qt.ApplicationModal)
+        self.bookmarksWindow.showUpdate()
 
     def openHistory(self):
         self.historyWindow.setWindowModality(Qt.ApplicationModal)
@@ -52,6 +58,9 @@ class Browser(QWidget):
         elif event.key() == Qt.Key_H:
             self.historyWindow.setWindowModality(Qt.ApplicationModal)
             self.historyWindow.showUpdate()
+        elif event.key() == Qt.Key_F:
+            self.bookmarksWindow.setWindowModality(Qt.ApplicationModal)
+            self.bookmarksWindow.showUpdate()
     
     def closeEvent(self, event):
         if self.tabWidget.count() == 0:
@@ -86,7 +95,7 @@ class Browser(QWidget):
         self.tabWidget.requestsAddTab()
 
         self.parameterMenu.addAction("Historique", self.openHistory)
-        self.parameterMenu.addAction("Favoris", lambda: print("Favoris"))
+        self.parameterMenu.addAction("Favoris", self.openFav)
         self.parameterMenu.addSeparator()
         self.parameterMenu.addAction("Paramètres", lambda: print("Paramètres"))
         self.parameterMenu.addSeparator()
