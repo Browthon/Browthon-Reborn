@@ -14,6 +14,7 @@ from Core.Utils.dbUtils import DBConnection
 from Core.Utils.urlUtils import getGoodUrl
 from Core.Windows.historyWindow import HistoryWindow
 from Core.Windows.bookmarksWindow import BookmarksWindow
+from Core.Windows.parameterWindow import ParameterWindow
 
 
 class Browser(QWidget):
@@ -27,6 +28,7 @@ class Browser(QWidget):
         QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)
         self.historyWindow = HistoryWindow(self)
         self.bookmarksWindow = BookmarksWindow(self)
+        self.parameterWindow = ParameterWindow(self)
 
         self.show()
 
@@ -38,6 +40,10 @@ class Browser(QWidget):
         url = getGoodUrl(url)
         self.tabWidget.requestsAddTab()
         self.browserWidget.load(QUrl(url))
+
+    def openParameter(self):
+        self.parameterWindow.setWindowModality(Qt.ApplicationModal)
+        self.parameterWindow.show()
 
     def openFav(self):
         self.bookmarksWindow.setWindowModality(Qt.ApplicationModal)
@@ -99,7 +105,7 @@ class Browser(QWidget):
         self.parameterMenu.addAction("Historique", self.openHistory)
         self.parameterMenu.addAction("Favoris", self.openFav)
         self.parameterMenu.addSeparator()
-        self.parameterMenu.addAction("Paramètres", lambda: print("Paramètres"))
+        self.parameterMenu.addAction("Paramètres", self.openParameter)
         self.parameterMenu.addSeparator()
         self.parameterMenu.addAction("Informations", lambda: print("Informations"))
 
