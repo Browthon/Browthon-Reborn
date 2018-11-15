@@ -7,16 +7,15 @@ from PyQt5.QtCore import Qt
 from Core.Widgets.listWidget import ListWidget
 from Core.Widgets.pushButton import PushButton
 
-class BookmarksWindow(QWidget):
+class BookmarksPage(QWidget):
     def __init__(self, parent):
-        super(BookmarksWindow, self).__init__()
+        super(BookmarksPage, self).__init__()
         self.parent = parent
-        self.setWindowTitle('Favoris')
         self.grid = QGridLayout()
 
         self.title = QLabel("Favoris")
         self.title.setAlignment(Qt.AlignHCenter)
-        self.listeW = ListWidget(self.parent.dbConnection.executeWithReturn("""SELECT * FROM bookmarks"""))
+        self.listeW = ListWidget(self.parent.parent.dbConnection.executeWithReturn("""SELECT * FROM bookmarks"""))
         self.supp = PushButton("Supprimer")
         self.suppAll = PushButton("Tout supprimer")
         self.addFav = PushButton("Ajouter Favori")
@@ -39,26 +38,25 @@ class BookmarksWindow(QWidget):
             for i in self.liste:
                 if i[1] == self.listeW.currentItem().text():
                     self.close()
-                    self.parent.openNewOngletWithUrl(i[2])
+                    self.parent.parent.openNewOngletWithUrl(i[2])
                     break
     
     def addFavF(self):
-        self.parent.dbConnection.executeWithoutReturn("""INSERT INTO bookmarks(name, url) VALUES(?, ?)""", (self.parent.browserWidget.title(), self.parent.browserWidget.url().toString()))
+        self.parent.parent.dbConnection.executeWithoutReturn("""INSERT INTO bookmarks(name, url) VALUES(?, ?)""", (self.parent.browserWidget.title(), self.parent.browserWidget.url().toString()))
         self.showUpdate()
 
     def showUpdate(self):
         self.listeW.deleteAllItems()
-        self.liste = self.parent.dbConnection.executeWithReturn("""SELECT * FROM bookmarks""")
+        self.liste = self.parent.parent.dbConnection.executeWithReturn("""SELECT * FROM bookmarks""")
         self.listeW.updateList(self.liste)
-        self.show()
 
     def delete(self):
         if self.listeW.currentItem():
             for i in self.liste:
                 if i[1] == self.listeW.currentItem().text():
-                    self.parent.dbConnection.executeWithoutReturn("""DELETE FROM bookmarks WHERE id = ?""", (i[0],))
+                    self.parent.parent.dbConnection.executeWithoutReturn("""DELETE FROM bookmarks WHERE id = ?""", (i[0],))
         self.showUpdate()
     
     def deleteAll(self):
-        self.parent.dbConnection.executeWithoutReturn("""DELETE FROM bookmarks""")
+        self.parent.parent.dbConnection.executeWithoutReturn("""DELETE FROM bookmarks""")
         self.showUpdate()

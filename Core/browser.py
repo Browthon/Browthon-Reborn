@@ -12,8 +12,6 @@ from Core.Widgets.tabWidget import TabWidget
 from Core.Widgets.pushButton import PushButton
 from Core.Utils.dbUtils import DBConnection
 from Core.Utils.urlUtils import getGoodUrl
-from Core.Windows.historyWindow import HistoryWindow
-from Core.Windows.bookmarksWindow import BookmarksWindow
 from Core.Windows.parameterWindow import ParameterWindow
 
 
@@ -26,8 +24,6 @@ class Browser(QWidget):
         self.createUI()
 
         QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)
-        self.historyWindow = HistoryWindow(self)
-        self.bookmarksWindow = BookmarksWindow(self)
         self.parameterWindow = ParameterWindow(self)
 
         self.show()
@@ -44,14 +40,6 @@ class Browser(QWidget):
     def openParameter(self):
         self.parameterWindow.setWindowModality(Qt.ApplicationModal)
         self.parameterWindow.show()
-
-    def openFav(self):
-        self.bookmarksWindow.setWindowModality(Qt.ApplicationModal)
-        self.bookmarksWindow.showUpdate()
-
-    def openHistory(self):
-        self.historyWindow.setWindowModality(Qt.ApplicationModal)
-        self.historyWindow.showUpdate()
     
     def addHistory(self):
         self.dbConnection.executeWithoutReturn("""INSERT INTO history(name, url) VALUES(?, ?)""", (self.browserWidget.title(), self.browserWidget.url().toString()))
@@ -97,23 +85,15 @@ class Browser(QWidget):
         self.reload = PushButton("", QIcon("Icons/NavigationBar/reload.png"))
         self.home = PushButton("", QIcon("Icons/NavigationBar/home.png"))
         self.parameter = PushButton("", QIcon("Icons/NavigationBar/param.png"))
-        self.parameterMenu = QMenu()
         self.tabWidget = TabWidget(self)
 
         self.tabWidget.requestsAddTab()
-
-        self.parameterMenu.addAction("Historique", self.openHistory)
-        self.parameterMenu.addAction("Favoris", self.openFav)
-        self.parameterMenu.addSeparator()
-        self.parameterMenu.addAction("Paramètres", self.openParameter)
-        self.parameterMenu.addSeparator()
-        self.parameterMenu.addAction("Informations", lambda: print("Informations"))
 
         self.reload.clicked.connect(self.browserWidget.reload)
         self.back.clicked.connect(self.browserWidget.back)
         self.forward.clicked.connect(self.browserWidget.forward)
         self.home.clicked.connect(lambda: self.urlInput.enterUrlGiven(self.dbConnection.executeWithReturn("""SELECT home FROM parameters""")[0][0]))
-        self.parameter.setMenu(self.parameterMenu)
+        self.parameter.clicked.connect(self.openParameter)
 
         self.grid.addWidget(self.back, 0, 0)
         self.grid.addWidget(self.reload, 0, 1)
@@ -124,5 +104,5 @@ class Browser(QWidget):
         self.grid.addWidget(self.tabWidget, 1, 0, 1, 6)
 
         self.setLayout(self.grid)
-        self.setGeometry(100, 100, 1200, 1200)
+        self.showMaximized()
         self.setWindowTitle('Browthon')
