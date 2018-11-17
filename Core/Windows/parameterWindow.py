@@ -36,7 +36,12 @@ class ParameterWindow(QWidget):
         self.grid.addWidget(self.title, 0, 0)
         self.grid.addWidget(self.tabWidget, 1, 0)
         self.setLayout(self.grid)
-        self.setGeometry(400, 200, 800, 800)
+        self.setFixedSize(800, 800)
+        self.setWindowFlags(Qt.CustomizeWindowHint)
+        self.setWindowFlags(Qt.WindowSystemMenuHint)
+        self.setWindowFlags(Qt.WindowTitleHint)
+        self.setWindowFlags(Qt.WindowCloseButtonHint)
+
 
     def onTabChange(self):
         self.historyPage.showUpdate()
