@@ -18,7 +18,7 @@ class BookmarksPage(QWidget):
         self.listeW = ListWidget(self.parent.parent.dbConnection.executeWithReturn("""SELECT * FROM bookmarks"""))
         self.supp = PushButton("Supprimer")
         self.suppAll = PushButton("Tout supprimer")
-        self.addFav = PushButton("Ajouter Favori")
+        self.addFav = PushButton("Ajouter la page aux Favoris")
         
         self.listeW.itemDoubleClicked.connect(self.launch)
         self.suppAll.clicked.connect(self.deleteAll)
@@ -42,7 +42,7 @@ class BookmarksPage(QWidget):
                     break
     
     def addFavF(self):
-        self.parent.parent.dbConnection.executeWithoutReturn("""INSERT INTO bookmarks(name, url) VALUES(?, ?)""", (self.parent.browserWidget.title(), self.parent.browserWidget.url().toString()))
+        self.parent.parent.dbConnection.executeWithoutReturn("""INSERT INTO bookmarks(name, url) VALUES(?, ?)""", (self.parent.parent.browserWidget.title(), self.parent.parent.browserWidget.url().toString()))
         self.showUpdate()
 
     def showUpdate(self):
