@@ -15,7 +15,7 @@ class BrowserWidget(QWebEngineView):
         self.urlChanged.connect(self.parent.urlInput.setUrl)
         self.titleChanged.connect(self.parent.setTitle)
         self.iconChanged.connect(self.parent.tabWidget.setIcon)
-        self.loadFinished.connect(self.parent.addHistory)
+        self.loadFinished.connect(self.parent.loadFinished)
         self.page.fullScreenRequested.connect(self.page.makeFullScreen)
 
 class Page(QWebEnginePage):

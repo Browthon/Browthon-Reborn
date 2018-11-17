@@ -3,6 +3,7 @@
 
 from PyQt5.QtWidgets import QWidget, QGridLayout, QLabel
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QIcon
 
 from Core.Widgets.listWidget import ListWidget
 from Core.Widgets.pushButton import PushButton
@@ -43,6 +44,7 @@ class BookmarksPage(QWidget):
     
     def addFavF(self):
         self.parent.parent.dbConnection.executeWithoutReturn("""INSERT INTO bookmarks(name, url) VALUES(?, ?)""", (self.parent.parent.browserWidget.title(), self.parent.parent.browserWidget.url().toString()))
+        self.parent.parent.bookmark.setIcon(QIcon("Icons/NavigationBar/yesFav.png"))
         self.showUpdate()
 
     def showUpdate(self):
@@ -55,8 +57,11 @@ class BookmarksPage(QWidget):
             for i in self.liste:
                 if i[1] == self.listeW.currentItem().text():
                     self.parent.parent.dbConnection.executeWithoutReturn("""DELETE FROM bookmarks WHERE id = ?""", (i[0],))
+                    if i[2] == self.parent.parent.browserWidget.url().toString():
+                        self.parent.parent.bookmark.setIcon(QIcon("Icons/NavigationBar/noFav.png"))
         self.showUpdate()
     
     def deleteAll(self):
         self.parent.parent.dbConnection.executeWithoutReturn("""DELETE FROM bookmarks""")
+        self.parent.parent.bookmark.setIcon(QIcon("Icons/NavigationBar/noFav.png"))
         self.showUpdate()

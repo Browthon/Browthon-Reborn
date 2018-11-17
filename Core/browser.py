@@ -41,6 +41,31 @@ class Browser(QWidget):
         self.parameterWindow.setWindowModality(Qt.ApplicationModal)
         self.parameterWindow.show()
     
+    def fav(self):
+        bookmarks = self.dbConnection.executeWithReturn("""SELECT * FROM bookmarks""")
+        find = False
+        for i in bookmarks:
+            if i[2] == self.browserWidget.url().toString():
+                self.dbConnection.executeWithoutReturn("""DELETE FROM bookmarks WHERE id = ?""", (i[0],))
+                self.bookmark.setIcon(QIcon("Icons/NavigationBar/noFav.png"))
+                find = True
+        if not find:
+            self.dbConnection.executeWithoutReturn("""INSERT INTO bookmarks(name, url) VALUES(?, ?)""", (self.browserWidget.title(), self.browserWidget.url().toString()))
+            self.bookmark.setIcon(QIcon("Icons/NavigationBar/yesFav.png"))
+        self.parameterWindow.bookmarksPage.showUpdate()
+    
+    def loadFinished(self):
+        self.addHistory()
+        bookmarks = self.dbConnection.executeWithReturn("""SELECT * FROM bookmarks""")
+        find = False
+        for i in bookmarks:
+            if i[2] == self.browserWidget.url().toString():
+                self.bookmark.setIcon(QIcon("Icons/NavigationBar/yesFav.png"))
+                find = True
+        if not find:
+            self.bookmark.setIcon(QIcon("Icons/NavigationBar/noFav.png"))
+        self.parameterWindow.bookmarksPage.showUpdate()
+    
     def addHistory(self):
         self.dbConnection.executeWithoutReturn("""INSERT INTO history(name, url) VALUES(?, ?)""", (self.browserWidget.title(), self.browserWidget.url().toString()))
     
@@ -83,6 +108,7 @@ class Browser(QWidget):
         self.back = PushButton("", QIcon("Icons/NavigationBar/back.png"))
         self.forward = PushButton("", QIcon("Icons/NavigationBar/forward.png"))
         self.reload = PushButton("", QIcon("Icons/NavigationBar/reload.png"))
+        self.bookmark = PushButton("", QIcon("Icons/NavigationBar/noFav.png"))
         self.home = PushButton("", QIcon("Icons/NavigationBar/home.png"))
         self.parameter = PushButton("", QIcon("Icons/NavigationBar/param.png"))
         self.tabWidget = TabWidget(self)
@@ -92,6 +118,7 @@ class Browser(QWidget):
         self.reload.clicked.connect(self.browserWidget.reload)
         self.back.clicked.connect(self.browserWidget.back)
         self.forward.clicked.connect(self.browserWidget.forward)
+        self.bookmark.clicked.connect(self.fav)
         self.home.clicked.connect(lambda: self.urlInput.enterUrlGiven(self.dbConnection.executeWithReturn("""SELECT home FROM parameters""")[0][0]))
         self.parameter.clicked.connect(self.openParameter)
 
@@ -99,9 +126,10 @@ class Browser(QWidget):
         self.grid.addWidget(self.reload, 0, 1)
         self.grid.addWidget(self.forward, 0, 2)
         self.grid.addWidget(self.urlInput, 0, 3)
-        self.grid.addWidget(self.home, 0, 4)
-        self.grid.addWidget(self.parameter, 0, 5)
-        self.grid.addWidget(self.tabWidget, 1, 0, 1, 6)
+        self.grid.addWidget(self.bookmark, 0, 4)
+        self.grid.addWidget(self.home, 0, 5)
+        self.grid.addWidget(self.parameter, 0, 6)
+        self.grid.addWidget(self.tabWidget, 1, 0, 1, 7)
 
         self.setLayout(self.grid)
         self.showMaximized()
