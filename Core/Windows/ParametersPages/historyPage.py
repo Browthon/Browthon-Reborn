@@ -15,7 +15,8 @@ class HistoryPage(QWidget):
 
         self.title = QLabel("Historique")
         self.title.setAlignment(Qt.AlignHCenter)
-        self.listeW = ListWidget(self.parent.parent.dbConnection.executeWithReturn("""SELECT * FROM history"""))
+        self.liste = self.parent.parent.dbConnection.executeWithReturn("""SELECT * FROM history""")
+        self.listeW = ListWidget(self.liste)
         self.supp = PushButton("Supprimer")
         self.suppAll = PushButton("Tout supprimer")
         
