@@ -10,3 +10,11 @@ def searchMoteur(db, url):
     moteur = db.executeWithReturn("""SELECT moteur FROM parameters""")[0][0]
     if moteur == "Google":
         return "http://google.fr/?gws_rd=ssl#q="+url
+    elif moteur == "Duckduckgo":
+        return "https://duckduckgo.com/?q="+url
+    elif moteur == "Ecosia":
+        return "https://www.ecosia.org/search?q="+url
+    elif moteur == "Yahoo":
+        return "https://fr.search.yahoo.com/search?p="+url
+    elif moteur == "Bing":
+        return "https://www.bing.com/search?q="+url
