@@ -13,7 +13,7 @@ class UrlInput(QLineEdit):
         self.returnPressed.connect(self.enterUrl)
     
     def enterUrlGiven(self, url):
-        url = getGoodUrl(url)
+        url = getGoodUrl(self.parent.dbConnection, url)
         self.parent.browserWidget.load(QUrl(url))
     
     def enterUrl(self):

@@ -27,7 +27,8 @@ class DBConnection():
         self.executeWithoutReturn("""
 CREATE TABLE IF NOT EXISTS parameters(
     id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
-    home TEXT
+    home TEXT,
+    moteur TEXT
 )""")
         self.executeWithoutReturn("""
 CREATE TABLE IF NOT EXISTS history(
@@ -42,4 +43,4 @@ CREATE TABLE IF NOT EXISTS bookmarks(
     url TEXT
 )""")
         if self.executeWithReturn("""SELECT home FROM parameters""") == [] :
-            self.executeWithoutReturn("""INSERT INTO parameters(home) VALUES("http://google.com")""")
+            self.executeWithoutReturn("""INSERT INTO parameters(home, moteur) VALUES("http://google.com", "Google")""")

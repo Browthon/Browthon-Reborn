@@ -33,7 +33,7 @@ class Browser(QWidget):
         self.tabWidget.setTitle()
     
     def openNewOngletWithUrl(self, url):
-        url = getGoodUrl(url)
+        url = getGoodUrl(self.dbConnection, url)
         self.tabWidget.requestsAddTab()
         self.browserWidget.load(QUrl(url))
 
