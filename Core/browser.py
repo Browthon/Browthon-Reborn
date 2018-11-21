@@ -131,6 +131,8 @@ class Browser(QWidget):
         self.grid.addWidget(self.parameter, 0, 6)
         self.grid.addWidget(self.tabWidget, 1, 0, 1, 7)
 
+        self.grid.setContentsMargins(0, 0, 0, 0)
+        self.grid.setSpacing(0)
         self.setLayout(self.grid)
         self.showMaximized()
         self.setWindowTitle('Browthon')
