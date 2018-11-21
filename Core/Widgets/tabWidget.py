@@ -3,6 +3,7 @@
 
 from PyQt5.QtWidgets import QTabWidget, QPushButton, QMessageBox
 from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import Qt
 
 from Core.Widgets.browserWidget import BrowserWidget
 
@@ -20,7 +21,14 @@ class TabWidget(QTabWidget):
         self.setTabsClosable(True)
         self.setMovable(True)
         self.setCornerWidget(self.addTabButton)
-        self.setStyleSheet("""QTabBar::close-button { image: url("Icons/Tabs/tabs-close.png"); }""")
+        self.setStyleSheet("""
+QTabBar::close-button {
+    image: url("Icons/Tabs/tabs-close.png");
+}
+QTabBar::tab { 
+    width: 200px; 
+}""")
+        self.setElideMode(Qt.ElideRight)
     
     def requestsRemoveTab(self, index):
         if self.count()==1:
@@ -30,10 +38,7 @@ class TabWidget(QTabWidget):
             self.removeTab(index)
     
     def setTitle(self):
-        if len(self.parent.browserWidget.title()) >= 13:
-            titre = self.parent.browserWidget.title()[:9] + "..."
-        else:
-            titre = self.parent.browserWidget.title()
+        titre = self.parent.browserWidget.title()
         self.setTabText(self.currentIndex(), titre)
     
     def setIcon(self):
