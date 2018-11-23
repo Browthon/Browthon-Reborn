@@ -6,6 +6,8 @@ from PyQt5.QtCore import QUrl, Qt, QEvent, QEventLoop, QPoint, QPointF, QVariant
 from PyQt5.QtWidgets import QAction
 
 from Core.Utils.webHitTestResult import WebHitTestResult
+from Core.Utils.contextMenu import ContextMenu
+
 class BrowserWidget(QWebEngineView):
     def __init__(self, parent):
         super(BrowserWidget, self).__init__(parent)
@@ -29,6 +31,14 @@ class BrowserWidget(QWebEngineView):
             return True
 
         return super(BrowserWidget, self).event(event)
+
+    def contextMenuEvent(self, event):
+        hit = self.page.hitTestContent(event.pos())
+        menu = ContextMenu(self, hit)
+        pos = event.globalPos()
+        p = QPoint(pos.x(), pos.y() + 1)
+        menu.exec_(p)
+
     def eventFilter(self, obj, event):
         if event.type() == QEvent.MouseButtonRelease:
             if event.button() == Qt.MiddleButton:
