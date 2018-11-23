@@ -2,9 +2,10 @@
 # coding: utf-8
 
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEnginePage
-from PyQt5.QtCore import QUrl, Qt
+from PyQt5.QtCore import QUrl, Qt, QEvent, QEventLoop, QPoint, QPointF, QVariant, QTimer
 from PyQt5.QtWidgets import QAction
 
+from Core.Utils.webHitTestResult import WebHitTestResult
 class BrowserWidget(QWebEngineView):
     def __init__(self, parent):
         super(BrowserWidget, self).__init__(parent)
@@ -17,6 +18,34 @@ class BrowserWidget(QWebEngineView):
         self.iconChanged.connect(self.parent.tabWidget.setIcon)
         self.loadFinished.connect(self.parent.loadFinished)
         self.page.fullScreenRequested.connect(self.page.makeFullScreen)
+    
+    def event(self, event):
+        if event.type() == QEvent.ChildAdded:
+            child_ev = event
+            widget = child_ev.child()
+
+            if widget:
+                widget.installEventFilter(self)
+            return True
+
+        return super(BrowserWidget, self).event(event)
+    def eventFilter(self, obj, event):
+        if event.type() == QEvent.MouseButtonRelease:
+            if event.button() == Qt.MiddleButton:
+                hit = self.page.hitTestContent(event.pos())
+                clickedUrl = hit.linkUrl()
+                baseUrl = hit.baseUrl()
+                if clickedUrl != baseUrl and clickedUrl != '':
+                    if 'http://' in clickedUrl or 'https://' in clickedUrl:
+                        result = clickedUrl
+                    elif clickedUrl == "#":
+                        result = baseUrl + clickedUrl
+                    else:
+                        result = "http://" + baseUrl.split("/")[2] + clickedUrl
+                    self.parent.openNewOngletWithUrl(result)
+                event.accept()
+                return True
+        return super(BrowserWidget, self).eventFilter(obj, event)
 
 class Page(QWebEnginePage):
     def __init__(self, view):
@@ -33,6 +62,27 @@ class Page(QWebEnginePage):
              print("JS - WARNING - Ligne {} : {}".format(line, msg))
         else:
              print("JS - ERROR - Ligne {} : {}".format(line, msg))
+
+    def hitTestContent(self, pos):
+        return WebHitTestResult(self, pos)
+
+    def mapToViewport(self, pos):
+        return QPointF(pos.x(), pos.y())
+
+    def executeJavaScript(self, scriptSrc):
+        self.loop = QEventLoop()
+        self.result = QVariant()
+        QTimer.singleShot(250, self.loop.quit)
+
+        self.runJavaScript(scriptSrc, self.callbackJS)
+        self.loop.exec_()
+        self.loop = None
+        return self.result
+
+    def callbackJS(self, res):
+        if self.loop is not None and self.loop.isRunning():
+            self.result = res
+            self.loop.quit()
 
     def ExitFS(self):
         self.triggerAction(self.ExitFullScreen)
