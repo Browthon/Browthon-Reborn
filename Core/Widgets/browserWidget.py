@@ -20,7 +20,11 @@ class BrowserWidget(QWebEngineView):
         self.iconChanged.connect(self.parent.tabWidget.setIcon)
         self.loadFinished.connect(self.parent.loadFinished)
         self.page.fullScreenRequested.connect(self.page.makeFullScreen)
-    
+        self.viewSource = QAction(self)
+        self.viewSource.setShortcut(Qt.Key_F2)
+        self.viewSource.triggered.connect(self.page.vSource)
+        self.addAction(self.viewSource)
+
     def event(self, event):
         if event.type() == QEvent.ChildAdded:
             child_ev = event
@@ -93,6 +97,12 @@ class Page(QWebEnginePage):
         if self.loop is not None and self.loop.isRunning():
             self.result = res
             self.loop.quit()
+
+    def vSource(self):
+        if "view-source:http" in self.url().toString():
+            self.load(QUrl(self.url().toString().split("view-source:")[1]))
+        else:
+            self.triggerAction(self.ViewSource)
 
     def cutAction(self):
         self.triggerAction(self.Cut)

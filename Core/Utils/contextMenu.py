@@ -12,6 +12,8 @@ class ContextMenu(QMenu):
         self.addAction("Retour", self.onglet.back)
         self.addAction("Avancer", self.onglet.forward)
         self.addAction("Recharger", self.onglet.reload)
+        self.addAction("Voir Source", self.onglet.page.vSource)
+        self.addSeparator()
         bookmarks = self.onglet.parent.dbConnection.executeWithReturn("""SELECT * FROM bookmarks""")
         find = False
         for i in bookmarks:
