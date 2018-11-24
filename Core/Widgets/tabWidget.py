@@ -7,17 +7,18 @@ from PyQt5.QtCore import Qt
 
 from Core.Widgets.browserWidget import BrowserWidget
 
+
 class TabWidget(QTabWidget):
     def __init__(self, parent):
         super(TabWidget, self).__init__(parent)
         self.parent = parent
         self.closer = False
         self.changedOnce = False
-        self.addTabButton =  QPushButton(QIcon("Icons/Tabs/tabs-add.png"), "")
+        self.addTabButton = QPushButton(QIcon("Icons/Tabs/tabs-add.png"), "")
 
-        self.tabCloseRequested.connect(self.requestsRemoveTab)
-        self.currentChanged.connect(self.onTabChange)
-        self.addTabButton.clicked.connect(self.requestsAddTab)
+        self.tabCloseRequested.connect(self.requestsremovetab)
+        self.currentChanged.connect(self.ontabchange)
+        self.addTabButton.clicked.connect(self.requestsaddtab)
 
         self.setTabsClosable(True)
         self.setMovable(True)
@@ -33,45 +34,46 @@ QTabBar::tab {
         self.setElideMode(Qt.ElideRight)
     
     def mouseReleaseEvent(self, event):
-        if event.button() ==  Qt.MiddleButton:
-            self.requestsRemoveTab(self.tabBar().tabAt(event.pos()))
+        if event.button() == Qt.MiddleButton:
+            self.requestsremovetab(self.tabBar().tabAt(event.pos()))
         super(TabWidget, self).mouseReleaseEvent(event)
     
-    def requestsRemoveTab(self, index):
+    def requestsremovetab(self, index):
         if self.count()==1:
-            if QMessageBox().question(self, "Quitter ?", "Voulez vous quitter Browthon ?", QMessageBox.Yes, QMessageBox.No) == 16384:
+            if QMessageBox().question(self, "Quitter ?", "Voulez vous quitter Browthon ?",
+                                      QMessageBox.Yes, QMessageBox.No) == 16384:
                 self.closer = True
                 self.parent.close()
         else:
             self.removeTab(index)
     
-    def setTitle(self):
+    def settitle(self):
         titre = self.parent.browserWidget.title()
         self.setTabText(self.currentIndex(), titre)
     
-    def setIcon(self):
+    def seticon(self):
         self.setTabIcon(self.currentIndex(), self.parent.browserWidget.icon())
     
-    def onTabChange(self):
+    def ontabchange(self):
         self.parent.browserWidget = self.currentWidget()
-        self.parent.urlInput.setUrl()
+        self.parent.urlInput.seturl()
         try:
             self.parent.forward.disconnect()
             self.parent.back.disconnect()
             self.parent.reload.disconnect()
-        except:
+        except Exception:
             pass
         if self.changedOnce:
-            self.parent.addHistory()
+            self.parent.addhistory()
         else:
             self.changedOnce = True
         self.parent.back.clicked.connect(self.parent.browserWidget.back)
         self.parent.forward.clicked.connect(self.parent.browserWidget.forward)
         self.parent.reload.clicked.connect(self.parent.browserWidget.reload)
     
-    def requestsAddTab(self):
-        browserWidget = BrowserWidget(self.parent)
-        self.addTab(browserWidget, QIcon('logo.png'), "Nouvel Onglet")
-        browserWidget.show()
+    def requestsaddtab(self):
+        browserwidget = BrowserWidget(self.parent)
+        self.addTab(browserwidget, QIcon('logo.png'), "Nouvel Onglet")
+        browserwidget.show()
         self.changedOnce = False
-        self.setCurrentWidget(browserWidget)
+        self.setCurrentWidget(browserwidget)

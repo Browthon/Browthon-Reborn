@@ -6,6 +6,7 @@ from PyQt5.QtCore import Qt
 
 from Core.Widgets.pushButton import PushButton
 
+
 class GeneralPage(QWidget):
     def __init__(self, parent):
         super(GeneralPage, self).__init__()
@@ -13,14 +14,15 @@ class GeneralPage(QWidget):
         self.grid = QVBoxLayout()
 
         self.listeMoteur = ["Google", "Duckduckgo", "Ecosia", "Yahoo", "Bing"]
-        moteurAcc = self.parent.parent.dbConnection.executeWithReturn("""SELECT moteur FROM parameters""")[0][0]
+        moteurAcc = self.parent.parent.dbConnection.executewithreturn("""SELECT moteur FROM parameters""")[0][0]
         for i in range(len(self.listeMoteur)):
             if self.listeMoteur[i] == moteurAcc:
                 self.listeMoteur[i], self.listeMoteur[0] = self.listeMoteur[0], self.listeMoteur[i]
 
         self.lAccueil = QLabel("Page d'accueil")
         self.lAccueil.setAlignment(Qt.AlignHCenter)
-        self.urlAccueil = QLineEdit(self.parent.parent.dbConnection.executeWithReturn("""SELECT home FROM parameters""")[0][0])
+        self.urlAccueil = QLineEdit(
+            self.parent.parent.dbConnection.executewithreturn("""SELECT home FROM parameters""")[0][0])
         self.urlAccueil.setAlignment(Qt.AlignHCenter)
         self.lMoteur = QLabel("Moteur de recherche")
         self.lMoteur.setAlignment(Qt.AlignHCenter)
@@ -41,7 +43,11 @@ class GeneralPage(QWidget):
         self.setLayout(self.grid)
     
     def valider(self):
-        parameters = self.parent.parent.dbConnection.executeWithReturn("""SELECT * FROM parameters""")
-        self.parent.parent.dbConnection.executeWithoutReturn("""UPDATE parameters SET home = ? WHERE id = ?""", (self.urlAccueil.text(),parameters[0][0]))
-        self.parent.parent.dbConnection.executeWithoutReturn("""UPDATE parameters SET moteur = ? WHERE id = ?""", (self.listeMoteur[self.moteurBox.currentIndex()], parameters[0][0]))
-        QMessageBox().about(self, "Enregistrement fait", "L'enregistrement des paramètres a été fait sans problème")        
+        parameters = self.parent.parent.dbConnection.executewithreturn("""SELECT * FROM parameters""")
+        self.parent.parent.dbConnection.executewithoutreturn(
+            """UPDATE parameters SET home = ? WHERE id = ?""", (self.urlAccueil.text(),parameters[0][0]))
+        self.parent.parent.dbConnection.executewithoutreturn(
+            """UPDATE parameters SET moteur = ? WHERE id = ?""",
+            (self.listeMoteur[self.moteurBox.currentIndex()],
+             parameters[0][0]))
+        QMessageBox().about(self, "Enregistrement fait", "L'enregistrement des paramètres a été fait sans problème")

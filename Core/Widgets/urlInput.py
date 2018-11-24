@@ -4,21 +4,22 @@
 from PyQt5.QtWidgets import QLineEdit
 from PyQt5.QtCore import QUrl
 
-from Core.Utils.urlUtils import getGoodUrl
+from Core.Utils.urlUtils import getgoodurl
+
 
 class UrlInput(QLineEdit):
     def __init__(self, parent):
         super(UrlInput, self).__init__(parent)
         self.parent = parent
-        self.returnPressed.connect(self.enterUrl)
+        self.returnPressed.connect(self.enterurl)
     
-    def enterUrlGiven(self, url):
-        url = getGoodUrl(self.parent.dbConnection, url)
+    def enterurlgiven(self, url):
+        url = getgoodurl(self.parent.dbConnection, url)
         self.parent.browserWidget.load(QUrl(url))
     
-    def enterUrl(self):
+    def enterurl(self):
         url = self.text()
-        self.enterUrlGiven(url)
+        self.enterurlgiven(url)
 
-    def setUrl(self):
+    def seturl(self):
         self.setText(self.parent.browserWidget.url().toString())

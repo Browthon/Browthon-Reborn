@@ -3,7 +3,8 @@
 
 from PyQt5.QtWebEngineWidgets import QWebEngineContextMenuData
 
-class WebHitTestResult():
+
+class WebHitTestResult:
     def __init__(self, page, pos):
         self.page = page
         self.pos = pos
@@ -83,36 +84,36 @@ class WebHitTestResult():
             self.m_linkUrl = self.dic["linkUrl"]
             self.m_mediaUrl = self.dic["mediaUrl"]
             self.m_tagName = self.dic["tagName"]
-        except:
+        except Exception:
             pass
         try:
             self.m_mediaPaused = self.dic["mediaPaused"]
             self.m_mediaMuted = self.dic["mediaMuted"]
-        except:
+        except Exception:
             pass
 
-    def linkUrl(self):
+    def linkurl(self):
         return self.m_linkUrl
 
-    def isContentEditable(self):
+    def iscontenteditable(self):
         return self.m_isContentEditable
 
-    def isContentSelected(self):
+    def iscontentselected(self):
         return self.m_isContentSelected
 
-    def imageUrl(self):
+    def imageurl(self):
         try:
             return self.m_imageUrl
-        except:
+        except Exception:
             return ""
 
-    def mediaUrl(self):
+    def mediaurl(self):
         return self.m_mediaUrl
 
-    def baseUrl(self):
+    def baseurl(self):
         return self.m_baseUrl
 
-    def updateWithContextMenuData(self, data):
+    def updatewithcontextmenudata(self, data):
         if data.isValid():
             pass
         else:
@@ -128,5 +129,6 @@ class WebHitTestResult():
 
         if data.mediaType() == QWebEngineContextMenuData.MediaTypeImage:
             self.m_imageUrl = data.mediaUrl().toString()
-        elif data.mediaType() == QWebEngineContextMenuData.MediaTypeAudio or data.mediaType() == QWebEngineContextMenuData.MediaTypeVideo:
+        elif data.mediaType() == QWebEngineContextMenuData.MediaTypeAudio or \
+                data.mediaType() == QWebEngineContextMenuData.MediaTypeVideo:
             self.m_mediaUrl = data.mediaUrl().toString()

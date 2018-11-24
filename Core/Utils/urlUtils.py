@@ -1,13 +1,14 @@
-def getGoodUrl(db, url):
+def getgoodurl(db, url):
     if "http://" in url or "https://" in url:
         return url
     elif "." in url:
         return "http://"+url
     else:
-        return searchMoteur(db, url)
+        return searchmoteur(db, url)
 
-def searchMoteur(db, url):
-    moteur = db.executeWithReturn("""SELECT moteur FROM parameters""")[0][0]
+
+def searchmoteur(db, url):
+    moteur = db.executewithreturn("""SELECT moteur FROM parameters""")[0][0]
     if moteur == "Google":
         return "http://google.fr/?gws_rd=ssl#q="+url
     elif moteur == "Duckduckgo":

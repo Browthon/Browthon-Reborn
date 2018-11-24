@@ -10,6 +10,7 @@ from Core.Windows.ParametersPages.generalPage import GeneralPage
 from Core.Windows.ParametersPages.historyPage import HistoryPage
 from Core.Windows.ParametersPages.bookmarksPage import BookmarksPage
 
+
 class ParameterWindow(QWidget):
     def __init__(self, parent):
         super(ParameterWindow, self).__init__()
@@ -38,11 +39,9 @@ class ParameterWindow(QWidget):
         self.setLayout(self.grid)
         self.setFixedSize(800, 800)
         self.setWindowFlags(Qt.CustomizeWindowHint)
-        self.setWindowFlags(Qt.WindowSystemMenuHint)
         self.setWindowFlags(Qt.WindowTitleHint)
         self.setWindowFlags(Qt.WindowCloseButtonHint)
 
-
-    def onTabChange(self):
+    def ontabchange(self):
         self.historyPage.showUpdate()
         self.bookmarksPage.showUpdate()

@@ -11,7 +11,7 @@ from Core.Widgets.urlInput import UrlInput
 from Core.Widgets.tabWidget import TabWidget
 from Core.Widgets.pushButton import PushButton
 from Core.Utils.dbUtils import DBConnection
-from Core.Utils.urlUtils import getGoodUrl
+from Core.Utils.urlUtils import getgoodurl
 from Core.Windows.parameterWindow import ParameterWindow
 
 
@@ -19,90 +19,8 @@ class Browser(QWidget):
     def __init__(self):
         super(Browser, self).__init__()
         self.dbConnection = DBConnection("data.db")
-        self.dbConnection.createDB()
+        self.dbConnection.createdb()
 
-        self.createUI()
-
-        QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)
-        self.parameterWindow = ParameterWindow(self)
-
-        self.show()
-
-    def setTitle(self):
-        self.setWindowTitle(self.browserWidget.title() + " - Browthon")
-        self.tabWidget.setTitle()
-    
-    def openNewOngletWithUrl(self, url):
-        url = getGoodUrl(self.dbConnection, url)
-        self.tabWidget.requestsAddTab()
-        self.browserWidget.load(QUrl(url))
-
-    def openParameter(self):
-        self.parameterWindow.setWindowModality(Qt.ApplicationModal)
-        self.parameterWindow.show()
-    
-    def fav(self):
-        bookmarks = self.dbConnection.executeWithReturn("""SELECT * FROM bookmarks""")
-        find = False
-        for i in bookmarks:
-            if i[2] == self.browserWidget.url().toString():
-                self.dbConnection.executeWithoutReturn("""DELETE FROM bookmarks WHERE id = ?""", (i[0],))
-                self.bookmark.setIcon(QIcon("Icons/NavigationBar/noFav.png"))
-                find = True
-        if not find:
-            self.dbConnection.executeWithoutReturn("""INSERT INTO bookmarks(name, url) VALUES(?, ?)""", (self.browserWidget.title(), self.browserWidget.url().toString()))
-            self.bookmark.setIcon(QIcon("Icons/NavigationBar/yesFav.png"))
-        self.parameterWindow.bookmarksPage.showUpdate()
-    
-    def loadFinished(self):
-        self.addHistory()
-        bookmarks = self.dbConnection.executeWithReturn("""SELECT * FROM bookmarks""")
-        find = False
-        for i in bookmarks:
-            if i[2] == self.browserWidget.url().toString():
-                self.bookmark.setIcon(QIcon("Icons/NavigationBar/yesFav.png"))
-                find = True
-        if not find:
-            self.bookmark.setIcon(QIcon("Icons/NavigationBar/noFav.png"))
-        self.parameterWindow.bookmarksPage.showUpdate()
-    
-    def addHistory(self):
-        self.dbConnection.executeWithoutReturn("""INSERT INTO history(name, url) VALUES(?, ?)""", (self.browserWidget.title(), self.browserWidget.url().toString()))
-    
-    def keyPressEvent(self, event):
-        if event.key() == Qt.Key_R or event.key() == Qt.Key_F5:
-            self.browserWidget.reload()
-        elif event.key() == Qt.Key_N:
-            self.tabWidget.requestsAddTab()
-        elif event.key() == Qt.Key_Q:
-            self.tabWidget.requestsRemoveTab(self.tabWidget.currentIndex())
-        elif event.key() == Qt.Key_H:
-            self.historyWindow.setWindowModality(Qt.ApplicationModal)
-            self.historyWindow.showUpdate()
-        elif event.key() == Qt.Key_F:
-            self.bookmarksWindow.setWindowModality(Qt.ApplicationModal)
-            self.bookmarksWindow.showUpdate()
-    
-    def closeEvent(self, event):
-        if self.tabWidget.count() == 0 or (self.tabWidget.count() == 1 and self.tabWidget.closer):
-            self.dbConnection.disconnect()
-            self.tabWidget.closer = False
-            event.accept()
-        elif self.tabWidget.count() != 1:
-            if QMessageBox().question(self, "Quitter ?", "Voulez vous quitter tous les onglets ?", QMessageBox.Yes, QMessageBox.No) == 16384:
-                self.dbConnection.disconnect()
-                event.accept()
-            else:
-                event.ignore()
-                self.tabWidget.requestsRemoveTab(self.tabWidget.currentIndex())
-        else:
-            if QMessageBox().question(self, "Quitter ?", "Voulez vous quitter Browthon ?", QMessageBox.Yes, QMessageBox.No) == 16384:
-                self.dbConnection.disconnect()
-                event.accept()
-            else:
-                event.ignore()
-
-    def createUI(self):
         self.grid = QGridLayout()
 
         self.urlInput = UrlInput(self)
@@ -114,7 +32,7 @@ class Browser(QWidget):
         self.parameter = PushButton("", QIcon("Icons/NavigationBar/param.png"))
         self.tabWidget = TabWidget(self)
 
-        self.tabWidget.requestsAddTab()
+        self.tabWidget.requestsaddtab()
         self.back.setFlat(True)
         self.forward.setFlat(True)
         self.reload.setFlat(True)
@@ -126,8 +44,9 @@ class Browser(QWidget):
         self.back.clicked.connect(self.browserWidget.back)
         self.forward.clicked.connect(self.browserWidget.forward)
         self.bookmark.clicked.connect(self.fav)
-        self.home.clicked.connect(lambda: self.urlInput.enterUrlGiven(self.dbConnection.executeWithReturn("""SELECT home FROM parameters""")[0][0]))
-        self.parameter.clicked.connect(self.openParameter)
+        self.home.clicked.connect(lambda: self.urlInput.enterurlgiven(
+            self.dbConnection.executewithreturn("""SELECT home FROM parameters""")[0][0]))
+        self.parameter.clicked.connect(self.openparameter)
 
         self.grid.addWidget(self.back, 0, 0)
         self.grid.addWidget(self.reload, 0, 1)
@@ -143,3 +62,86 @@ class Browser(QWidget):
         self.setLayout(self.grid)
         self.showMaximized()
         self.setWindowTitle('Browthon')
+
+        QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)
+        self.parameterWindow = ParameterWindow(self)
+
+        self.show()
+
+    def settitle(self):
+        self.setWindowTitle(self.browserWidget.title() + " - Browthon")
+        self.tabWidget.settitle()
+    
+    def opennewongletwithurl(self, url):
+        url = getgoodurl(self.dbConnection, url)
+        self.tabWidget.requestsaddtab()
+        self.browserWidget.load(QUrl(url))
+
+    def openparameter(self):
+        self.parameterWindow.setWindowModality(Qt.ApplicationModal)
+        self.parameterWindow.show()
+    
+    def fav(self):
+        bookmarks = self.dbConnection.executewithreturn("""SELECT * FROM bookmarks""")
+        find = False
+        for i in bookmarks:
+            if i[2] == self.browserWidget.url().toString():
+                self.dbConnection.executewithoutreturn("""DELETE FROM bookmarks WHERE id = ?""", (i[0],))
+                self.bookmark.setIcon(QIcon("Icons/NavigationBar/noFav.png"))
+                find = True
+        if not find:
+            self.dbConnection.executewithoutreturn("""INSERT INTO bookmarks(name, url) VALUES(?, ?)""", (
+                self.browserWidget.title(), self.browserWidget.url().toString()))
+            self.bookmark.setIcon(QIcon("Icons/NavigationBar/yesFav.png"))
+        self.parameterWindow.bookmarksPage.showupdate()
+    
+    def loadfinished(self):
+        self.addhistory()
+        bookmarks = self.dbConnection.executewithreturn("""SELECT * FROM bookmarks""")
+        find = False
+        for i in bookmarks:
+            if i[2] == self.browserWidget.url().toString():
+                self.bookmark.setIcon(QIcon("Icons/NavigationBar/yesFav.png"))
+                find = True
+        if not find:
+            self.bookmark.setIcon(QIcon("Icons/NavigationBar/noFav.png"))
+        self.parameterWindow.bookmarksPage.showupdate()
+    
+    def addhistory(self):
+        self.dbConnection.executewithoutreturn("""INSERT INTO history(name, url) VALUES(?, ?)""", (
+            self.browserWidget.title(), self.browserWidget.url().toString()))
+    
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key_R or event.key() == Qt.Key_F5:
+            self.browserWidget.reload()
+        elif event.key() == Qt.Key_N:
+            self.tabWidget.requestsaddtab()
+        elif event.key() == Qt.Key_Q:
+            self.tabWidget.requestsremovetab(self.tabWidget.currentIndex())
+        elif event.key() == Qt.Key_H:
+            self.historyWindow.setWindowModality(Qt.ApplicationModal)
+            self.historyWindow.showUpdate()
+        elif event.key() == Qt.Key_F:
+            self.bookmarksWindow.setWindowModality(Qt.ApplicationModal)
+            self.bookmarksWindow.showUpdate()
+    
+    def closeEvent(self, event):
+        if self.tabWidget.count() == 0 or (self.tabWidget.count() == 1 and self.tabWidget.closer):
+            self.dbConnection.disconnect()
+            self.tabWidget.closer = False
+            event.accept()
+        elif self.tabWidget.count() != 1:
+            if QMessageBox().question(self, "Quitter ?", "Voulez vous quitter tous les onglets ?", QMessageBox.Yes,
+                                      QMessageBox.No) == 16384:
+                self.dbConnection.disconnect()
+                event.accept()
+            else:
+                event.ignore()
+                self.tabWidget.requestsremovetab(self.tabWidget.currentIndex())
+        else:
+            if QMessageBox().question(self, "Quitter ?", "Voulez vous quitter Browthon ?", QMessageBox.Yes,
+                                      QMessageBox.No) == 16384:
+                self.dbConnection.disconnect()
+                event.accept()
+            else:
+                event.ignore()

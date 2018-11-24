@@ -3,6 +3,7 @@
 
 from PyQt5.QtWidgets import QPushButton
 
+
 class PushButton(QPushButton):
     def __init__(self, texte, icon = ""):
         if icon == "":

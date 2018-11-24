@@ -8,6 +8,7 @@ from PyQt5.QtGui import QIcon
 from Core.Widgets.listWidget import ListWidget
 from Core.Widgets.pushButton import PushButton
 
+
 class BookmarksPage(QWidget):
     def __init__(self, parent):
         super(BookmarksPage, self).__init__()
@@ -16,15 +17,16 @@ class BookmarksPage(QWidget):
 
         self.title = QLabel("Favoris")
         self.title.setAlignment(Qt.AlignHCenter)
-        self.listeW = ListWidget(self.parent.parent.dbConnection.executeWithReturn("""SELECT * FROM bookmarks"""))
+        self.listeW = ListWidget(self.parent.parent.dbConnection.executewithreturn("""SELECT * FROM bookmarks"""))
+        self.liste = []
         self.supp = PushButton("Supprimer")
         self.suppAll = PushButton("Tout supprimer")
         self.addFav = PushButton("Ajouter la page aux Favoris")
         
         self.listeW.itemDoubleClicked.connect(self.launch)
-        self.suppAll.clicked.connect(self.deleteAll)
+        self.suppAll.clicked.connect(self.deleteall)
         self.supp.clicked.connect(self.delete)
-        self.addFav.clicked.connect(self.addFavF)
+        self.addFav.clicked.connect(self.addfavf)
 
         self.grid.addWidget(self.title, 1, 1, 1, 2)
         self.grid.addWidget(self.listeW, 2, 1, 1, 2)
@@ -39,29 +41,33 @@ class BookmarksPage(QWidget):
             for i in self.liste:
                 if i[1] == self.listeW.currentItem().text():
                     self.close()
-                    self.parent.parent.openNewOngletWithUrl(i[2])
+                    self.parent.parent.opennewongletwithurl(i[2])
                     break
     
-    def addFavF(self):
-        self.parent.parent.dbConnection.executeWithoutReturn("""INSERT INTO bookmarks(name, url) VALUES(?, ?)""", (self.parent.parent.browserWidget.title(), self.parent.parent.browserWidget.url().toString()))
+    def addfavf(self):
+        self.parent.parent.dbConnection.executeWithoutReturn(
+            """INSERT INTO bookmarks(name, url) VALUES(?, ?)""",
+            (self.parent.parent.browserWidget.title(), self.parent.parent.browserWidget.url().toString())
+        )
         self.parent.parent.bookmark.setIcon(QIcon("Icons/NavigationBar/yesFav.png"))
-        self.showUpdate()
+        self.showupdate()
 
-    def showUpdate(self):
-        self.listeW.deleteAllItems()
-        self.liste = self.parent.parent.dbConnection.executeWithReturn("""SELECT * FROM bookmarks""")
-        self.listeW.updateList(self.liste)
+    def showupdate(self):
+        self.listeW.deleteallitems()
+        self.liste = self.parent.parent.dbConnection.executewithreturn("""SELECT * FROM bookmarks""")
+        self.listeW.updatelist(self.liste)
 
     def delete(self):
         if self.listeW.currentItem():
             for i in self.liste:
                 if i[1] == self.listeW.currentItem().text():
-                    self.parent.parent.dbConnection.executeWithoutReturn("""DELETE FROM bookmarks WHERE id = ?""", (i[0],))
+                    self.parent.parent.dbConnection.executewithoutreturn(
+                        """DELETE FROM bookmarks WHERE id = ?""", (i[0],))
                     if i[2] == self.parent.parent.browserWidget.url().toString():
                         self.parent.parent.bookmark.setIcon(QIcon("Icons/NavigationBar/noFav.png"))
-        self.showUpdate()
+        self.showupdate()
     
-    def deleteAll(self):
-        self.parent.parent.dbConnection.executeWithoutReturn("""DELETE FROM bookmarks""")
+    def deleteall(self):
+        self.parent.parent.dbConnection.executewithoutreturn("""DELETE FROM bookmarks""")
         self.parent.parent.bookmark.setIcon(QIcon("Icons/NavigationBar/noFav.png"))
-        self.showUpdate()
+        self.showupdate()
