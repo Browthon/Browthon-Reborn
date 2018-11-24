@@ -94,6 +94,15 @@ class Page(QWebEnginePage):
             self.result = res
             self.loop.quit()
 
+    def cutAction(self):
+        self.triggerAction(self.Cut)
+
+    def copyAction(self):
+        self.triggerAction(self.Copy)
+
+    def pasteAction(self):
+        self.triggerAction(self.Paste)
+
     def ExitFS(self):
         self.triggerAction(self.ExitFullScreen)
 
