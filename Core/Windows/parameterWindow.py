@@ -5,7 +5,6 @@ from PyQt5.QtWidgets import QWidget, QGridLayout, QLabel, QTabWidget
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 
-from Core.Widgets.pushButton import PushButton
 from Core.Windows.ParametersPages.generalPage import GeneralPage
 from Core.Windows.ParametersPages.historyPage import HistoryPage
 from Core.Windows.ParametersPages.bookmarksPage import BookmarksPage
