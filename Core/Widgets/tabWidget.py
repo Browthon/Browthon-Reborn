@@ -11,6 +11,7 @@ class TabWidget(QTabWidget):
     def __init__(self, parent):
         super(TabWidget, self).__init__(parent)
         self.parent = parent
+        self.closer = False
         self.changedOnce = False
         self.addTabButton =  QPushButton(QIcon("Icons/Tabs/tabs-add.png"), "")
 
@@ -39,6 +40,7 @@ QTabBar::tab {
     def requestsRemoveTab(self, index):
         if self.count()==1:
             if QMessageBox().question(self, "Quitter ?", "Voulez vous quitter Browthon ?", QMessageBox.Yes, QMessageBox.No) == 16384:
+                self.closer = True
                 self.parent.close()
         else:
             self.removeTab(index)

@@ -84,8 +84,9 @@ class Browser(QWidget):
             self.bookmarksWindow.showUpdate()
     
     def closeEvent(self, event):
-        if self.tabWidget.count() == 0:
+        if self.tabWidget.count() == 0 or (self.tabWidget.count() == 1 and self.tabWidget.closer):
             self.dbConnection.disconnect()
+            self.tabWidget.closer = False
             event.accept()
         elif self.tabWidget.count() != 1:
             if QMessageBox().question(self, "Quitter ?", "Voulez vous quitter tous les onglets ?", QMessageBox.Yes, QMessageBox.No) == 16384:
