@@ -31,6 +31,11 @@ QTabBar::tab {
 }""")
         self.setElideMode(Qt.ElideRight)
     
+    def mouseReleaseEvent(self, event):
+        if event.button() ==  Qt.MiddleButton:
+            self.requestsRemoveTab(self.tabBar().tabAt(event.pos()))
+        super(TabWidget, self).mouseReleaseEvent(event)
+    
     def requestsRemoveTab(self, index):
         if self.count()==1:
             if QMessageBox().question(self, "Quitter ?", "Voulez vous quitter Browthon ?", QMessageBox.Yes, QMessageBox.No) == 16384:
