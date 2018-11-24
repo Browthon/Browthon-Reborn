@@ -20,6 +20,7 @@ class TabWidget(QTabWidget):
 
         self.setTabsClosable(True)
         self.setMovable(True)
+        self.addTabButton.setFlat(True)
         self.setCornerWidget(self.addTabButton)
         self.setStyleSheet("""
 QTabBar::close-button {

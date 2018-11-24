@@ -114,6 +114,12 @@ class Browser(QWidget):
         self.tabWidget = TabWidget(self)
 
         self.tabWidget.requestsAddTab()
+        self.back.setFlat(True)
+        self.forward.setFlat(True)
+        self.reload.setFlat(True)
+        self.bookmark.setFlat(True)
+        self.home.setFlat(True)
+        self.parameter.setFlat(True)
 
         self.reload.clicked.connect(self.browserWidget.reload)
         self.back.clicked.connect(self.browserWidget.back)
