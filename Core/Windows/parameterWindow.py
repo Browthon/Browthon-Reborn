@@ -8,6 +8,7 @@ from PyQt5.QtGui import QIcon
 from Core.Windows.ParametersPages.generalPage import GeneralPage
 from Core.Windows.ParametersPages.historyPage import HistoryPage
 from Core.Windows.ParametersPages.bookmarksPage import BookmarksPage
+from Core.Windows.ParametersPages.informationsPage import InformationsPage
 
 
 class ParameterWindow(QWidget):
@@ -23,18 +24,23 @@ class ParameterWindow(QWidget):
         self.generalPage = GeneralPage(self)
         self.historyPage = HistoryPage(self)
         self.bookmarksPage = BookmarksPage(self)
+        self.informationsPage = InformationsPage(self)
 
         self.tabWidget = QTabWidget(self)
         self.tabWidget.setTabPosition(QTabWidget.West)
         self.tabWidget.addTab(self.generalPage, QIcon("Icons/Parameters/General.png"), "")
         self.tabWidget.addTab(self.historyPage, QIcon("Icons/Parameters/History.png"), "")
         self.tabWidget.addTab(self.bookmarksPage, QIcon("Icons/Parameters/Fav.png"), "")
+        self.tabWidget.addTab(self.informationsPage, QIcon("Icons/Parameters/Info.png"), "")
         self.tabWidget.setTabToolTip(0, "Général")
         self.tabWidget.setTabToolTip(1, "Historique")
         self.tabWidget.setTabToolTip(2, "Favoris")
+        self.tabWidget.setTabToolTip(3, "Informations")
         
         self.grid.addWidget(self.title, 0, 0)
         self.grid.addWidget(self.tabWidget, 1, 0)
+        self.grid.setContentsMargins(0, 0, 0, 0)
+        self.grid.setSpacing(0)
         self.setLayout(self.grid)
         self.setFixedSize(800, 800)
         self.setWindowFlags(Qt.CustomizeWindowHint)
