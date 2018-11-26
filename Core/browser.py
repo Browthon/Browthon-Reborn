@@ -64,6 +64,10 @@ class Browser(QWidget):
         self.setWindowTitle('Browthon')
 
         QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)
+        if self.dbConnection.executewithreturn("""SELECT js FROM parameters""")[0][0] == "Activé":
+            QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.JavascriptEnabled, True)
+        else:
+            QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.JavascriptEnabled, False)
         self.parameterWindow = ParameterWindow(self)
 
         self.show()
