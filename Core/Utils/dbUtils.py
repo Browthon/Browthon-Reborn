@@ -45,6 +45,12 @@ CREATE TABLE IF NOT EXISTS bookmarks(
     name TEXT,
     url TEXT
 )""")
+        self.executewithoutreturn("""
+CREATE TABLE IF NOT EXISTS raccourcis(
+    id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+    name TEXT,
+    url TEXT
+)""")
         if not self.executewithreturn("""SELECT home FROM parameters"""):
             self.executewithoutreturn("""INSERT INTO parameters(home, moteur, js) VALUES("http://google.com",
              "Google", "Activé")""")

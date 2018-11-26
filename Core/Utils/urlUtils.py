@@ -1,4 +1,8 @@
 def getgoodurl(db, url):
+    raccourcis = db.executewithreturn("""SELECT * FROM raccourcis""")
+    for i in raccourcis:
+        if i[1] == url:
+            url = i[2]
     if "http://" in url or "https://" in url:
         return url
     elif "." in url:
