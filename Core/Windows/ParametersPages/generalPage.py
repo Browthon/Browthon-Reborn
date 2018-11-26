@@ -24,18 +24,20 @@ class GeneralPage(QWidget):
         self.urlAccueil = QLineEdit(
             self.parent.parent.dbConnection.executewithreturn("""SELECT home FROM parameters""")[0][0])
         self.urlAccueil.setAlignment(Qt.AlignHCenter)
+        self.paramSpacerItem = QSpacerItem(20, 25)
         self.lMoteur = QLabel("Moteur de recherche")
         self.lMoteur.setAlignment(Qt.AlignHCenter)
         self.moteurBox = QComboBox()
         self.moteurBox.addItems(self.listeMoteur)
 
-        self.endSpacerItem = QSpacerItem(20,600)
+        self.endSpacerItem = QSpacerItem(20, 600)
         self.bValid = PushButton("Valider")
 
         self.bValid.clicked.connect(self.valider)
 
         self.grid.addWidget(self.lAccueil)
         self.grid.addWidget(self.urlAccueil)
+        self.grid.addItem(self.paramSpacerItem)
         self.grid.addWidget(self.lMoteur)
         self.grid.addWidget(self.moteurBox)
         self.grid.addItem(self.endSpacerItem)
