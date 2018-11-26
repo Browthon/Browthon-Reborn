@@ -40,7 +40,7 @@ class BookmarksPage(QWidget):
         if self.listeW.currentItem():
             for i in self.liste:
                 if i[1] == self.listeW.currentItem().text():
-                    self.close()
+                    self.parent.close()
                     self.parent.parent.opennewongletwithurl(i[2])
                     break
     
