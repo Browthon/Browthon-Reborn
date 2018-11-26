@@ -45,7 +45,7 @@ class BookmarksPage(QWidget):
                     break
     
     def addfavf(self):
-        self.parent.parent.dbConnection.executeWithoutReturn(
+        self.parent.parent.dbConnection.executewithoutreturn(
             """INSERT INTO bookmarks(name, url) VALUES(?, ?)""",
             (self.parent.parent.browserWidget.title(), self.parent.parent.browserWidget.url().toString())
         )
