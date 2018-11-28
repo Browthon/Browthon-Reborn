@@ -5,11 +5,15 @@ from PyQt5.QtWidgets import QListWidget
 
 
 class ListWidget(QListWidget):
-    def __init__(self, liste):
+    def __init__(self, liste, typeData = ""):
         super(ListWidget, self).__init__()
         self.liste = liste
+        self.typeData = typeData
         for i in self.liste:
-            self.addItem(i[1])
+            if self.typeData == "Raccourcis" or self.typeData == "Sessions":
+                self.addItem(i[1] + " - " + i[2])
+            else:
+                self.addItem(i[1])
 
     def deleteallitems(self):
         for i in range(self.count() - 1, -1, -1):
@@ -19,4 +23,7 @@ class ListWidget(QListWidget):
         self.liste = liste
         self.deleteallitems()
         for i in self.liste:
-            self.addItem(i[1])
+            if self.typeData == "Raccourcis" or self.typeData == "Sessions":
+                self.addItem(i[1] + " - " + i[2])
+            else:
+                self.addItem(i[1])

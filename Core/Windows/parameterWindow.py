@@ -10,6 +10,7 @@ from Core.Windows.ParametersPages.historyPage import HistoryPage
 from Core.Windows.ParametersPages.bookmarksPage import BookmarksPage
 from Core.Windows.ParametersPages.informationsPage import InformationsPage
 from Core.Windows.ParametersPages.raccourcisPage import RaccourcisPage
+from Core.Windows.ParametersPages.sessionsPage import SessionsPage
 
 
 class ParameterWindow(QWidget):
@@ -27,6 +28,7 @@ class ParameterWindow(QWidget):
         self.bookmarksPage = BookmarksPage(self)
         self.informationsPage = InformationsPage(self)
         self.raccourcisPage = RaccourcisPage(self)
+        self.sessionsPage = SessionsPage(self)
 
         self.tabWidget = QTabWidget(self)
         self.tabWidget.setTabPosition(QTabWidget.West)
@@ -34,12 +36,14 @@ class ParameterWindow(QWidget):
         self.tabWidget.addTab(self.historyPage, QIcon("Icons/Parameters/History.png"), "")
         self.tabWidget.addTab(self.bookmarksPage, QIcon("Icons/Parameters/Fav.png"), "")
         self.tabWidget.addTab(self.raccourcisPage, QIcon("logo.png"), "")
+        self.tabWidget.addTab(self.sessionsPage, QIcon("logo.png"), "")
         self.tabWidget.addTab(self.informationsPage, QIcon("Icons/Parameters/Info.png"), "")
         self.tabWidget.setTabToolTip(0, "Général")
         self.tabWidget.setTabToolTip(1, "Historique")
         self.tabWidget.setTabToolTip(2, "Favoris")
         self.tabWidget.setTabToolTip(3, "Raccourcis URL")
-        self.tabWidget.setTabToolTip(4, "Informations")
+        self.tabWidget.setTabToolTip(4, "Sessions")
+        self.tabWidget.setTabToolTip(5, "Informations")
         
         self.grid.addWidget(self.title, 0, 0)
         self.grid.addWidget(self.tabWidget, 1, 0)
@@ -54,3 +58,5 @@ class ParameterWindow(QWidget):
     def ontabchange(self):
         self.historyPage.showUpdate()
         self.bookmarksPage.showUpdate()
+        self.raccourcisPage.showUpdate()
+        self.sessionsPage.showUpdate()
