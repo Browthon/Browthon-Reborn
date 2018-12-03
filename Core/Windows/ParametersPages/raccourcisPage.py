@@ -18,7 +18,7 @@ class RaccourcisPage(QWidget):
         self.title.setAlignment(Qt.AlignHCenter)
         self.listeW = ListWidget(self.parent.parent.dbConnection.executewithreturn("""SELECT * FROM raccourcis"""),
                                  "Raccourcis")
-        self.liste = []
+        self.liste = self.listeW.liste
         self.supp = PushButton("Supprimer")
         self.suppAll = PushButton("Tout supprimer")
         self.spacerItem = QSpacerItem(20,20)

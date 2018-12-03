@@ -18,18 +18,18 @@ class SessionsPage(QWidget):
         self.title.setAlignment(Qt.AlignHCenter)
         self.listeW = ListWidget(self.parent.parent.dbConnection.executewithreturn("""SELECT * FROM sessions"""),
                                  "Sessions")
-        self.liste = []
+        self.liste = self.listeW.liste
         self.supp = PushButton("Supprimer")
         self.suppAll = PushButton("Tout supprimer")
-        self.spacerItem = QSpacerItem(20,20)
+        self.spacerItem = QSpacerItem(20, 20)
         self.tEntryString = "Nom de la session"
         self.tEntry = QLineEdit(self.tEntryString)
-        self.addRac = PushButton("Ajouter un raccourci URL")
+        self.addSession = PushButton("Ajouter une session")
 
         self.listeW.itemDoubleClicked.connect(self.launch)
         self.suppAll.clicked.connect(self.deleteall)
         self.supp.clicked.connect(self.delete)
-        self.addRac.clicked.connect(self.addraccourci)
+        self.addSession.clicked.connect(self.addsession)
 
         self.grid.addWidget(self.title, 1, 1, 1, 2)
         self.grid.addWidget(self.listeW, 2, 1, 1, 2)
@@ -37,21 +37,20 @@ class SessionsPage(QWidget):
         self.grid.addWidget(self.suppAll, 3, 2)
         self.grid.addItem(self.spacerItem, 4, 1, 1, 2)
         self.grid.addWidget(self.tEntry, 5, 1, 1 ,2)
-        self.grid.addWidget(self.addRac, 6, 1, 1, 2)
+        self.grid.addWidget(self.addSession, 6, 1, 1, 2)
 
         self.setLayout(self.grid)
 
     def launch(self):
         if self.listeW.currentItem():
             for i in self.liste:
-                print(self.listeW.currentItem().text().split(" - ")[0])
                 if i[1] == self.listeW.currentItem().text().split(" - ")[0]:
                     self.parent.close()
                     for z in i[2].split(" | "):
                         self.parent.parent.opennewongletwithurl(z)
                     break
 
-    def addraccourci(self):
+    def addsession(self):
         tentrybool = self.tEntry.text() != "" and self.tEntry.text() != self.tEntryString
         if tentrybool:
             urls = ""
