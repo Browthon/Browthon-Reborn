@@ -13,6 +13,7 @@ def getgoodurl(db, parent, url):
     elif "." in url:
         return "http://"+url, "NP"
     else:
+        return searchmoteur(db, url), "NP"
 
 
 def searchmoteur(db, url):

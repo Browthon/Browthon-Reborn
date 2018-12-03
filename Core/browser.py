@@ -6,7 +6,6 @@ from PyQt5.QtCore import Qt, QUrl
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWebEngineWidgets import QWebEngineSettings
 
-from Core.Widgets.browserWidget import BrowserWidget
 from Core.Widgets.urlInput import UrlInput
 from Core.Widgets.tabWidget import TabWidget
 from Core.Widgets.pushButton import PushButton
