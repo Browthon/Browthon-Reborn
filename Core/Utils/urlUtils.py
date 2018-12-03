@@ -1,14 +1,18 @@
-def getgoodurl(db, url):
+def getgoodurl(db, parent, url):
     raccourcis = db.executewithreturn("""SELECT * FROM raccourcis""")
     for i in raccourcis:
         if i[1] == url:
             url = i[2]
+    sessions = db.executewithreturn("""SELECT * FROM sessions""")
+    for i in sessions:
+        if i[1] == url:
+            return i[2], "SESSION"
+
     if "http://" in url or "https://" in url:
-        return url
+        return url, "NP"
     elif "." in url:
-        return "http://"+url
+        return "http://"+url, "NP"
     else:
-        return searchmoteur(db, url)
 
 
 def searchmoteur(db, url):

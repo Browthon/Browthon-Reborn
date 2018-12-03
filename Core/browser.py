@@ -81,6 +81,14 @@ class Browser(QWidget):
         self.tabWidget.requestsaddtab()
         self.browserWidget.load(QUrl(url))
 
+    def opennewongletwithurllist(self, urllist):
+        for i in urllist:
+            if i != urllist[0]:
+                self.tabWidget.requestsaddtab()
+                self.browserWidget.load(QUrl(i))
+            else:
+                self.browserWidget.load(QUrl(i))
+
     def openparameter(self):
         self.parameterWindow.setWindowModality(Qt.ApplicationModal)
         self.parameterWindow.show()

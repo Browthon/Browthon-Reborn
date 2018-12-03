@@ -14,8 +14,11 @@ class UrlInput(QLineEdit):
         self.returnPressed.connect(self.enterurl)
     
     def enterurlgiven(self, url):
-        url = getgoodurl(self.parent.dbConnection, url)
-        self.parent.browserWidget.load(QUrl(url))
+        url, error = getgoodurl(self.parent.dbConnection, self.parent, url)
+        if error == "SESSION":
+            self.parent.opennewongletwithurllist(url.split(" | "))
+        else:
+            self.parent.browserWidget.load(QUrl(url))
     
     def enterurl(self):
         url = self.text()
