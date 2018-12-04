@@ -48,11 +48,13 @@ QTabBar::tab {
             self.removeTab(index)
     
     def settitle(self):
-        titre = self.parent.browserWidget.title()
-        self.setTabText(self.currentIndex(), titre)
+        if self.parent.browserWidget.title() != "":
+            titre = self.parent.browserWidget.title()
+            self.setTabText(self.currentIndex(), titre)
     
     def seticon(self):
-        self.setTabIcon(self.currentIndex(), self.parent.browserWidget.icon())
+        if not self.parent.browserWidget.icon().isNull():
+            self.setTabIcon(self.currentIndex(), self.parent.browserWidget.icon())
     
     def ontabchange(self):
         self.parent.browserWidget = self.currentWidget()
