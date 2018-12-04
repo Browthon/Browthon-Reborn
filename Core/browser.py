@@ -129,12 +129,6 @@ class Browser(QWidget):
             self.tabWidget.requestsaddtab()
         elif event.key() == Qt.Key_Q:
             self.tabWidget.requestsremovetab(self.tabWidget.currentIndex())
-        elif event.key() == Qt.Key_H:
-            self.historyWindow.setWindowModality(Qt.ApplicationModal)
-            self.historyWindow.showUpdate()
-        elif event.key() == Qt.Key_F:
-            self.bookmarksWindow.setWindowModality(Qt.ApplicationModal)
-            self.bookmarksWindow.showUpdate()
     
     def closeEvent(self, event):
         if self.tabWidget.count() == 0 or (self.tabWidget.count() == 1 and self.tabWidget.closer):
