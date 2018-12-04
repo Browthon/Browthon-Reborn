@@ -76,7 +76,7 @@ class Browser(QWidget):
         self.tabWidget.settitle()
     
     def opennewongletwithurl(self, url):
-        url = getgoodurl(self.dbConnection, url)
+        url, temp = getgoodurl(self.dbConnection, url)
         self.tabWidget.requestsaddtab()
         self.browserWidget.load(QUrl(url))
 
