@@ -88,12 +88,12 @@ class Page(QWebEnginePage):
     def maptoviewport(self, pos):
         return QPointF(pos.x(), pos.y())
 
-    def executejavaScript(self, scriptsrc):
+    def executejavascript(self, scriptsrc):
         self.loop = QEventLoop()
         self.result = QVariant()
         QTimer.singleShot(250, self.loop.quit)
 
-        self.runJavaScript(scriptsrc, self.callbackJS)
+        self.runJavaScript(scriptsrc, self.callbackjs)
         self.loop.exec_()
         self.loop = None
         return self.result

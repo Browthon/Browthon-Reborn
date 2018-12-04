@@ -10,7 +10,7 @@ class WebHitTestResult:
         self.pos = pos
         self.m_linkUrl = self.page.url().toString()
         self.m_baseUrl = self.page.url().toString()
-        self.viewportPos = self.page.mapToViewport(self.pos)
+        self.viewportPos = self.page.maptoviewport(self.pos)
         self.source = """(function() {
         let e = document.elementFromPoint(%1, %2);
         if (!e)
@@ -69,7 +69,7 @@ class WebHitTestResult:
         })()"""
 
         self.js = self.source.replace("%1", str(self.viewportPos.x())).replace("%2", str(self.viewportPos.y()))
-        self.dic = self.page.executeJavaScript(self.js)
+        self.dic = self.page.executejavascript(self.js)
         if self.dic is None:
             return
 
