@@ -1,4 +1,4 @@
-def getgoodurl(db, parent, url):
+def getgoodurl(db, url):
     raccourcis = db.executewithreturn("""SELECT * FROM raccourcis""")
     for i in raccourcis:
         if i[1] == url:

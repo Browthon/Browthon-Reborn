@@ -39,4 +39,5 @@ class InformationsPage(QWidget):
         self.setLayout(self.grid)
 
     def openwebsite(self):
+        self.parent.close()
         self.parent.parent.opennewongletwithurl("http://lavapower.github.io")
