@@ -1,7 +1,7 @@
 #!/usr/bin/python3.7
 # coding: utf-8
 
-from PyQt5.QtWidgets import QWidget, QGridLayout, QLabel
+from PyQt5.QtWidgets import QWidget, QGridLayout, QLabel, QMessageBox
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 
@@ -45,6 +45,14 @@ class BookmarksPage(QWidget):
                     break
     
     def addfavf(self):
+        bookmarks = self.parent.parent.dbConnection.executewithreturn("""SELECT * FROM bookmarks""")
+        for i in bookmarks:
+            bool1 = i[1] == self.parent.parent.browserWidget.title()
+            bool2 = i[2] == self.parent.parent.browserWidget.url().toString()
+            if bool1 and bool2:
+                QMessageBox.warning(self, "Erreur", "Cette page est déjà en favori.")
+                return
+
         self.parent.parent.dbConnection.executewithoutreturn(
             """INSERT INTO bookmarks(name, url) VALUES(?, ?)""",
             (self.parent.parent.browserWidget.title(), self.parent.parent.browserWidget.url().toString())
