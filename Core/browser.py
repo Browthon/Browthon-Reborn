@@ -1,7 +1,7 @@
 #!/usr/bin/python3.7
 # coding: utf-8
 
-from PyQt5.QtWidgets import QWidget, QGridLayout, QMessageBox, QPushButton, QMenu
+from PyQt5.QtWidgets import QWidget, QGridLayout, QMessageBox
 from PyQt5.QtCore import Qt, QUrl
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWebEngineWidgets import QWebEngineSettings
