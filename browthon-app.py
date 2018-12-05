@@ -3,7 +3,8 @@
 
 import sys
 import shlex
-import pip 
+import pip
+import os
 
 try:
     import PyQt5
@@ -14,19 +15,22 @@ except Exception:
     except:
         input("ERREUR : Impossible d'installer PyQt5\n")
         sys.exit()
-try:
-    import PyQt5.QtWebEngine
-except Exception:
-    input("ERREUR : PyQt ne comporte pas QtWebEngine.\nVérifiez si vous avez la version 64bits de Python.\n")
-    sys.exit()
+else:
+    try:
+        import PyQt5.QtWebEngine
+    except Exception:
+        input("ERREUR : PyQt ne comporte pas QtWebEngine.\nVérifiez si vous avez la version 64bits de Python.\n")
+        sys.exit()
+    else:
+        from PyQt5.QtWidgets import QApplication
+        from PyQt5.QtGui import QIcon
 
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtGui import QIcon
-
-from Core.browser import Browser
+        from Core.browser import Browser
 
 
 def launch(sys):
+    os.putenv("QT_AUTO_SCREEN_SCALE_FACTOR", "1")
+
     app = QApplication(sys.argv)
     icon = QIcon('logo.png')
     app.setWindowIcon(icon)
