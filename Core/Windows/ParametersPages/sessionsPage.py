@@ -1,7 +1,7 @@
 #!/usr/bin/python3.7
 # coding: utf-8
 
-from PyQt5.QtWidgets import QWidget, QGridLayout, QLabel, QSpacerItem, QLineEdit
+from PyQt5.QtWidgets import QWidget, QGridLayout, QLabel, QSpacerItem, QLineEdit, QMessageBox
 from PyQt5.QtCore import Qt
 
 from Core.Widgets.listWidget import ListWidget
@@ -51,6 +51,12 @@ class SessionsPage(QWidget):
                     break
 
     def addsession(self):
+        sessions = self.parent.parent.dbConnection.executewithreturn("""SELECT * FROM sessions""")
+        for i in sessions:
+            if i[1] == self.tEntry.text():
+                QMessageBox.warning(self, "Erreur", "Cette session existe déjà.")
+                return
+
         tentrybool = self.tEntry.text() != "" and self.tEntry.text() != self.tEntryString
         if tentrybool:
             urls = ""
