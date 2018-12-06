@@ -136,7 +136,7 @@ class Browser(QWidget):
             self.tabWidget.closer = False
             event.accept()
         elif self.tabWidget.count() != 1:
-            if QMessageBox().question(self, "Quitter ?", "Voulez vous quitter tous les onglets ?", QMessageBox.Yes,
+            if QMessageBox().question(self, "Quitter ?", "Voulez vous quitter les autres onglets ? \nDans tous les cas, l'onglet actuel sera fermé", QMessageBox.Yes,
                                       QMessageBox.No) == 16384:
                 self.dbConnection.disconnect()
                 event.accept()
