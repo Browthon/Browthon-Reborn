@@ -27,6 +27,6 @@ Warning : If you are on Windows, you must have **Python 64Bits**. If you have Py
 
 ## Changelog
 
-### V 0.1.0 : Initial Update - XX Nov 2018 (INDEV)
+### V 0.1.0 : Initial Update - 08 Dec 2018 (LATEST)
 
-- Première version
+- First version
