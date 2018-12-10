@@ -14,6 +14,7 @@ class InformationsPage(QWidget):
         self.parent = parent
 
         self.bsite = PushButton("Site")
+        self.bwiki = PushButton("Wiki")
         self.ltitre = QLabel("Browthon Reborn")
         d = "Browthon Reborn est créé par LavaPower avec Python et PyQt\n" \
             "Version : 0.0.0DEV\n\nMerci à Feldrise pour son aide\n\n\nSite :"
@@ -35,9 +36,14 @@ class InformationsPage(QWidget):
         self.grid.addItem(self.titreSpacerItem, 3, 1)
         self.grid.addWidget(self.ldescription, 4, 1)
         self.grid.addWidget(self.bsite, 5, 1)
-        self.grid.addItem(self.endSpacerItem, 6, 1)
+        self.grid.addWidget(self.bwiki, 6, 1)
+        self.grid.addItem(self.endSpacerItem, 7, 1)
         self.setLayout(self.grid)
 
     def openwebsite(self):
         self.parent.close()
         self.parent.parent.opennewongletwithurl("http://lavapower.github.io")
+
+    def openwiki(self):
+        self.parent.close()
+        self.parent.parent.opennewongletwithurl("https://github.com/Browthon/Browthon-Reborn/wiki")
