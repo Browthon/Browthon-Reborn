@@ -12,6 +12,8 @@ def getgoodurl(db, url):
         return url, "NP"
     elif "." in url:
         return "http://"+url, "NP"
+    elif url[:5] == "data:":
+        return url, "NP"
     else:
         return searchmoteur(db, url), "NP"
 
