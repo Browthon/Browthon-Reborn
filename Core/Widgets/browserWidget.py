@@ -49,7 +49,7 @@ class BrowserWidget(QWebEngineView):
             if event.button() == Qt.MiddleButton:
                 hit = self.page.hittestcontent(event.pos())
                 clickedurl = hit.linkurl()
-                baseurl = hit.baseUrl()
+                baseurl = hit.baseurl()
                 if clickedurl != baseurl and clickedurl != '':
                     if 'http://' in clickedurl or 'https://' in clickedurl:
                         result = clickedurl
