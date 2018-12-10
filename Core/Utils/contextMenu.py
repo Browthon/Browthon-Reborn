@@ -31,7 +31,7 @@ class ContextMenu(QMenu):
             self.addAction("Coller", self.onglet.page.pasteaction)
         if hittest.imageurl() != "":
             self.addSeparator()
-            self.addAction("Voir Image", lambda: self.onglet.parent.opennewongletwithurl(hittest.imageUrl()))
+            self.addAction("Voir Image", lambda: self.onglet.parent.opennewongletwithurl(hittest.imageurl()))
         self.addSeparator()
         clickedurl = hittest.linkurl()
         baseurl = hittest.baseurl()
