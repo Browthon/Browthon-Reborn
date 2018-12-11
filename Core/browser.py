@@ -11,6 +11,7 @@ from Core.Widgets.tabWidget import TabWidget
 from Core.Widgets.pushButton import PushButton
 from Core.Utils.dbUtils import DBConnection
 from Core.Utils.urlUtils import getgoodurl
+from Core.Utils.dateUtils import getdate
 from Core.Windows.parameterWindow import ParameterWindow
 
 
@@ -101,8 +102,9 @@ class Browser(QWidget):
                 self.bookmark.setIcon(QIcon("Icons/NavigationBar/noFav.png"))
                 find = True
         if not find:
-            self.dbConnection.executewithoutreturn("""INSERT INTO bookmarks(name, url) VALUES(?, ?)""", (
-                self.browserWidget.title(), self.browserWidget.url().toString()))
+            self.dbConnection.executewithoutreturn("""INSERT INTO bookmarks(name, url, date) VALUES(?, ?, ?)""", (
+                self.browserWidget.title(), self.browserWidget.url().toString(),
+                getdate()))
             self.bookmark.setIcon(QIcon("Icons/NavigationBar/yesFav.png"))
         self.parameterWindow.bookmarksPage.showupdate()
     
@@ -119,8 +121,9 @@ class Browser(QWidget):
         self.parameterWindow.bookmarksPage.showupdate()
     
     def addhistory(self):
-        self.dbConnection.executewithoutreturn("""INSERT INTO history(name, url) VALUES(?, ?)""", (
-            self.browserWidget.title(), self.browserWidget.url().toString()))
+        self.dbConnection.executewithoutreturn("""INSERT INTO history(name, url, date) VALUES(?, ?, ?)""", (
+            self.browserWidget.title(), self.browserWidget.url().toString(),
+            getdate()))
     
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_R or event.key() == Qt.Key_F5:

@@ -7,6 +7,7 @@ from PyQt5.QtGui import QIcon
 
 from Core.Widgets.listWidget import ListWidget
 from Core.Widgets.pushButton import PushButton
+from Core.Utils.dateUtils import getdate
 
 
 class BookmarksPage(QWidget):
@@ -54,8 +55,9 @@ class BookmarksPage(QWidget):
                 return
 
         self.parent.parent.dbConnection.executewithoutreturn(
-            """INSERT INTO bookmarks(name, url) VALUES(?, ?)""",
-            (self.parent.parent.browserWidget.title(), self.parent.parent.browserWidget.url().toString())
+            """INSERT INTO bookmarks(name, url, date) VALUES(?, ?, ?)""",
+            (self.parent.parent.browserWidget.title(), self.parent.parent.browserWidget.url().toString(),
+             getdate())
         )
         self.parent.parent.bookmark.setIcon(QIcon("Icons/NavigationBar/yesFav.png"))
         self.showupdate()

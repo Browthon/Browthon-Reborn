@@ -37,13 +37,15 @@ CREATE TABLE IF NOT EXISTS parameters(
 CREATE TABLE IF NOT EXISTS history(
     id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
     name TEXT,
-    url TEXT
+    url TEXT,
+    date TEXT
 )""")
         self.executewithoutreturn("""
 CREATE TABLE IF NOT EXISTS bookmarks(
     id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
     name TEXT,
-    url TEXT
+    url TEXT,
+    date TEXT
 )""")
         self.executewithoutreturn("""
 CREATE TABLE IF NOT EXISTS raccourcis(
