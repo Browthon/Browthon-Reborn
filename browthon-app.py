@@ -9,12 +9,8 @@ import os
 try:
     import PyQt5
 except Exception:
-    try:
-        cmd = "install PyQt5"
-        pip.main(shlex.split(cmd))
-    except:
-        input("ERREUR : Impossible d'installer PyQt5\n")
-        sys.exit()
+    input("Vous n'avez pas PyQt5\nEssayez de faire 'pip install -r requirements.txt' dans le dossier de Browthon\n")
+    sys.exit()
 else:
     try:
         import PyQt5.QtWebEngine
