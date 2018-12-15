@@ -6,6 +6,7 @@ from PyQt5.QtCore import Qt
 
 from Core.Widgets.listWidget import ListWidget
 from Core.Widgets.pushButton import PushButton
+from Core.Utils.dateUtils import getdate
 
 
 class SessionsPage(QWidget):
@@ -16,8 +17,7 @@ class SessionsPage(QWidget):
 
         self.title = QLabel("Sessions")
         self.title.setAlignment(Qt.AlignHCenter)
-        self.listeW = ListWidget(self.parent.parent.dbConnection.executewithreturn("""SELECT * FROM sessions"""),
-                                 "Sessions")
+        self.listeW = ListWidget(self.parent.parent.dbConnection.executewithreturn("""SELECT * FROM sessions"""))
         self.liste = self.listeW.liste
         self.supp = PushButton("Supprimer")
         self.suppAll = PushButton("Tout supprimer")
@@ -44,7 +44,7 @@ class SessionsPage(QWidget):
     def launch(self):
         if self.listeW.currentItem():
             for i in self.liste:
-                if i[1] == self.listeW.currentItem().text().split(" - ")[0]:
+                if str(i[0]) == self.listeW.currentItem().text(3):
                     self.parent.close()
                     for z in i[2].split(" | "):
                         self.parent.parent.opennewongletwithurl(z)
@@ -63,8 +63,8 @@ class SessionsPage(QWidget):
             for i in range(self.parent.parent.tabWidget.count()):
                 urls += self.parent.parent.tabWidget.widget(i).url().toString() + " | "
             self.parent.parent.dbConnection.executewithoutreturn(
-                """INSERT INTO sessions(name, urls) VALUES(?, ?)""",
-                (self.tEntry.text(), urls[:-3])
+                """INSERT INTO sessions(name, urls, date) VALUES(?, ?, ?)""",
+                (self.tEntry.text(), urls[:-3], getdate())
             )
             self.showupdate()
 
@@ -76,7 +76,7 @@ class SessionsPage(QWidget):
     def delete(self):
         if self.listeW.currentItem():
             for i in self.liste:
-                if i[1] == self.listeW.currentItem().text().split(" - ")[0]:
+                if str(i[0]) == self.listeW.currentItem().text(3):
                     self.parent.parent.dbConnection.executewithoutreturn(
                         """DELETE FROM sessions WHERE id = ?""", (i[0],))
         self.showupdate()

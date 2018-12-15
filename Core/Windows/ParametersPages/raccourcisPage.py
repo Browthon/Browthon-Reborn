@@ -6,6 +6,7 @@ from PyQt5.QtCore import Qt
 
 from Core.Widgets.listWidget import ListWidget
 from Core.Widgets.pushButton import PushButton
+from Core.Utils.dateUtils import getdate
 
 
 class RaccourcisPage(QWidget):
@@ -16,12 +17,11 @@ class RaccourcisPage(QWidget):
 
         self.title = QLabel("Raccourcis URL")
         self.title.setAlignment(Qt.AlignHCenter)
-        self.listeW = ListWidget(self.parent.parent.dbConnection.executewithreturn("""SELECT * FROM raccourcis"""),
-                                 "Raccourcis")
+        self.listeW = ListWidget(self.parent.parent.dbConnection.executewithreturn("""SELECT * FROM raccourcis"""))
         self.liste = self.listeW.liste
         self.supp = PushButton("Supprimer")
         self.suppAll = PushButton("Tout supprimer")
-        self.spacerItem = QSpacerItem(20,20)
+        self.spacerItem = QSpacerItem(20, 20)
         self.tEntryString = "Nom du raccourci"
         self.uEntryString = "URL du raccourci"
         self.tEntry = QLineEdit(self.tEntryString)
@@ -47,7 +47,7 @@ class RaccourcisPage(QWidget):
     def launch(self):
         if self.listeW.currentItem():
             for i in self.liste:
-                if i[1] == self.listeW.currentItem().text().split(" - ")[0]:
+                if str(i[0]) == self.listeW.currentItem().text(3):
                     self.parent.close()
                     self.parent.parent.opennewongletwithurl(i[2])
                     break
@@ -63,8 +63,8 @@ class RaccourcisPage(QWidget):
         uentrybool = self.uEntry.text() != "" and self.uEntry.text() != self.uEntryString
         if tentrybool and uentrybool:
             self.parent.parent.dbConnection.executewithoutreturn(
-                """INSERT INTO raccourcis(name, url) VALUES(?, ?)""",
-                (self.tEntry.text(), self.uEntry.text())
+                """INSERT INTO raccourcis(name, url, date) VALUES(?, ?, ?)""",
+                (self.tEntry.text(), self.uEntry.text(), getdate())
             )
             self.showupdate()
 
@@ -76,7 +76,7 @@ class RaccourcisPage(QWidget):
     def delete(self):
         if self.listeW.currentItem():
             for i in self.liste:
-                if i[1] == self.listeW.currentItem().text().split(" - ")[0]:
+                if str(i[0]) == self.listeW.currentItem().text(3):
                     self.parent.parent.dbConnection.executewithoutreturn(
                         """DELETE FROM raccourcis WHERE id = ?""", (i[0],))
         self.showupdate()

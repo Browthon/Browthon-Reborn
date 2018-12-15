@@ -1,29 +1,30 @@
 #!/usr/bin/python3.7
 # coding: utf-8
 
-from PyQt5.QtWidgets import QListWidget
+from PyQt5.QtWidgets import QTreeWidget, QTreeWidgetItem
 
 
-class ListWidget(QListWidget):
-    def __init__(self, liste, typeData = ""):
+class ListWidget(QTreeWidget):
+    def __init__(self, liste):
         super(ListWidget, self).__init__()
+        self.setColumnCount(4)
+        self.setHeaderLabels(["Nom", "URL", "Date", "ID"])
         self.liste = liste
-        self.typeData = typeData
+        self.listeItem = []
         for i in self.liste:
-            if self.typeData == "Raccourcis" or self.typeData == "Sessions":
-                self.addItem(i[1] + " - " + i[2])
-            else:
-                self.addItem(i[1])
+            item = QTreeWidgetItem(self, [i[1], i[2], i[3], str(i[0])])
+            self.listeItem.append(item)
+        self.insertTopLevelItems(0, self.listeItem)
 
     def deleteallitems(self):
-        for i in range(self.count() - 1, -1, -1):
-            self.takeItem(i)
+        for i in range(len(self.listeItem) - 1, -1, -1):
+            self.takeTopLevelItem(i)
 
     def updatelist(self, liste):
         self.liste = liste
         self.deleteallitems()
+        self.listeItem = []
         for i in self.liste:
-            if self.typeData == "Raccourcis" or self.typeData == "Sessions":
-                self.addItem(i[1] + " - " + i[2])
-            else:
-                self.addItem(i[1])
+            item = QTreeWidgetItem(self, [i[1], i[2], i[3], str(i[0])])
+            self.listeItem.append(item)
+        self.insertTopLevelItems(0, self.listeItem)

@@ -35,7 +35,7 @@ class HistoryPage(QWidget):
     def launch(self):
         if self.listeW.currentItem():
             for i in self.liste:
-                if i[1] == self.listeW.currentItem().text():
+                if str(i[0]) == self.listeW.currentItem().text(3):
                     self.parent.close()
                     self.parent.parent.opennewongletwithurl(i[2])
                     break
@@ -49,7 +49,7 @@ class HistoryPage(QWidget):
     def delete(self):
         if self.listeW.currentItem():
             for i in self.liste:
-                if i[1] == self.listeW.currentItem().text():
+                if str(i[0]) == self.listeW.currentItem().text(3):
                     self.parent.parent.dbConnection.executewithoutreturn(
                         """DELETE FROM history WHERE id = ?""", (i[0],))
         self.showupdate()
