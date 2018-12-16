@@ -14,6 +14,7 @@ class BrowserWidget(QWebEngineView):
         super(BrowserWidget, self).__init__(parent)
         self.parent = parent
         self.page = Page(self)
+        self.page.setParent(self)
         self.setPage(self.page)
         self.load(QUrl("http://google.com"))
         self.urlChanged.connect(self.parent.urlInput.seturl)
