@@ -4,7 +4,7 @@
 from PyQt5.QtWidgets import QWidget, QGridLayout, QMessageBox
 from PyQt5.QtCore import Qt, QUrl
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWebEngineWidgets import QWebEngineSettings
+from PyQt5.QtWebEngineWidgets import QWebEngineSettings, QWebEngineProfile
 
 from Core.Widgets.urlInput import UrlInput
 from Core.Widgets.tabWidget import TabWidget
@@ -69,6 +69,8 @@ class Browser(QWidget):
         else:
             QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.JavascriptEnabled, False)
         self.parameterWindow = ParameterWindow(self)
+        QWebEngineProfile.defaultProfile().\
+            downloadRequested.connect(self.parameterWindow.downloadPage.downloadrequested)
 
         self.show()
 
