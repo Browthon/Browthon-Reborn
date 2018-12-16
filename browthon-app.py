@@ -2,8 +2,6 @@
 # coding: utf-8
 
 import sys
-import shlex
-import pip
 import os
 
 try:
