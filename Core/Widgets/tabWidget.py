@@ -39,7 +39,7 @@ QTabBar::tab {
         super(TabWidget, self).mouseReleaseEvent(event)
     
     def requestsremovetab(self, index):
-        if self.count()==1:
+        if self.count() == 1:
             if QMessageBox().question(self, "Quitter ?", "Voulez vous quitter Browthon ?",
                                       QMessageBox.Yes, QMessageBox.No) == 16384:
                 self.closer = True
