@@ -50,6 +50,9 @@ class ThemesPage(QWidget):
                 if i["folder"] == self.listeW.currentItem().text(3):
                     self.parent.close()
                     self.parent.parent.applytheme("Themes/"+i["folder"])
+                    parameters = self.parent.parent.dbConnection.executewithreturn("""SELECT * FROM parameters""")
+                    self.parent.parent.dbConnection.executewithoutreturn(
+                        """UPDATE parameters SET theme = ? WHERE id = ?""", (i["folder"], parameters[0][0]))
                     break
 
     def showupdate(self):

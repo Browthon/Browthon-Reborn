@@ -75,7 +75,16 @@ class Browser(QWidget):
         QWebEngineProfile.defaultProfile().\
             downloadRequested.connect(self.parameterWindow.downloadPage.downloadrequested)
 
+        theme = self.dbConnection.executewithreturn("""SELECT theme FROM parameters""")[0][0]
+        if theme == "":
             self.applytheme("")
+        else:
+            if os.path.exists("Themes/"+theme+"/theme.json"):
+                self.applytheme("Themes/"+theme)
+            else:
+                print("Le theme "+theme+" n'existe pas/plus.")
+                self.applytheme("")
+
         self.show()
 
     def settitle(self):
