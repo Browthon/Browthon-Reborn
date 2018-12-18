@@ -19,7 +19,10 @@ class ThemesPage(QWidget):
 
         self.title = QLabel("Thèmes")
         self.title.setAlignment(Qt.AlignHCenter)
-        self.liste = []
+        self.liste = [{"name": "Default",
+                       "author": "LavaPower",
+                       "description": "Theme par defaut",
+                       "folder": ""}]
         for i in os.listdir("Themes"):
             if "theme.json" in os.listdir("Themes/"+i):
                 fichier = open("Themes/"+i+"/theme.json", "r")
@@ -57,6 +60,7 @@ class ThemesPage(QWidget):
             if "theme.json" in os.listdir("Themes/"+i):
                 fichier = open("Themes/"+i+"/theme.json", "r")
                 self.liste.append(json.load(fichier))
+                fichier.close()
             else:
                 print("ERREUR : Le theme du dossier "+i+" n'a pas de json.")
         self.listeW.updatelist(self.liste)
