@@ -1,0 +1,74 @@
+QWidget {
+    background-color: #3f3f3f;
+    border-color: #3f3f3f;
+}
+
+QMenuBar {
+    background-color: #3f3f3f;
+}
+
+QMenuBar::item {
+    color: #f5f5f5;
+}
+
+QMainWindow {
+    background-color: #3f3f3f;
+}
+
+QPushButton {
+    background-color: #565656;
+    color: #f5f5f5;
+}
+
+QListWidget::item {
+    color: #f5f5f5;
+}
+
+QLineEdit {
+    background-color: #565656;
+    color: #f5f5f5;
+}
+
+QLabel {
+    color: #f5f5f5;
+}
+
+QMenu {
+    background-color: #3f3f3f; /* sets background of the menu */
+    border: 1px solid black;
+}
+
+QMenu::item {
+    color: #f5f5f5;
+}
+
+QTabWidget::pane {
+    border-top: 2px solid #C2C7CB;
+}
+
+QTabWidget::tab-bar {
+    left: 5px;
+}
+
+QTabBar::tab {
+    background: #565656;
+    border: 2px solid #3f3f3f;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    min-width: 8ex;
+    padding: 2px;
+    color: #f5f5f5;
+}
+
+QTabBar::tab:hover {
+    background: #595959;
+}
+
+QTabBar::tab:selected {
+    background: #595959;
+}
+
+QTabBar::tab:!selected {
+    margin-top: 2px;
+    background: #565656;
+}
