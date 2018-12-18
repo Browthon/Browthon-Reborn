@@ -42,7 +42,7 @@ class ParameterWindow(QWidget):
         self.tabWidget.addTab(self.raccourcisPage, QIcon("Icons/Parameters/Raccourcis.png"), "")
         self.tabWidget.addTab(self.sessionsPage, QIcon("Icons/Parameters/Sessions.png"), "")
         self.tabWidget.addTab(self.downloadPage, QIcon("Icons/Parameters/Download.png"), "")
-        self.tabWidget.addTab(self.themesPage, QIcon("logo.png"), "")
+        self.tabWidget.addTab(self.themesPage, QIcon("Icons/Parameters/Themes.png"), "")
         self.tabWidget.addTab(self.informationsPage, QIcon("Icons/Parameters/Info.png"), "")
         self.tabWidget.setTabToolTip(0, "Général")
         self.tabWidget.setTabToolTip(1, "Historique")
