@@ -60,7 +60,7 @@ class GeneralPage(QWidget):
     def valider(self):
         parameters = self.parent.parent.dbConnection.executewithreturn("""SELECT * FROM parameters""")
         self.parent.parent.dbConnection.executewithoutreturn(
-            """UPDATE parameters SET home = ? WHERE id = ?""", (self.urlAccueil.text(),parameters[0][0]))
+            """UPDATE parameters SET home = ? WHERE id = ?""", (self.urlAccueil.text(), parameters[0][0]))
         self.parent.parent.dbConnection.executewithoutreturn(
             """UPDATE parameters SET moteur = ? WHERE id = ?""",
             (self.listeMoteur[self.moteurBox.currentIndex()],
