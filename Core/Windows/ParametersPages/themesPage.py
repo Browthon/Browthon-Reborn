@@ -45,12 +45,11 @@ class ThemesPage(QWidget):
         self.setLayout(self.grid)
 
     def launch(self):
-        return
         if self.listeW.currentItem():
             for i in self.liste:
-                if str(i[0]) == self.listeW.currentItem().text(3):
+                if i["folder"] == self.listeW.currentItem().text(3):
                     self.parent.close()
-                    self.parent.parent.opennewongletwithurl(i[2])
+                    self.parent.parent.applytheme("Themes/"+i["folder"])
                     break
 
     def showupdate(self):

@@ -12,7 +12,10 @@ from Core.Widgets.pushButton import PushButton
 from Core.Utils.dbUtils import DBConnection
 from Core.Utils.urlUtils import getgoodurl
 from Core.Utils.dateUtils import getdate
+from Core.Utils.themeUtils import parsetheme
 from Core.Windows.parameterWindow import ParameterWindow
+
+import os
 
 
 class Browser(QWidget):
@@ -72,11 +75,22 @@ class Browser(QWidget):
         QWebEngineProfile.defaultProfile().\
             downloadRequested.connect(self.parameterWindow.downloadPage.downloadrequested)
 
+            self.applytheme("")
         self.show()
 
     def settitle(self):
         self.setWindowTitle(self.browserWidget.title() + " - Browthon")
         self.tabWidget.settitle()
+
+    def applytheme(self, folder):
+        if folder == "" or folder == "Themes/":
+            self.setStyleSheet("")
+            self.parameterWindow.setStyleSheet("")
+        else:
+            with open(folder+"/main.bss", 'r') as fichier:
+                bss = parsetheme(fichier.read())
+                self.setStyleSheet(bss)
+                self.parameterWindow.setStyleSheet(bss)
     
     def opennewongletwithurl(self, url):
         url, temp = getgoodurl(self.dbConnection, url)
