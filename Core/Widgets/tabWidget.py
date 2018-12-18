@@ -45,7 +45,7 @@ QTabBar::tab {
                 self.closer = True
                 self.parent.close()
         else:
-            self.currentWidget().deleteLater()
+            self.widget(index).deleteLater()
             self.removeTab(index)
     
     def settitle(self):
