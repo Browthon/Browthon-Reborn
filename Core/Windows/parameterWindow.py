@@ -1,7 +1,7 @@
 #!/usr/bin/python3.7
 # coding: utf-8
 
-from PyQt5.QtWidgets import QWidget, QGridLayout, QLabel, QTabWidget
+from PyQt5.QtWidgets import QWidget, QDialog, QGridLayout, QLabel, QTabWidget
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 
@@ -15,7 +15,7 @@ from Core.Windows.ParametersPages.downloadPage import DownloadPage
 from Core.Windows.ParametersPages.themesPage import ThemesPage
 
 
-class ParameterWindow(QWidget):
+class ParameterWindow(QDialog):
     def __init__(self, parent):
         super(ParameterWindow, self).__init__()
         self.parent = parent

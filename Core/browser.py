@@ -1,7 +1,7 @@
 #!/usr/bin/python3.7
 # coding: utf-8
 
-from PyQt5.QtWidgets import QWidget, QGridLayout, QMessageBox
+from PyQt5.QtWidgets import QWidget, QMainWindow, QGridLayout, QMessageBox
 from PyQt5.QtCore import Qt, QUrl
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWebEngineWidgets import QWebEngineSettings, QWebEngineProfile
@@ -18,13 +18,14 @@ from Core.Windows.parameterWindow import ParameterWindow
 import os
 
 
-class Browser(QWidget):
+class Browser(QMainWindow):
     def __init__(self):
         super(Browser, self).__init__()
         self.dbConnection = DBConnection("data.db")
         self.dbConnection.createdb()
 
-        self.grid = QGridLayout()
+        self.centralWidget = QWidget(self)
+        self.grid = QGridLayout(self.centralWidget)
 
         self.urlInput = UrlInput(self)
         self.back = PushButton("", QIcon("Icons/NavigationBar/back.png"))
@@ -62,7 +63,7 @@ class Browser(QWidget):
 
         self.grid.setContentsMargins(0, 0, 0, 0)
         self.grid.setSpacing(0)
-        self.setLayout(self.grid)
+        self.setCentralWidget(self.centralWidget)
         self.showMaximized()
         self.setWindowTitle('Browthon')
 
