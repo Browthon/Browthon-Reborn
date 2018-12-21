@@ -35,6 +35,7 @@ class ParameterWindow(QDialog):
         self.themesPage = ThemesPage(self)
 
         self.tabWidget = QTabWidget(self)
+        self.tabWidget.setObjectName("paramTabBar")
         self.tabWidget.setTabPosition(QTabWidget.West)
         self.tabWidget.addTab(self.generalPage, QIcon("Icons/Parameters/General.png"), "")
         self.tabWidget.addTab(self.historyPage, QIcon("Icons/Parameters/History.png"), "")
