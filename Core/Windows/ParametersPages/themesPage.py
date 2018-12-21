@@ -25,8 +25,10 @@ class ThemesPage(QWidget):
                        "folder": ""}]
         for i in os.listdir("Themes"):
             if "theme.json" in os.listdir("Themes/"+i):
-                fichier = open("Themes/"+i+"/theme.json", "r")
-                self.liste.append(json.load(fichier))
+                fichier = open("Themes/" + i + "/theme.json", "r")
+                jsonfile = json.load(fichier)
+                jsonfile["folder"] = i
+                self.liste.append(jsonfile)
             else:
                 print("ERREUR : Le theme du dossier "+i+" n'a pas de json.")
         self.listeW = ListWidget(self.liste, "Themes")
@@ -61,7 +63,9 @@ class ThemesPage(QWidget):
         for i in os.listdir("Themes"):
             if "theme.json" in os.listdir("Themes/"+i):
                 fichier = open("Themes/"+i+"/theme.json", "r")
-                self.liste.append(json.load(fichier))
+                jsonfile = json.load(fichier)
+                jsonfile["folder"] = i
+                self.liste.append(jsonfile)
                 fichier.close()
             else:
                 print("ERREUR : Le theme du dossier "+i+" n'a pas de json.")
