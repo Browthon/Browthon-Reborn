@@ -13,6 +13,7 @@ from Core.Windows.ParametersPages.raccourcisPage import RaccourcisPage
 from Core.Windows.ParametersPages.sessionsPage import SessionsPage
 from Core.Windows.ParametersPages.downloadPage import DownloadPage
 from Core.Windows.ParametersPages.themesPage import ThemesPage
+from Core.Utils.themeUtils import geticonpath
 
 
 class ParameterWindow(QDialog):
@@ -37,14 +38,14 @@ class ParameterWindow(QDialog):
         self.tabWidget = QTabWidget(self)
         self.tabWidget.setObjectName("paramTabBar")
         self.tabWidget.setTabPosition(QTabWidget.West)
-        self.tabWidget.addTab(self.generalPage, QIcon("Icons/Parameters/General.png"), "")
-        self.tabWidget.addTab(self.historyPage, QIcon("Icons/Parameters/History.png"), "")
-        self.tabWidget.addTab(self.bookmarksPage, QIcon("Icons/Parameters/Fav.png"), "")
-        self.tabWidget.addTab(self.raccourcisPage, QIcon("Icons/Parameters/Raccourcis.png"), "")
-        self.tabWidget.addTab(self.sessionsPage, QIcon("Icons/Parameters/Sessions.png"), "")
-        self.tabWidget.addTab(self.downloadPage, QIcon("Icons/Parameters/Download.png"), "")
-        self.tabWidget.addTab(self.themesPage, QIcon("Icons/Parameters/Themes.png"), "")
-        self.tabWidget.addTab(self.informationsPage, QIcon("Icons/Parameters/Info.png"), "")
+        self.tabWidget.addTab(self.generalPage, QIcon(geticonpath(self.parent, "Icons/Parameters/General.png")), "")
+        self.tabWidget.addTab(self.historyPage, QIcon(geticonpath(self.parent, "Icons/Parameters/History.png")), "")
+        self.tabWidget.addTab(self.bookmarksPage, QIcon(geticonpath(self.parent, "Icons/Parameters/Fav.png")), "")
+        self.tabWidget.addTab(self.raccourcisPage, QIcon(geticonpath(self.parent, "Icons/Parameters/Raccourcis.png")), "")
+        self.tabWidget.addTab(self.sessionsPage, QIcon(geticonpath(self.parent, "Icons/Parameters/Sessions.png")), "")
+        self.tabWidget.addTab(self.downloadPage, QIcon(geticonpath(self.parent, "Icons/Parameters/Download.png")), "")
+        self.tabWidget.addTab(self.themesPage, QIcon(geticonpath(self.parent, "Icons/Parameters/Themes.png")), "")
+        self.tabWidget.addTab(self.informationsPage, QIcon(geticonpath(self.parent, "Icons/Parameters/Info.png")), "")
         self.tabWidget.setTabToolTip(0, "Général")
         self.tabWidget.setTabToolTip(1, "Historique")
         self.tabWidget.setTabToolTip(2, "Favoris")

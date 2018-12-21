@@ -12,7 +12,7 @@ from Core.Widgets.pushButton import PushButton
 from Core.Utils.dbUtils import DBConnection
 from Core.Utils.urlUtils import getgoodurl
 from Core.Utils.dateUtils import getdate
-from Core.Utils.themeUtils import parsetheme
+from Core.Utils.themeUtils import parsetheme, geticonpath
 from Core.Windows.parameterWindow import ParameterWindow
 
 import os
@@ -26,15 +26,16 @@ class Browser(QMainWindow):
 
         self.centralWidget = QWidget(self)
         self.grid = QGridLayout(self.centralWidget)
+        self.theme = ""
 
         self.urlInput = UrlInput(self)
         self.urlInput.setObjectName("addressBar")
-        self.back = PushButton("", QIcon("Icons/NavigationBar/back.png"), "backButton")
-        self.forward = PushButton("", QIcon("Icons/NavigationBar/forward.png"), "forwardButton")
-        self.reload = PushButton("", QIcon("Icons/NavigationBar/reload.png"), "reloadButton")
-        self.bookmark = PushButton("", QIcon("Icons/NavigationBar/noFav.png"), "favButton")
-        self.home = PushButton("", QIcon("Icons/NavigationBar/home.png"), "homeButton")
-        self.parameter = PushButton("", QIcon("Icons/NavigationBar/param.png"), "paramButton")
+        self.back = PushButton("", QIcon(geticonpath(self, "Icons/NavigationBar/back.png")), "backButton")
+        self.forward = PushButton("", QIcon(geticonpath(self, "Icons/NavigationBar/forward.png")), "forwardButton")
+        self.reload = PushButton("", QIcon(geticonpath(self, "Icons/NavigationBar/reload.png")), "reloadButton")
+        self.bookmark = PushButton("", QIcon(geticonpath(self, "Icons/NavigationBar/noFav.png")), "favButton")
+        self.home = PushButton("", QIcon(geticonpath(self, "Icons/NavigationBar/home.png")), "homeButton")
+        self.parameter = PushButton("", QIcon(geticonpath(self, "Icons/NavigationBar/param.png")), "paramButton")
         self.tabWidget = TabWidget(self)
         self.tabWidget.setObjectName("tabBar")
 
@@ -80,13 +81,16 @@ class Browser(QMainWindow):
 
         theme = self.dbConnection.executewithreturn("""SELECT theme FROM parameters""")[0][0]
         if theme == "":
-            self.applytheme("")
+            self.theme = ""
+            self.applytheme()
         else:
             if os.path.exists("Themes/"+theme+"/theme.json"):
-                self.applytheme("Themes/"+theme)
+                self.theme = "Themes/"+theme
+                self.applytheme()
             else:
                 print("Le theme "+theme+" n'existe pas/plus.")
-                self.applytheme("")
+                self.theme = ""
+                self.applytheme()
 
         self.show()
 
@@ -94,16 +98,30 @@ class Browser(QMainWindow):
         self.setWindowTitle(self.browserWidget.title() + " - Browthon")
         self.tabWidget.settitle()
 
-    def applytheme(self, folder):
-        if folder == "" or folder == "Themes/":
+    def applytheme(self):
+        if self.theme == "" or self.theme == "Themes/":
             self.setStyleSheet("")
             self.parameterWindow.setStyleSheet("")
         else:
-            with open(folder+"/main.bss", 'r') as fichier:
+            with open(self.theme+"/main.bss", 'r') as fichier:
                 bss = parsetheme(fichier.read())
                 self.setStyleSheet(bss)
                 self.parameterWindow.setStyleSheet(bss)
-    
+        self.back.setIcon(QIcon(geticonpath(self, "Icons/NavigationBar/back.png")))
+        self.forward.setIcon(QIcon(geticonpath(self, "Icons/NavigationBar/forward.png")))
+        self.reload.setIcon(QIcon(geticonpath(self, "Icons/NavigationBar/reload.png")))
+        self.bookmark.setIcon(QIcon(geticonpath(self, "Icons/NavigationBar/noFav.png")))
+        self.home.setIcon(QIcon(geticonpath(self, "Icons/NavigationBar/home.png")))
+        self.parameter.setIcon(QIcon(geticonpath(self, "Icons/NavigationBar/param.png")))
+        self.parameterWindow.tabWidget.setTabIcon(0, QIcon(geticonpath(self, "Icons/Parameters/General.png")))
+        self.parameterWindow.tabWidget.setTabIcon(1, QIcon(geticonpath(self, "Icons/Parameters/History.png")))
+        self.parameterWindow.tabWidget.setTabIcon(2, QIcon(geticonpath(self, "Icons/Parameters/Fav.png")))
+        self.parameterWindow.tabWidget.setTabIcon(3, QIcon(geticonpath(self, "Icons/Parameters/Raccourcis.png")))
+        self.parameterWindow.tabWidget.setTabIcon(4, QIcon(geticonpath(self, "Icons/Parameters/Sessions.png")))
+        self.parameterWindow.tabWidget.setTabIcon(5, QIcon(geticonpath(self, "Icons/Parameters/Download.png")))
+        self.parameterWindow.tabWidget.setTabIcon(6, QIcon(geticonpath(self, "Icons/Parameters/Themes.png")))
+        self.parameterWindow.tabWidget.setTabIcon(7, QIcon(geticonpath(self, "Icons/Parameters/Info.png")))
+
     def opennewongletwithurl(self, url):
         url, temp = getgoodurl(self.dbConnection, url)
         self.tabWidget.requestsaddtab()
@@ -127,13 +145,13 @@ class Browser(QMainWindow):
         for i in bookmarks:
             if i[2] == self.browserWidget.url().toString():
                 self.dbConnection.executewithoutreturn("""DELETE FROM bookmarks WHERE id = ?""", (i[0],))
-                self.bookmark.setIcon(QIcon("Icons/NavigationBar/noFav.png"))
+                self.bookmark.setIcon(QIcon(geticonpath(self, "Icons/NavigationBar/noFav.png")))
                 find = True
         if not find:
             self.dbConnection.executewithoutreturn("""INSERT INTO bookmarks(name, url, date) VALUES(?, ?, ?)""", (
                 self.browserWidget.title(), self.browserWidget.url().toString(),
                 getdate()))
-            self.bookmark.setIcon(QIcon("Icons/NavigationBar/yesFav.png"))
+            self.bookmark.setIcon(QIcon(geticonpath(self, "Icons/NavigationBar/yesFav.png")))
         self.parameterWindow.bookmarksPage.showupdate()
     
     def loadfinished(self):
@@ -142,10 +160,10 @@ class Browser(QMainWindow):
         find = False
         for i in bookmarks:
             if i[2] == self.browserWidget.url().toString():
-                self.bookmark.setIcon(QIcon("Icons/NavigationBar/yesFav.png"))
+                self.bookmark.setIcon(QIcon(geticonpath(self, "Icons/NavigationBar/yesFav.png")))
                 find = True
         if not find:
-            self.bookmark.setIcon(QIcon("Icons/NavigationBar/noFav.png"))
+            self.bookmark.setIcon(QIcon(geticonpath(self, "Icons/NavigationBar/noFav.png")))
         self.parameterWindow.bookmarksPage.showupdate()
     
     def addhistory(self):

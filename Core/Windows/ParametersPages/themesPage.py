@@ -51,7 +51,8 @@ class ThemesPage(QWidget):
             for i in self.liste:
                 if i["folder"] == self.listeW.currentItem().text(3):
                     self.parent.close()
-                    self.parent.parent.applytheme("Themes/"+i["folder"])
+                    self.parent.parent.theme = "Themes/"+i["folder"]
+                    self.parent.parent.applytheme()
                     parameters = self.parent.parent.dbConnection.executewithreturn("""SELECT * FROM parameters""")
                     self.parent.parent.dbConnection.executewithoutreturn(
                         """UPDATE parameters SET theme = ? WHERE id = ?""", (i["folder"], parameters[0][0]))
@@ -76,6 +77,9 @@ class ThemesPage(QWidget):
         if self.listeW.currentItem():
             for i in self.liste:
                 if i["folder"] == self.listeW.currentItem().text(3):
+                    if self.parent.parent.theme == "Themes/"+i["folder"]:
+                        self.parent.parent.theme = ""
+                        self.parent.parent.applytheme()
                     contenu = os.listdir("Themes/"+i["folder"])
                     for x in contenu:
                         os.remove("Themes/"+i["folder"]+"/"+x)
@@ -83,6 +87,8 @@ class ThemesPage(QWidget):
         self.showupdate()
 
     def deleteall(self):
+        self.parent.parent.theme = ""
+        self.parent.parent.applytheme()
         for i in self.liste:
             contenu = os.listdir("Themes/" + i["folder"])
             for x in contenu:
