@@ -9,7 +9,7 @@ def parsetheme(bssstring, folder):
     i = 0
     while i < len(bsslist):
         if bsslist[i] != "":
-            if bsslist[i][0] == "#":
+            if bsslist[i][0:1] == "//":
                 del bsslist[i]
         i += 1
     bssstring = "\n".join(bsslist)
@@ -26,3 +26,12 @@ def geticonpath(main, basicpath):
     if main.theme == "" or main.theme == "Themes/":
         return basicpath
     else:
+        basicpathlist = basicpath.split("/")
+        for i in range(0, len(basicpathlist)):
+            if i == 0:
+                if not basicpathlist[i] in os.listdir(main.theme):
+                    return basicpath
+            else:
+                if not basicpathlist[i] in os.listdir(main.theme + "/" + "/".join(basicpathlist[:i])):
+                    return basicpath
+        return main.theme + "/" + basicpath
