@@ -92,6 +92,7 @@ class Browser(QMainWindow):
                 self.theme = ""
                 self.applytheme()
 
+        self.parameterWindow.addonsPage.launchaddons("load")
         self.show()
 
     def settitle(self):
@@ -128,6 +129,7 @@ class Browser(QMainWindow):
         url, temp = getgoodurl(self.dbConnection, url)
         self.tabWidget.requestsaddtab()
         self.browserWidget.load(QUrl(url))
+        self.parameterWindow.addonsPage.launchaddons("openOnglet", url)
 
     def opennewongletwithurllist(self, urllist):
         for i in urllist:
@@ -136,6 +138,7 @@ class Browser(QMainWindow):
                 self.browserWidget.load(QUrl(i))
             else:
                 self.browserWidget.load(QUrl(i))
+            self.parameterWindow.addonsPage.launchaddons("openOnglet", i)
 
     def openparameter(self):
         self.parameterWindow.setWindowModality(Qt.ApplicationModal)
@@ -174,6 +177,7 @@ class Browser(QMainWindow):
             getdate()))
     
     def keyPressEvent(self, event):
+        self.parameterWindow.addonsPage.launchaddons("keyPress", event)
         if event.key() == Qt.Key_R or event.key() == Qt.Key_F5:
             self.browserWidget.reload()
         elif event.key() == Qt.Key_N:
@@ -185,11 +189,13 @@ class Browser(QMainWindow):
         if self.tabWidget.count() == 0 or (self.tabWidget.count() == 1 and self.tabWidget.closer):
             self.dbConnection.disconnect()
             self.tabWidget.closer = False
+            self.parameterWindow.addonsPage.launchaddons("unload")
             event.accept()
         elif self.tabWidget.count() != 1:
             if QMessageBox().question(self, "Quitter ?", "Voulez vous quitter les autres onglets ? \nDans tous les cas, l'onglet actuel sera fermé", QMessageBox.Yes,
                                       QMessageBox.No) == 16384:
                 self.dbConnection.disconnect()
+                self.parameterWindow.addonsPage.launchaddons("unload")
                 event.accept()
             else:
                 event.ignore()
@@ -198,6 +204,7 @@ class Browser(QMainWindow):
             if QMessageBox().question(self, "Quitter ?", "Voulez vous quitter Browthon ?", QMessageBox.Yes,
                                       QMessageBox.No) == 16384:
                 self.dbConnection.disconnect()
+                self.parameterWindow.addonsPage.launchaddons("unload")
                 event.accept()
             else:
                 event.ignore()

@@ -19,6 +19,7 @@ class UrlInput(QLineEdit):
             self.parent.opennewongletwithurllist(url.split(" | "))
         else:
             self.parent.browserWidget.load(QUrl(url))
+            self.parameterWindow.addonsPage.launchaddons("enterUrl", url)
     
     def enterurl(self):
         url = self.text()
