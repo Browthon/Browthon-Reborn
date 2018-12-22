@@ -1,0 +1,7 @@
+#tabBar::close-button {
+    image: url(Icons/Tabs/tabs-close.png);
+}
+
+#tabBar::tab { 
+    width: 200px; 
+}

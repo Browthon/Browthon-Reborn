@@ -25,13 +25,6 @@ class TabWidget(QTabWidget):
         self.setMovable(True)
         self.addTabButton.setFlat(True)
         self.setCornerWidget(self.addTabButton)
-        self.setStyleSheet("""
-QTabBar::close-button {
-    image: url("Icons/Tabs/tabs-close.png");
-}
-QTabBar::tab { 
-    width: 200px; 
-}""")
         self.setElideMode(Qt.ElideRight)
     
     def mouseReleaseEvent(self, event):
