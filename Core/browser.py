@@ -121,7 +121,8 @@ class Browser(QMainWindow):
         self.parameterWindow.tabWidget.setTabIcon(4, QIcon(geticonpath(self, "Icons/Parameters/Sessions.png")))
         self.parameterWindow.tabWidget.setTabIcon(5, QIcon(geticonpath(self, "Icons/Parameters/Download.png")))
         self.parameterWindow.tabWidget.setTabIcon(6, QIcon(geticonpath(self, "Icons/Parameters/Themes.png")))
-        self.parameterWindow.tabWidget.setTabIcon(7, QIcon(geticonpath(self, "Icons/Parameters/Info.png")))
+        self.parameterWindow.tabWidget.setTabIcon(7, QIcon(geticonpath(self, "Icons/Parameters/Addons.png")))
+        self.parameterWindow.tabWidget.setTabIcon(8, QIcon(geticonpath(self, "Icons/Parameters/Info.png")))
 
     def opennewongletwithurl(self, url):
         url, temp = getgoodurl(self.dbConnection, url)

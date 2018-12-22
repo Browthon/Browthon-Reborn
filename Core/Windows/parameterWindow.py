@@ -13,6 +13,7 @@ from Core.Windows.ParametersPages.raccourcisPage import RaccourcisPage
 from Core.Windows.ParametersPages.sessionsPage import SessionsPage
 from Core.Windows.ParametersPages.downloadPage import DownloadPage
 from Core.Windows.ParametersPages.themesPage import ThemesPage
+from Core.Windows.ParametersPages.addonsPage import AddonsPage
 from Core.Utils.themeUtils import geticonpath
 
 
@@ -34,6 +35,7 @@ class ParameterWindow(QDialog):
         self.sessionsPage = SessionsPage(self)
         self.downloadPage = DownloadPage(self)
         self.themesPage = ThemesPage(self)
+        self.addonsPage = AddonsPage(self)
 
         self.tabWidget = QTabWidget(self)
         self.tabWidget.setObjectName("paramTabBar")
@@ -45,6 +47,7 @@ class ParameterWindow(QDialog):
         self.tabWidget.addTab(self.sessionsPage, QIcon(geticonpath(self.parent, "Icons/Parameters/Sessions.png")), "")
         self.tabWidget.addTab(self.downloadPage, QIcon(geticonpath(self.parent, "Icons/Parameters/Download.png")), "")
         self.tabWidget.addTab(self.themesPage, QIcon(geticonpath(self.parent, "Icons/Parameters/Themes.png")), "")
+        self.tabWidget.addTab(self.addonsPage, QIcon(geticonpath(self.parent, "Icons/Parameters/Addons.png")), "")
         self.tabWidget.addTab(self.informationsPage, QIcon(geticonpath(self.parent, "Icons/Parameters/Info.png")), "")
         self.tabWidget.setTabToolTip(0, "Général")
         self.tabWidget.setTabToolTip(1, "Historique")
@@ -53,7 +56,8 @@ class ParameterWindow(QDialog):
         self.tabWidget.setTabToolTip(4, "Sessions")
         self.tabWidget.setTabToolTip(5, "Téléchargements")
         self.tabWidget.setTabToolTip(6, "Thèmes")
-        self.tabWidget.setTabToolTip(7, "Informations")
+        self.tabWidget.setTabToolTip(7, "Addons")
+        self.tabWidget.setTabToolTip(8, "Informations")
         
         self.grid.addWidget(self.title, 0, 0)
         self.grid.addWidget(self.tabWidget, 1, 0)
