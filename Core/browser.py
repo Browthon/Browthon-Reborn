@@ -113,6 +113,7 @@ class Browser(QMainWindow):
         self.bookmark.setIcon(QIcon(geticonpath(self, "Icons/NavigationBar/noFav.png")))
         self.home.setIcon(QIcon(geticonpath(self, "Icons/NavigationBar/home.png")))
         self.parameter.setIcon(QIcon(geticonpath(self, "Icons/NavigationBar/param.png")))
+        self.tabWidget.addTabButton.setIcon(QIcon(geticonpath(self, "Icons/Tabs/tabs-add.png")))
         self.parameterWindow.tabWidget.setTabIcon(0, QIcon(geticonpath(self, "Icons/Parameters/General.png")))
         self.parameterWindow.tabWidget.setTabIcon(1, QIcon(geticonpath(self, "Icons/Parameters/History.png")))
         self.parameterWindow.tabWidget.setTabIcon(2, QIcon(geticonpath(self, "Icons/Parameters/Fav.png")))
