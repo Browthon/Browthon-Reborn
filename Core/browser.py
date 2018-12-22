@@ -37,7 +37,7 @@ class Browser(QMainWindow):
         self.home = PushButton("", QIcon(geticonpath(self, "Icons/NavigationBar/home.png")), "homeButton")
         self.parameter = PushButton("", QIcon(geticonpath(self, "Icons/NavigationBar/param.png")), "paramButton")
         self.tabWidget = TabWidget(self)
-        self.tabWidget.setObjectName("tabBar")
+        self.tabWidget.tabBar().setObjectName("tabBar")
 
         self.tabWidget.requestsaddtab()
         self.back.setFlat(True)
