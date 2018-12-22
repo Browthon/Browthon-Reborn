@@ -1,0 +1,10 @@
+{
+    "Name": "Addon Test",
+    "NameCode": "demo",
+    "Author": "LavaPower",
+    "Description": "Addon de test",
+    "Url": "http://lavapower.github.io",
+    "Version": "0.0.1",
+    "Logo": "logo.png",
+    "Activation": "False"
+}
