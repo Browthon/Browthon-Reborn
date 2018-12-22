@@ -15,9 +15,9 @@ class GeneralPage(QWidget):
         self.grid = QVBoxLayout()
 
         self.listeMoteur = ["Google", "Duckduckgo", "Ecosia", "Yahoo", "Bing"]
-        moteurAcc = self.parent.parent.dbConnection.executewithreturn("""SELECT moteur FROM parameters""")[0][0]
+        moteuracc = self.parent.parent.dbConnection.executewithreturn("""SELECT moteur FROM parameters""")[0][0]
         for i in range(len(self.listeMoteur)):
-            if self.listeMoteur[i] == moteurAcc:
+            if self.listeMoteur[i] == moteuracc:
                 self.listeMoteur[i], self.listeMoteur[0] = self.listeMoteur[0], self.listeMoteur[i]
         jsAcc = self.parent.parent.dbConnection.executewithreturn("""SELECT js FROM parameters""")[0][0]
         if jsAcc == "Activé":
