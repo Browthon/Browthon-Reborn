@@ -104,7 +104,7 @@ class Browser(QMainWindow):
             self.parameterWindow.setStyleSheet("")
         else:
             with open(self.theme+"/main.bss", 'r') as fichier:
-                bss = parsetheme(fichier.read())
+                bss = parsetheme(fichier.read(), self.theme)
                 self.setStyleSheet(bss)
                 self.parameterWindow.setStyleSheet(bss)
         self.back.setIcon(QIcon(geticonpath(self, "Icons/NavigationBar/back.png")))

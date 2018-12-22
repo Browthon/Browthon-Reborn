@@ -6,6 +6,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 
 from Core.Widgets.browserWidget import BrowserWidget
+from Core.Utils.themeUtils import geticonpath
 
 
 class TabWidget(QTabWidget):
@@ -14,7 +15,7 @@ class TabWidget(QTabWidget):
         self.parent = parent
         self.closer = False
         self.changedOnce = False
-        self.addTabButton = QPushButton(QIcon("Icons/Tabs/tabs-add.png"), "")
+        self.addTabButton = QPushButton(QIcon(geticonpath(self.parent, "Icons/Tabs/tabs-add.png")), "")
 
         self.tabCloseRequested.connect(self.requestsremovetab)
         self.currentChanged.connect(self.ontabchange)
