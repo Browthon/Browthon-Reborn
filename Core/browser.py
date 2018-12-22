@@ -27,6 +27,7 @@ class Browser(QMainWindow):
         self.centralWidget = QWidget(self)
         self.grid = QGridLayout(self.centralWidget)
         self.theme = ""
+        self.version = "0.1.0"
 
         self.urlInput = UrlInput(self)
         self.urlInput.setObjectName("addressBar")
