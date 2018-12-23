@@ -63,8 +63,11 @@ class AddonWidget(QWidget):
         self.bAct.setText("Activer")
         self.bAct.clicked.disconnect()
         self.bAct.clicked.connect(self.activate)
-        self.manager.addonsManager.LML[self.datas["NameCode"]].unload(
-            self.manager.addonsManager.LML[self.datas["NameCode"]], self.main)
+        try:
+            self.manager.addonsManager.LML[self.datas["NameCode"]].unload(
+                self.manager.addonsManager.LML[self.datas["NameCode"]], self.main)
+        except AttributeError:
+            pass
 
     def activate(self):
         self.datas["Activation"] = "True"
@@ -74,5 +77,8 @@ class AddonWidget(QWidget):
         self.bAct.setText("Désactiver")
         self.bAct.clicked.disconnect()
         self.bAct.clicked.connect(self.desactivate)
-        self.manager.addonsManager.LML[self.datas["NameCode"]].load(
-            self.manager.addonsManager.LML[self.datas["NameCode"]], self.main)
+        try:
+            self.manager.addonsManager.LML[self.datas["NameCode"]].load(
+                self.manager.addonsManager.LML[self.datas["NameCode"]], self.main)
+        except AttributeError:
+            pass
