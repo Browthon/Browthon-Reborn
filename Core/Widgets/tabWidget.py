@@ -67,7 +67,7 @@ class TabWidget(QTabWidget):
         self.parent.back.clicked.connect(self.parent.browserWidget.back)
         self.parent.forward.clicked.connect(self.parent.browserWidget.forward)
         self.parent.reload.clicked.connect(self.parent.browserWidget.reload)
-        self.settitle()
+        self.parent.settitle()
         self.seticon()
     
     def requestsaddtab(self):
