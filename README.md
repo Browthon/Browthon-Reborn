@@ -12,7 +12,7 @@ Warning : If you are on Windows, you must have **Python 64Bits**. If you have Py
 ## Other informations
 
 - Main Developer : LavaPower
-- Contributors : x
+- Contributors : Feldrise (https://github.com/Feldrise)
 - Develop on :
   - System :
     - Windows 10 (V 0.1.0 --> Latest)
@@ -26,6 +26,11 @@ Warning : If you are on Windows, you must have **Python 64Bits**. If you have Py
 - /
 
 ## Changelog
+
+### V 1.0.0 : First Update - XX XX 2019 (INDEV)
+
+- Add themes with defaults themes : Default, dark and Sielo
+- Add Addons with defaults addons : DiscordRPC
 
 ### V 0.1.0 : Initial Update - 08 Dec 2018 (LATEST)
 
