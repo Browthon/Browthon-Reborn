@@ -95,6 +95,10 @@ class Browser(QMainWindow):
 
         self.parameterWindow.addonsPage.launchaddons("load")
         self.show()
+        if self.dbConnection.executewithreturn("""SELECT first FROM parameters""")[0][0] == "O":
+            parameters = self.dbConnection.executewithreturn("""SELECT * FROM parameters""")
+            self.dbConnection.executewithoutreturn(
+                """UPDATE parameters SET first = ? WHERE id = ?""", ("N", parameters[0][0]))
 
     def settitle(self):
         self.setWindowTitle(self.browserWidget.title() + " - Browthon")
