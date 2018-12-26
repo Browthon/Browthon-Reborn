@@ -1,7 +1,7 @@
 #!/usr/bin/python3.7
 # coding: utf-8
 
-from PyQt5.QtWidgets import QWidget, QDialog, QGridLayout, QLabel, QTabWidget
+from PyQt5.QtWidgets import QDialog, QGridLayout, QLabel, QTabWidget
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 

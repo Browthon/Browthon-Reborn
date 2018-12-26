@@ -1,7 +1,7 @@
 import sqlite3
 
 
-class DBConnection():
+class DBConnection:
     def __init__(self, fichier):
         self.connection = sqlite3.connect(fichier)
         self.cursor = self.connection.cursor()
