@@ -1,7 +1,7 @@
 #!/usr/bin/python3.7
 # coding: utf-8
 
-from PyQt5.QtWidgets import QMenu
+from PySide2.QtWidgets import QMenu
 
 
 class ContextMenu(QMenu):

@@ -1,9 +1,10 @@
 #!/usr/bin/python3.7
 # coding: utf-8
 
-from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEnginePage
-from PyQt5.QtCore import QUrl, Qt, QEvent, QEventLoop, QPoint, QPointF, QVariant, QTimer
-from PyQt5.QtWidgets import QAction
+from PySide2.QtWebEngineWidgets import QWebEngineView, QWebEnginePage
+from PySide2.QtCore import QUrl, Qt, QEvent, QPoint, QPointF
+from PySide2.QtWidgets import QAction
+from PySide2.QtGui import QKeySequence
 
 from Core.Utils.webHitTestResult import WebHitTestResult
 from Core.Utils.contextMenu import ContextMenu
@@ -21,9 +22,8 @@ class BrowserWidget(QWebEngineView):
         self.titleChanged.connect(self.parent.settitle)
         self.iconChanged.connect(self.parent.tabWidget.seticon)
         self.loadFinished.connect(self.parent.loadfinished)
-        self.page.fullScreenRequested.connect(self.page.makefullscreen)
         self.viewSource = QAction(self)
-        self.viewSource.setShortcut(Qt.Key_F2)
+        self.viewSource.setShortcut(QKeySequence(Qt.Key_F2))
         self.viewSource.triggered.connect(self.page.vsource)
         self.addAction(self.viewSource)
 
@@ -69,10 +69,10 @@ class Page(QWebEnginePage):
         super(Page, self).__init__()
         self.parent = view.parent
         self.view = view
-        self.result = QVariant()
+        self.result = ""
         self.fullView = QWebEngineView()
         self.exitFSAction = QAction(self.fullView)
-        self.loop = None
+        self.fullScreenRequested.connect(self.makefullscreen)
 
     def javaScriptConsoleMessage(self, level, msg, line, sourceID):
         """Override javaScriptConsoleMessage to use debug log."""
@@ -90,19 +90,9 @@ class Page(QWebEnginePage):
         return QPointF(pos.x(), pos.y())
 
     def executejavascript(self, scriptsrc):
-        self.loop = QEventLoop()
-        self.result = QVariant()
-        QTimer.singleShot(250, self.loop.quit)
-
-        self.runJavaScript(scriptsrc, self.callbackjs)
-        self.loop.exec_()
-        self.loop = None
+        self.result = ""
+        self.runJavaScript(scriptsrc)
         return self.result
-
-    def callbackjs(self, res):
-        if self.loop is not None and self.loop.isRunning():
-            self.result = res
-            self.loop.quit()
 
     def vsource(self):
         if "view-source:http" in self.url().toString():
@@ -126,7 +116,7 @@ class Page(QWebEnginePage):
         if request.toggleOn():
             self.fullView = QWebEngineView()
             self.exitFSAction = QAction(self.fullView)
-            self.exitFSAction.setShortcut(Qt.Key_Escape)
+            self.exitFSAction.setShortcut(QKeySequence(Qt.Key_Escape))
             self.exitFSAction.triggered.connect(self.exitfs)
 
             self.fullView.addAction(self.exitFSAction)

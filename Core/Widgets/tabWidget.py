@@ -1,9 +1,9 @@
 #!/usr/bin/python3.7
 # coding: utf-8
 
-from PyQt5.QtWidgets import QTabWidget, QPushButton, QMessageBox
-from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import Qt
+from PySide2.QtWidgets import QTabWidget, QPushButton, QMessageBox
+from PySide2.QtGui import QIcon
+from PySide2.QtCore import Qt
 
 from Core.Widgets.browserWidget import BrowserWidget
 from Core.Utils.themeUtils import geticonpath

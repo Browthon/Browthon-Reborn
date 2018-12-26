@@ -1,8 +1,8 @@
 #!/usr/bin/python3.7
 # coding: utf-8
 
-from PyQt5.QtWidgets import QWidget, QGridLayout, QLabel
-from PyQt5.QtCore import Qt
+from PySide2.QtWidgets import QWidget, QGridLayout, QLabel
+from PySide2.QtCore import Qt
 
 from Core.Widgets.listWidget import ListWidget
 from Core.Widgets.pushButton import PushButton

@@ -1,7 +1,7 @@
 #!/usr/bin/python3.7
 # coding: utf-8
 
-from PyQt5.QtWebEngineWidgets import QWebEngineContextMenuData
+from PySide2.QtWebEngineWidgets import QWebEngineContextMenuData
 
 
 class WebHitTestResult:

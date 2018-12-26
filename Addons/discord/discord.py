@@ -48,5 +48,6 @@ class Discord:
         self.launch = False
         self.thread.join()
 
+
 instance = Discord
 name = "discord"

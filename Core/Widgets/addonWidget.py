@@ -1,8 +1,8 @@
 #!/usr/bin/python3.7
 # coding: utf-8
 
-from PyQt5.QtWidgets import QWidget, QGridLayout, QLabel, QMessageBox
-from PyQt5.QtGui import QPixmap
+from PySide2.QtWidgets import QWidget, QGridLayout, QLabel, QMessageBox
+from PySide2.QtGui import QPixmap
 
 from Core.Widgets.pushButton import PushButton
 

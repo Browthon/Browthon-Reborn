@@ -1,11 +1,11 @@
 #!/usr/bin/python3.7
 # coding: utf-8
 
-from PyQt5.QtCore import QObject, pyqtSignal
+from PySide2.QtCore import QObject, Signal
 
 
 class DownloadSignal(QObject):
-    removeClicked = pyqtSignal()
+    removeClicked = Signal()
 
     def __init__(self, parent):
         super(DownloadSignal, self).__init__()

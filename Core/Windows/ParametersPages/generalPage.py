@@ -1,9 +1,9 @@
 #!/usr/bin/python3.7
 # coding: utf-8
 
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QSpacerItem, QMessageBox, QComboBox
-from PyQt5.QtCore import Qt
-from PyQt5.QtWebEngineWidgets import QWebEngineSettings
+from PySide2.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QSpacerItem, QMessageBox, QComboBox
+from PySide2.QtCore import Qt
+from PySide2.QtWebEngineWidgets import QWebEngineSettings
 
 from Core.Widgets.pushButton import PushButton
 
