@@ -65,4 +65,4 @@ CREATE TABLE IF NOT EXISTS sessions(
 )""")
         if not self.executewithreturn("""SELECT home FROM parameters"""):
             self.executewithoutreturn("""INSERT INTO parameters(home, moteur, js, theme, first) VALUES("http://google.com",
-             "Google", "Activé", "", "O")""")
+             "Google", "Activé", "default", "O")""")
