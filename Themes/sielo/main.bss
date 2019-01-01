@@ -325,6 +325,14 @@ QRadioButton::indicator:hover
   background: #333333
 }
 
+#tabBar::close-button {
+    image: url(Icons/Tabs/tabs-close.png);
+}
+
+#tabBar::tab { 
+    width: 200px; 
+}
+
 QCheckBox::indicator:checked
 {
   image: url(Icons/other/check.png);
