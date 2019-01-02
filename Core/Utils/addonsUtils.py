@@ -19,7 +19,12 @@ class AddonsManager:
         else:
             filess = []
             print("Aucun addon trouvé")
-        ext_libs = ["Addons.{}.{}".format(f.split("\\")[1], os.path.basename(f).split('.')[0]) for f in filess]
+        ext_libs = []
+        for f in filess:
+            liste = f.split("\\")
+            if len(liste) == 1:
+                liste = f.split("/")
+            ext_libs.append("Addons.{}.{}".format(liste[1], os.path.basename(f).split('.')[0]))
         self.imported = []
         for module in ext_libs:
             try:
