@@ -129,10 +129,9 @@ class Browser(QMainWindow):
         self.parameterWindow.tabWidget.setTabIcon(7, QIcon(geticonpath(self, "Icons/Parameters/Addons.png")))
         self.parameterWindow.tabWidget.setTabIcon(8, QIcon(geticonpath(self, "Icons/Parameters/Info.png")))
 
-    def opennewongletwithurl(self, url):
+    def opennewongletwithurl(self, url, move=True):
         url, temp = getgoodurl(self.dbConnection, url)
-        self.tabWidget.requestsaddtab()
-        self.browserWidget.load(QUrl(url))
+        self.tabWidget.requestsaddtab(url, move)
         self.parameterWindow.addonsPage.launchaddons("openOnglet", url)
 
     def opennewongletwithurllist(self, urllist):

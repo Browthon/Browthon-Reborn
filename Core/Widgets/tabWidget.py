@@ -65,9 +65,14 @@ class TabWidget(QTabWidget):
         self.parent.settitle()
         self.parent.checkbookmarkbutton()
     
-    def requestsaddtab(self):
+    def requestsaddtab(self, url="", move=True):
         browserwidget = BrowserWidget(self.parent)
         self.addTab(browserwidget, QIcon('logo.png'), "Nouvel Onglet")
         browserwidget.show()
-        self.changedOnce = False
+        index = self.currentIndex()
         self.setCurrentWidget(browserwidget)
+        if url == "":
+            url = self.parent.dbConnection.executewithreturn("""SELECT home FROM parameters""")[0][0]
+        browserwidget.load(QUrl(url))
+        if not move:
+            self.setCurrentIndex(index)
