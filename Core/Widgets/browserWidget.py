@@ -74,7 +74,7 @@ class Page(QWebEnginePage):
         self.exitFSAction = QAction(self.fullView)
         self.loop = None
 
-    def javaScriptConsoleMessage(self, level, msg, line, sourceID):
+    def javaScriptConsoleMessage(self, level, msg, line, sourceid):
         """Override javaScriptConsoleMessage to use debug log."""
         if level == QWebEnginePage.InfoMessageLevel:
             print("JS - INFO - Ligne {} : {}".format(line, msg))
