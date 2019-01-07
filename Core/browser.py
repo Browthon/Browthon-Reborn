@@ -102,7 +102,6 @@ class Browser(QMainWindow):
 
     def settitle(self):
         self.setWindowTitle(self.browserWidget.title() + " - Browthon")
-        self.tabWidget.settitle()
 
     def applytheme(self):
         if self.theme == "" or self.theme == "Themes/":
@@ -164,8 +163,13 @@ class Browser(QMainWindow):
             self.bookmark.setIcon(QIcon(geticonpath(self, "Icons/NavigationBar/yesFav.png")))
         self.parameterWindow.bookmarksPage.showupdate()
     
-    def loadfinished(self):
-        self.addhistory()
+    def loadfinished(self, widget):
+        self.addhistory(widget)
+        self.checkbookmarkbutton()
+        self.parameterWindow.bookmarksPage.showupdate()
+        self.tabWidget.settitle(widget)
+
+    def checkbookmarkbutton(self):
         bookmarks = self.dbConnection.executewithreturn("""SELECT * FROM bookmarks""")
         find = False
         for i in bookmarks:
@@ -174,11 +178,10 @@ class Browser(QMainWindow):
                 find = True
         if not find:
             self.bookmark.setIcon(QIcon(geticonpath(self, "Icons/NavigationBar/noFav.png")))
-        self.parameterWindow.bookmarksPage.showupdate()
     
-    def addhistory(self):
+    def addhistory(self, widget):
         self.dbConnection.executewithoutreturn("""INSERT INTO history(name, url, date) VALUES(?, ?, ?)""", (
-            self.browserWidget.title(), self.browserWidget.url().toString(),
+            widget.title(), widget.url().toString(),
             getdate()))
     
     def keyPressEvent(self, event):

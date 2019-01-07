@@ -19,8 +19,8 @@ class BrowserWidget(QWebEngineView):
         self.load(QUrl("http://google.com"))
         self.urlChanged.connect(self.parent.urlInput.seturl)
         self.titleChanged.connect(self.parent.settitle)
-        self.iconChanged.connect(self.parent.tabWidget.seticon)
-        self.loadFinished.connect(self.parent.loadfinished)
+        self.loadFinished.connect(lambda: self.parent.loadfinished(self))
+        self.iconChanged.connect(lambda: self.parent.tabWidget.seticon(self))
         self.page.fullScreenRequested.connect(self.page.makefullscreen)
         self.viewSource = QAction(self)
         self.viewSource.setShortcut(Qt.Key_F2)
@@ -58,7 +58,7 @@ class BrowserWidget(QWebEngineView):
                         result = baseurl + clickedurl
                     else:
                         result = "http://" + baseurl.split("/")[2] + clickedurl
-                    self.parent.opennewongletwithurl(result)
+                    self.parent.opennewongletwithurl(result, False)
                 event.accept()
                 return True
         return super(BrowserWidget, self).eventFilter(obj, event)

@@ -3,7 +3,7 @@
 
 from PyQt5.QtWidgets import QTabWidget, QPushButton, QMessageBox
 from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QUrl
 
 from Core.Widgets.browserWidget import BrowserWidget
 from Core.Utils.themeUtils import geticonpath
@@ -42,14 +42,13 @@ class TabWidget(QTabWidget):
             self.widget(index).deleteLater()
             self.removeTab(index)
     
-    def settitle(self):
-        if self.parent.browserWidget.title() != "":
-            titre = self.parent.browserWidget.title()
-            self.setTabText(self.currentIndex(), titre)
+    def settitle(self, widget):
+        if widget.title() != "":
+            self.setTabText(self.indexOf(widget), widget.title())
     
-    def seticon(self):
-        if not self.parent.browserWidget.icon().isNull():
-            self.setTabIcon(self.currentIndex(), self.parent.browserWidget.icon())
+    def seticon(self, widget):
+        if not widget.icon().isNull():
+            self.setTabIcon(self.indexOf(widget), widget.icon())
     
     def ontabchange(self):
         self.parent.browserWidget = self.currentWidget()
@@ -60,15 +59,11 @@ class TabWidget(QTabWidget):
             self.parent.reload.disconnect()
         except Exception:
             pass
-        if self.changedOnce:
-            self.parent.addhistory()
-        else:
-            self.changedOnce = True
         self.parent.back.clicked.connect(self.parent.browserWidget.back)
         self.parent.forward.clicked.connect(self.parent.browserWidget.forward)
         self.parent.reload.clicked.connect(self.parent.browserWidget.reload)
         self.parent.settitle()
-        self.seticon()
+        self.parent.checkbookmarkbutton()
     
     def requestsaddtab(self):
         browserwidget = BrowserWidget(self.parent)
