@@ -74,7 +74,7 @@ class TabWidget(QTabWidget):
         browserwidget.show()
         index = self.currentIndex()
         self.setCurrentWidget(browserwidget)
-        if url == "":
+        if not url:
             url = self.parent.dbConnection.executewithreturn("""SELECT home FROM parameters""")[0][0]
         browserwidget.load(QUrl(url))
         if not move:
