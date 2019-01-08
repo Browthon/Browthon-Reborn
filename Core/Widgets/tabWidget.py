@@ -14,7 +14,6 @@ class TabWidget(QTabWidget):
         super(TabWidget, self).__init__(parent)
         self.parent = parent
         self.closer = False
-        self.changedOnce = False
         self.addTabButton = QPushButton(QIcon(geticonpath(self.parent, "Icons/Tabs/tabs-add.png")), "")
 
         self.tabCloseRequested.connect(self.requestsremovetab)
