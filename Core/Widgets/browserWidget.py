@@ -20,6 +20,7 @@ class BrowserWidget(QWebEngineView):
         self.urlChanged.connect(self.parent.urlInput.seturl)
         self.titleChanged.connect(self.parent.settitle)
         self.loadFinished.connect(lambda: self.parent.loadfinished(self))
+        self.loadStarted.connect(lambda: self.parent.tabWidget.settitleloading(self))
         self.iconChanged.connect(lambda: self.parent.tabWidget.seticon(self))
         self.page.fullScreenRequested.connect(self.page.makefullscreen)
         self.viewSource = QAction(self)

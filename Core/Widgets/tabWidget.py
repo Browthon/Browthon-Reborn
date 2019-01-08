@@ -45,6 +45,9 @@ class TabWidget(QTabWidget):
     def settitle(self, widget):
         if widget.title() != "":
             self.setTabText(self.indexOf(widget), widget.title())
+
+    def settitleloading(self, widget):
+        self.setTabText(self.indexOf(widget), "Chargement...")
     
     def seticon(self, widget):
         if not widget.icon().isNull():
@@ -67,7 +70,7 @@ class TabWidget(QTabWidget):
     
     def requestsaddtab(self, url="", move=True):
         browserwidget = BrowserWidget(self.parent)
-        self.addTab(browserwidget, QIcon('logo.png'), "Nouvel Onglet")
+        self.addTab(browserwidget, QIcon('logo.png'), "Chargement...")
         browserwidget.show()
         index = self.currentIndex()
         self.setCurrentWidget(browserwidget)
