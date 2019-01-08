@@ -100,8 +100,9 @@ class Browser(QMainWindow):
             self.dbConnection.executewithoutreturn(
                 """UPDATE parameters SET first = ? WHERE id = ?""", ("N", parameters[0][0]))
 
-    def settitle(self):
+    def settitle(self, widget):
         self.setWindowTitle(self.browserWidget.title() + " - Browthon")
+        self.tabWidget.settitle(widget)
 
     def applytheme(self):
         if self.theme == "" or self.theme == "Themes/":

@@ -65,7 +65,7 @@ class TabWidget(QTabWidget):
         self.parent.back.clicked.connect(self.parent.browserWidget.back)
         self.parent.forward.clicked.connect(self.parent.browserWidget.forward)
         self.parent.reload.clicked.connect(self.parent.browserWidget.reload)
-        self.parent.settitle()
+        self.parent.settitle(self.parent.browserWidget)
         self.parent.checkbookmarkbutton()
     
     def requestsaddtab(self, url="", move=True):

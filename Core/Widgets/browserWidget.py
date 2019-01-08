@@ -18,7 +18,7 @@ class BrowserWidget(QWebEngineView):
         self.setPage(self.page)
         self.load(QUrl("http://google.com"))
         self.urlChanged.connect(self.parent.urlInput.seturl)
-        self.titleChanged.connect(self.parent.settitle)
+        self.titleChanged.connect(lambda: self.parent.settitle(self))
         self.loadFinished.connect(lambda: self.parent.loadfinished(self))
         self.loadStarted.connect(lambda: self.parent.tabWidget.settitleloading(self))
         self.iconChanged.connect(lambda: self.parent.tabWidget.seticon(self))
