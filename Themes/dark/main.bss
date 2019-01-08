@@ -33,6 +33,19 @@ QLabel {
     color: #f5f5f5;
 }
 
+QComboBox {
+    color: #f5f5f5;
+}
+
+QTreeWidget,
+QTreeView,
+QTableWidget,
+QTableView,
+QListView,
+QListWidget {
+  color: #ffffff;
+}
+
 QMenu {
     background-color: #3f3f3f; /* sets background of the menu */
     border: 1px solid black;
