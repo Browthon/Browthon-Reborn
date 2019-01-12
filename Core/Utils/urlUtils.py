@@ -10,6 +10,8 @@ def getgoodurl(db, url):
 
     if "http://" in url or "https://" in url:
         return url, "NP"
+    elif url[:5] == "file:":
+        return url, "NP"
     elif "." in url:
         return "http://"+url, "NP"
     elif url[:5] == "data:":
