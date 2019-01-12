@@ -111,15 +111,6 @@ class Page(QWebEnginePage):
         else:
             self.triggerAction(self.ViewSource)
 
-    def cutaction(self):
-        self.triggerAction(self.Cut)
-
-    def copyaction(self):
-        self.triggerAction(self.Copy)
-
-    def pasteaction(self):
-        self.triggerAction(self.Paste)
-
     def exitfs(self):
         self.triggerAction(self.ExitFullScreen)
 
