@@ -47,6 +47,7 @@ class TabWidget(QTabWidget):
 
     def settitleloading(self, widget):
         self.setTabText(self.indexOf(widget), "Chargement...")
+        self.setTabIcon(self.indexOf(widget), QIcon("logo.png"))
     
     def seticon(self, widget):
         if not widget.icon().isNull():
