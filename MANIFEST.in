@@ -1,0 +1,15 @@
+include browthon/Icons/NavigationBar/*
+include browthon/Icons/Parameters/*
+include browthon/Icons/Tabs/*
+include browthon/Themes/dark/*
+include browthon/Themes/dark/Icons/NavigationBar/*
+include browthon/Themes/dark/Icons/Parameters/*
+include browthon/Themes/dark/Icons/Tabs/*
+include browthon/Themes/default/*
+include browthon/Themes/default/Icons/NavigationBar/*
+include browthon/Themes/default/Icons/Parameters/*
+include browthon/Themes/default/Icons/Tabs/*
+include browthon/Themes/sielo/*
+include browthon/Themes/sielo/Icons/NavigationBar/*
+include browthon/Themes/sielo/Icons/Parameters/*
+include browthon/Themes/sielo/Icons/Tabs/*
