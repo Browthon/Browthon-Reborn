@@ -31,7 +31,7 @@ class AddonsPage(QWidget):
         self.label.setAlignment(Qt.AlignHCenter)
         self.layout.addWidget(self.label)
         for i in self.addonsManager.imported:
-            self.addonW = AddonWidget(self.main, self, "/".join(i.replace(".", "/").split("/")[1:-1]))
+            self.addonW = AddonWidget(self.main, self, i.replace(".", "/").split("/")[-2])
             self.widgets.append(self.addonW)
             self.layout.addWidget(self.addonW)
             self.layout.setAlignment(self.addonW, Qt.AlignTop)

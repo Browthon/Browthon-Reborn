@@ -16,13 +16,21 @@ class AddonWidget(QWidget):
         self.main = main
         self.manager = manager
         self.datas = {}
-        dossier = os.path.join(os.path.dirname(__file__),"../../Addons/"+dossier)
-        self.dossier = dossier
+        folders = os.path.dirname(__file__).split("\\")
+        if len(folders) == 1:
+            folders = os.path.dirname(__file__).split("/")
+        folders = folders[:-2]
+        folder = os.sep
+        for i in folders:
+            if i[-1] == ":":
+                i += os.sep
+            folder = os.path.join(folder, i)
+        self.dossier = os.path.join(folder, "Addons", dossier)
         try:
-            with open(dossier + "/addon.json", 'r') as f:
+            with open(os.path.join(self.dossier, "addon.json"), 'r') as f:
                 self.datas = json.load(f)
         except:
-            print("Le fichier addon.json (" + dossier + "/addon.json" + ") n'a pas été trouvé")
+            print("Le fichier addon.json (" + os.path.join(self.dossier, "addon.json") + ") n'a pas été trouvé")
             self.datas["Activation"] = "False"
             self.datas["NameCode"] = ""
         else:
@@ -58,7 +66,7 @@ class AddonWidget(QWidget):
 
     def desactivate(self):
         self.datas["Activation"] = "False"
-        with open(self.dossier + "/addon.json", 'w') as f:
+        with open(os.path.join(self.dossier, "addon.json"), 'w') as f:
             f.write(json.dumps(self.datas, indent=4))
         QMessageBox.warning(self, "Addon désactivé", "L'addon " + self.datas["NameCode"] + " a été désactivé")
         self.bAct.setText("Activer")

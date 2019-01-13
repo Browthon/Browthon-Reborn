@@ -14,17 +14,27 @@ class AddonsManager:
         self.unimported = []
 
     def include_all_modules(self):
-        if os.path.exists(os.path.join(os.path.dirname(__file__), "../../Addons/")):
-            filess = glob.glob(os.path.join(os.path.dirname(__file__), "../../Addons/*/*.py"))
+        if os.path.exists(os.path.join(os.path.dirname(__file__), "..", "..", "Addons")):
+            filess = glob.glob(os.path.join(os.path.dirname(__file__), "..", "..", "Addons", "*", "*.py"))
         else:
             filess = []
             print("Aucun addon trouvé")
+        i=0
+        while True:
+            filesss = filess[i].split("\\")
+            if len(filesss) == 1:
+                filesss = filess[i].split("/")
+            if filesss[-1] == "__init__.py":
+                del filess[i]
+            i += 1
+            if i >= len(filess):
+                break
         ext_libs = []
         for f in filess:
             liste = f.split("\\")
             if len(liste) == 1:
                 liste = f.split("/")
-            ext_libs.append("browthon.Addons.{}.{}".format(liste[1], os.path.basename(f).split('.')[0]))
+            ext_libs.append("browthon.Addons.{}.{}".format(liste[-2], os.path.basename(f).split('.')[0]))
         self.imported = []
         for module in ext_libs:
             try:

@@ -13,3 +13,4 @@ include browthon/Themes/sielo/*
 include browthon/Themes/sielo/Icons/NavigationBar/*
 include browthon/Themes/sielo/Icons/Parameters/*
 include browthon/Themes/sielo/Icons/Tabs/*
+include browthon/Addons/discord/*
