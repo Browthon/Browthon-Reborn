@@ -21,7 +21,7 @@ class ThemesPage(QWidget):
         self.title.setAlignment(Qt.AlignHCenter)
         self.liste = []
         for i in os.listdir(os.path.join(os.path.dirname(__file__), "..", "..", "..", "Themes")):
-            if "theme.json" in os.path.join(os.path.dirname(__file__), "..", "..", "..", "Themes", i):
+            if "theme.json" in os.listdir(os.path.join(os.path.dirname(__file__), "..", "..", "..", "Themes", i)):
                 fichier = open(os.path.join(os.path.dirname(__file__), "..", "..", "..", "Themes", i, "theme.json"),
                                "r")
                 jsonfile = json.load(fichier)

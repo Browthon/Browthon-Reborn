@@ -72,7 +72,7 @@ class AddonWidget(QWidget):
 
     def activate(self):
         self.datas["Activation"] = "True"
-        with open(self.dossier + "/addon.json", 'w') as f:
+        with open(os.path.join(self.dossier, "addon.json"), 'w') as f:
             f.write(json.dumps(self.datas, indent=4))
         QMessageBox.warning(self, "Addon activé", "L'addon " + self.datas["NameCode"] + " a été activé")
         self.bAct.setText("Désactiver")

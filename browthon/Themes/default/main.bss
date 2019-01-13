@@ -2,6 +2,6 @@
     image: url(Icons/Tabs/tabs-close.png);
 }
 
-#tabBar::tab { 
+#tabBar::tab {
     width: 200px; 
 }
