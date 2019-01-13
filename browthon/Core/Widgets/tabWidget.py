@@ -16,7 +16,9 @@ class TabWidget(QTabWidget):
         super(TabWidget, self).__init__(parent)
         self.parent = parent
         self.closer = False
-        self.addTabButton = QPushButton(QIcon(geticonpath(self.parent, "Icons/Tabs/tabs-add.png")), "")
+        self.addTabButton = QPushButton(QIcon(geticonpath(self.parent,
+                                                          os.path.join(os.path.dirname(__file__),
+                                                                       "../Icons/Tabs/tabs-add.png"))), "")
 
         self.tabCloseRequested.connect(self.requestsremovetab)
         self.currentChanged.connect(self.ontabchange)
@@ -49,7 +51,7 @@ class TabWidget(QTabWidget):
 
     def settitleloading(self, widget):
         self.setTabText(self.indexOf(widget), "Chargement...")
-        self.setTabIcon(self.indexOf(widget), QIcon("logo.png"))
+        self.setTabIcon(self.indexOf(widget), QIcon(os.path.join(os.path.dirname(__file__), "..", "..", "logo.png")))
     
     def seticon(self, widget):
         if not widget.icon().isNull():
@@ -72,7 +74,7 @@ class TabWidget(QTabWidget):
     
     def requestsaddtab(self, url="", move=True):
         browserwidget = BrowserWidget(self.parent)
-        self.addTab(browserwidget, QIcon(os.path.join(os.path.dirname(__file__), '../../logo.png')),
+        self.addTab(browserwidget, QIcon(os.path.join(os.path.dirname(__file__), '..", "..", logo.png')),
                     "Chargement...")
         browserwidget.show()
         index = self.currentIndex()

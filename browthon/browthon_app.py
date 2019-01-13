@@ -26,7 +26,7 @@ def launch():
     os.putenv("QT_AUTO_SCREEN_SCALE_FACTOR", "1")
 
     app = QApplication(sys.argv)
-    icon = QIcon('logo.png')
+    icon = QIcon(os.path.join(os.path.dirname(__file__), 'logo.png'))
     app.setWindowIcon(icon)
 
     Browser()

@@ -21,7 +21,7 @@ import os
 class Browser(QMainWindow):
     def __init__(self):
         super(Browser, self).__init__()
-        self.dbConnection = DBConnection("data.db")
+        self.dbConnection = DBConnection(os.path.join(os.path.dirname(__file__), "data.db"))
         self.dbConnection.createdb()
 
         self.centralWidget = QWidget(self)
