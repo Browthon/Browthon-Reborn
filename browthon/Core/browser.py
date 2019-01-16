@@ -146,10 +146,11 @@ class Browser(QMainWindow):
                                                   QIcon(geticonpath(self,
                                                                     os.path.join(os.path.dirname(__file__),
                                                                                  "../Icons/Parameters/Fav.png"))))
+        raccourcisimg = "../Icons/Parameters/Raccourcis.png"
         self.parameterWindow.tabWidget.setTabIcon(3,
                                                   QIcon(geticonpath(self,
                                                                     os.path.join(os.path.dirname(__file__),
-                                                                                 "../Icons/Parameters/Raccourcis.png"))))
+                                                                                 raccourcisimg))))
         self.parameterWindow.tabWidget.setTabIcon(4,
                                                   QIcon(geticonpath(self,
                                                                     os.path.join(os.path.dirname(__file__),
