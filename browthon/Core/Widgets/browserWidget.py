@@ -135,15 +135,12 @@ class Page(QWebEnginePage):
         else:
             self.triggerAction(self.ViewSource)
 
-    def exitfs(self):
-        self.triggerAction(self.ExitFullScreen)
-
     def makefullscreen(self, request):
         if request.toggleOn():
             self.fullView = QWebEngineView()
             self.exitFSAction = QAction(self.fullView)
             self.exitFSAction.setShortcut(Qt.Key_Escape)
-            self.exitFSAction.triggered.connect(self.exitfs)
+            self.exitFSAction.triggered.connect(lambda: self.triggerAction(self.ExitFullScreen))
 
             self.fullView.addAction(self.exitFSAction)
             self.setView(self.fullView)

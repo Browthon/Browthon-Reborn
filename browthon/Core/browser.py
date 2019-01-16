@@ -257,6 +257,7 @@ class Browser(QMainWindow):
                     QMessageBox.information(self, "Nouvelle MAJ", "Une nouvelle mise à jour est disponible.\n"
                                                                   "Vous pouvez l'avoir sur : https://github.com/Browthon/"
                                                                   "Browthon-Reborn/releases")
+
     def closeEvent(self, event):
         if self.tabWidget.count() == 0 or (self.tabWidget.count() == 1 and self.tabWidget.closer):
             self.dbConnection.disconnect()
