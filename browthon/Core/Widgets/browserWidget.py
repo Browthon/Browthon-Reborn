@@ -4,6 +4,7 @@
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEnginePage
 from PyQt5.QtCore import QUrl, Qt, QEvent, QEventLoop, QPoint, QPointF, QVariant, QTimer
 from PyQt5.QtWidgets import QAction
+from PyQt5.QtGui import QKeySequence
 
 from browthon.Core.Utils.webHitTestResult import WebHitTestResult
 from browthon.Core.Utils.contextMenu import ContextMenu
@@ -23,10 +24,33 @@ class BrowserWidget(QWebEngineView):
         self.loadStarted.connect(lambda: self.parent.tabWidget.settitleloading(self))
         self.iconChanged.connect(lambda: self.parent.tabWidget.seticon(self))
         self.page.fullScreenRequested.connect(self.page.makefullscreen)
+
         self.viewSource = QAction(self)
-        self.viewSource.setShortcut(Qt.Key_F2)
+        self.viewSource.setShortcut(QKeySequence(Qt.Key_F2))
         self.viewSource.triggered.connect(self.page.vsource)
+        self.reloadAction = QAction(self)
+        self.reloadAction.setShortcut(QKeySequence("Ctrl+R"))
+        self.reloadAction.triggered.connect(self.reload)
+        self.addTabAction = QAction(self)
+        self.addTabAction.setShortcut(QKeySequence("Ctrl+T"))
+        self.addTabAction.triggered.connect(self.parent.tabWidget.requestsaddtab)
+        self.closeTabAction = QAction(self)
+        self.closeTabAction.setShortcut(QKeySequence("Ctrl+Q"))
+        self.closeTabAction.triggered.connect(lambda: self.parent.tabWidget.requestsremovetab(
+            self.parent.tabWidget.indexOf(self)))
+        self.forwardAction = QAction(self)
+        self.forwardAction.setShortcut(QKeySequence("Ctrl+N"))
+        self.forwardAction.triggered.connect(self.forward)
+        self.backAction = QAction(self)
+        self.backAction.setShortcut(QKeySequence("Ctrl+B"))
+        self.backAction.triggered.connect(self.back)
+
         self.addAction(self.viewSource)
+        self.addAction(self.reloadAction)
+        self.addAction(self.addTabAction)
+        self.addAction(self.closeTabAction)
+        self.addAction(self.forwardAction)
+        self.addAction(self.backAction)
 
     def event(self, event):
         if event.type() == QEvent.ChildAdded:

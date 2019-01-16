@@ -237,13 +237,7 @@ class Browser(QMainWindow):
     
     def keyPressEvent(self, event):
         self.parameterWindow.addonsPage.launchaddons("keyPress", event)
-        if event.key() == Qt.Key_R or event.key() == Qt.Key_F5:
-            self.browserWidget.reload()
-        elif event.key() == Qt.Key_N:
-            self.tabWidget.requestsaddtab()
-        elif event.key() == Qt.Key_Q:
-            self.tabWidget.requestsremovetab(self.tabWidget.currentIndex())
-    
+
     def checkmaj(self):
         page = urlopen('http://37.59.86.221/browthon/version.txt')
         strpage = page.read().decode("utf-8")
