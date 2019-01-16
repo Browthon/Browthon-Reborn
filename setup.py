@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 print(find_packages())
 
-setup(name='Browthon Reborn',
+setup(name='Browthon-Reborn',
     version='0.1.0',
     description='A webbrowser made with Python and PyQt',
     url='https://github.com/Browthon/Browthon-Reborn',
