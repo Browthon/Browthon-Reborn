@@ -16,6 +16,7 @@ from browthon.Core.Utils.themeUtils import parsetheme, geticonpath
 from browthon.Core.Windows.parameterWindow import ParameterWindow
 
 import os
+from urllib.request import urlopen
 
 
 class Browser(QMainWindow):
@@ -99,6 +100,7 @@ class Browser(QMainWindow):
             parameters = self.dbConnection.executewithreturn("""SELECT * FROM parameters""")
             self.dbConnection.executewithoutreturn(
                 """UPDATE parameters SET first = ? WHERE id = ?""", ("N", parameters[0][0]))
+        self.checkmaj()
 
     def settitle(self, widget):
         self.setWindowTitle(self.browserWidget.title() + " - Browthon")
@@ -241,6 +243,25 @@ class Browser(QMainWindow):
         elif event.key() == Qt.Key_Q:
             self.tabWidget.requestsremovetab(self.tabWidget.currentIndex())
     
+    def checkmaj(self):
+        page = urlopen('http://37.59.86.221/browthon/version.txt')
+        strpage = page.read().decode("utf-8")
+        newversion = strpage.split('.')
+        version = self.version.split('.')
+        if int(version[0]) < int(newversion[0]):
+            QMessageBox.information(self, "Nouvelle MAJ", "Une nouvelle mise à jour est disponible : "+strpage+".\n"
+                                                          "Vous pouvez l'avoir sur : https://github.com/Browthon/"
+                                                          "Browthon-Reborn/releases")
+        elif int(version[0]) == int(newversion[0]):
+            if int(version[1]) < int(newversion[1]):
+                QMessageBox.information(self, "Nouvelle MAJ", "Une nouvelle mise à jour est disponible.\n"
+                                                              "Vous pouvez l'avoir sur : https://github.com/Browthon/"
+                                                              "Browthon-Reborn/releases")
+            elif int(version[1]) == int(newversion[1]):
+                if int(version[2]) < int(newversion[2]):
+                    QMessageBox.information(self, "Nouvelle MAJ", "Une nouvelle mise à jour est disponible.\n"
+                                                                  "Vous pouvez l'avoir sur : https://github.com/Browthon/"
+                                                                  "Browthon-Reborn/releases")
     def closeEvent(self, event):
         if self.tabWidget.count() == 0 or (self.tabWidget.count() == 1 and self.tabWidget.closer):
             self.dbConnection.disconnect()
