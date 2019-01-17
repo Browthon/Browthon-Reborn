@@ -29,6 +29,15 @@ class Browser(QMainWindow):
         self.grid = QGridLayout(self.centralWidget)
         self.theme = ""
         self.version = "0.1.0"
+        self.versionDB = "1"
+        if self.dbConnection.executewithreturn("""SELECT version FROM informations""")[0][0] != self.versionDB:
+            QMessageBox.information(self, "Base de donnée non à jour", "La Base de donnée n'est pas compatible avec "
+                                                                       "cette version de Browthon.\n"
+                                                                       "Elle va être réinitialisé.")
+            self.dbConnection.disconnect()
+            os.remove(os.path.join(os.path.dirname(__file__), "data.db"))
+            self.dbConnection.reconnect(os.path.join(os.path.dirname(__file__), "data.db"))
+            self.dbConnection.createdb()
         QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)
         if self.dbConnection.executewithreturn("""SELECT js FROM parameters""")[0][0] == "Activé":
             QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.JavascriptEnabled, True)

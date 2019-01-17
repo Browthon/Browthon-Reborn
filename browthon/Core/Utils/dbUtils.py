@@ -22,6 +22,10 @@ class DBConnection:
             self.cursor.execute(query, tuples)
         return self.cursor.fetchall()
 
+    def reconnect(self, fichier):
+        self.connection = sqlite3.connect(fichier)
+        self.cursor = self.connection.cursor()
+
     def disconnect(self):
         self.connection.close()
     
@@ -64,6 +68,13 @@ CREATE TABLE IF NOT EXISTS sessions(
     urls TEXT,
     date TEXT
 )""")
+        self.executewithoutreturn("""
+CREATE TABLE IF NOT EXISTS informations(
+    id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+    version TEXT
+)""")
         if not self.executewithreturn("""SELECT home FROM parameters"""):
             self.executewithoutreturn("""INSERT INTO parameters(home, moteur, js, theme, first, private) VALUES("http://google.com",
              "Google", "Activé", "default", "O", "Désactivé")""")
+        if not self.executewithreturn("""SELECT version FROM informations"""):
+            self.executewithoutreturn("""INSERT INTO informations(version) VALUES("1")""")
