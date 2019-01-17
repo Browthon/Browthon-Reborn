@@ -33,7 +33,8 @@ CREATE TABLE IF NOT EXISTS parameters(
     moteur TEXT,
     js TEXT,
     theme TEXT,
-    first TEXT
+    first TEXT,
+    private TEXT
 )""")
         self.executewithoutreturn("""
 CREATE TABLE IF NOT EXISTS history(
@@ -64,5 +65,5 @@ CREATE TABLE IF NOT EXISTS sessions(
     date TEXT
 )""")
         if not self.executewithreturn("""SELECT home FROM parameters"""):
-            self.executewithoutreturn("""INSERT INTO parameters(home, moteur, js, theme, first) VALUES("http://google.com",
-             "Google", "Activé", "default", "O")""")
+            self.executewithoutreturn("""INSERT INTO parameters(home, moteur, js, theme, first, private) VALUES("http://google.com",
+             "Google", "Activé", "default", "O", "Désactivé")""")

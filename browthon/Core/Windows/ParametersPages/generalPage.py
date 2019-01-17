@@ -3,7 +3,7 @@
 
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QSpacerItem, QMessageBox, QComboBox
 from PyQt5.QtCore import Qt
-from PyQt5.QtWebEngineWidgets import QWebEngineSettings
+from PyQt5.QtWebEngineWidgets import QWebEngineSettings, QWebEngineProfile
 
 from browthon.Core.Widgets.pushButton import PushButton
 
@@ -19,11 +19,16 @@ class GeneralPage(QWidget):
         for i in range(len(self.listeMoteur)):
             if self.listeMoteur[i] == moteuracc:
                 self.listeMoteur[i], self.listeMoteur[0] = self.listeMoteur[0], self.listeMoteur[i]
-        jsAcc = self.parent.parent.dbConnection.executewithreturn("""SELECT js FROM parameters""")[0][0]
-        if jsAcc == "Activé":
+        jsacc = self.parent.parent.dbConnection.executewithreturn("""SELECT js FROM parameters""")[0][0]
+        if jsacc == "Activé":
             self.listejs = ["Activé", "Désactivé"]
         else:
             self.listejs = ["Désactivé", "Activé"]
+        privateacc = self.parent.parent.dbConnection.executewithreturn("""SELECT private FROM parameters""")[0][0]
+        if privateacc == "Activé":
+            self.listeprivate = ["Activé", "Désactivé"]
+        else:
+            self.listeprivate = ["Désactivé", "Activé"]
 
         self.lAccueil = QLabel("Page d'accueil")
         self.lAccueil.setAlignment(Qt.AlignHCenter)
@@ -38,6 +43,10 @@ class GeneralPage(QWidget):
         self.lJS.setAlignment(Qt.AlignHCenter)
         self.jsbox = QComboBox()
         self.jsbox.addItems(self.listejs)
+        self.lPrivate = QLabel("Navigation Privée")
+        self.lPrivate.setAlignment(Qt.AlignHCenter)
+        self.privatebox = QComboBox()
+        self.privatebox.addItems(self.listeprivate)
 
         self.endSpacerItem = QSpacerItem(20, 600)
         self.paramSpacerItem = QSpacerItem(20, 25)
@@ -53,6 +62,9 @@ class GeneralPage(QWidget):
         self.grid.addItem(self.paramSpacerItem)
         self.grid.addWidget(self.lJS)
         self.grid.addWidget(self.jsbox)
+        self.grid.addItem(self.paramSpacerItem)
+        self.grid.addWidget(self.lPrivate)
+        self.grid.addWidget(self.privatebox)
         self.grid.addItem(self.endSpacerItem)
         self.grid.addWidget(self.bValid)
         self.setLayout(self.grid)
@@ -73,4 +85,14 @@ class GeneralPage(QWidget):
             QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.JavascriptEnabled, True)
         else:
             QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.JavascriptEnabled, False)
+        self.parent.parent.dbConnection.executewithoutreturn(
+            """UPDATE parameters SET private = ? WHERE id = ?""",
+            (self.listeprivate[self.privatebox.currentIndex()],
+             parameters[0][0]))
+        if self.listeprivate[self.privatebox.currentIndex()] == "Activé":
+            QWebEngineProfile.defaultProfile().setHttpCacheType(QWebEngineProfile.MemoryHttpCache)
+            self.parent.parent.privateBrowsing = True
+        else:
+            QWebEngineProfile.defaultProfile().setHttpCacheType(QWebEngineProfile.DiskHttpCache)
+            self.parent.parent.privateBrowsing = False
         QMessageBox().about(self, "Enregistrement fait", "L'enregistrement des paramètres a été fait sans problème")

@@ -29,6 +29,17 @@ class Browser(QMainWindow):
         self.grid = QGridLayout(self.centralWidget)
         self.theme = ""
         self.version = "0.1.0"
+        QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)
+        if self.dbConnection.executewithreturn("""SELECT js FROM parameters""")[0][0] == "Activé":
+            QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.JavascriptEnabled, True)
+        else:
+            QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.JavascriptEnabled, False)
+        if self.dbConnection.executewithreturn("""SELECT private FROM parameters""")[0][0] == "Activé":
+            self.privateBrowsing = True
+            QWebEngineProfile.defaultProfile().setHttpCacheType(QWebEngineProfile.MemoryHttpCache)
+        else:
+            self.privateBrowsing = False
+            QWebEngineProfile.defaultProfile().setHttpCacheType(QWebEngineProfile.DiskHttpCache)
 
         self.urlInput = UrlInput(self)
         self.urlInput.setObjectName("addressBar")
@@ -72,11 +83,6 @@ class Browser(QMainWindow):
         self.showMaximized()
         self.setWindowTitle('Browthon')
 
-        QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)
-        if self.dbConnection.executewithreturn("""SELECT js FROM parameters""")[0][0] == "Activé":
-            QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.JavascriptEnabled, True)
-        else:
-            QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.JavascriptEnabled, False)
         self.parameterWindow = ParameterWindow(self)
         QWebEngineProfile.defaultProfile().\
             downloadRequested.connect(self.parameterWindow.downloadPage.downloadrequested)
@@ -103,7 +109,10 @@ class Browser(QMainWindow):
         self.checkmaj()
 
     def settitle(self, widget):
-        self.setWindowTitle(self.browserWidget.title() + " - Browthon")
+        if self.privateBrowsing:
+            self.setWindowTitle("[Privé] "+self.browserWidget.title() + " - Browthon")
+        else:
+            self.setWindowTitle(self.browserWidget.title() + " - Browthon")
         self.tabWidget.settitle(widget)
 
     def applytheme(self):
@@ -231,9 +240,10 @@ class Browser(QMainWindow):
                                                                  "../Icons/NavigationBar/noFav.png"))))
     
     def addhistory(self, widget):
-        self.dbConnection.executewithoutreturn("""INSERT INTO history(name, url, date) VALUES(?, ?, ?)""", (
-            widget.title(), widget.url().toString(),
-            getdate()))
+        if not self.privateBrowsing:
+            self.dbConnection.executewithoutreturn("""INSERT INTO history(name, url, date) VALUES(?, ?, ?)""", (
+                widget.title(), widget.url().toString(),
+                getdate()))
     
     def keyPressEvent(self, event):
         self.parameterWindow.addonsPage.launchaddons("keyPress", event)
