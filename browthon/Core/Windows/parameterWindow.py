@@ -45,19 +45,19 @@ class ParameterWindow(QDialog):
         self.tabWidget.addTab(self.generalPage,
                               QIcon(geticonpath(self.parent,
                                                 os.path.join(os.path.dirname(__file__),
-                                                             "../../Icons/Parameters/General.png"))),"")
+                                                             "../../Icons/Parameters/General.png"))), "")
         self.tabWidget.addTab(self.historyPage,
                               QIcon(geticonpath(self.parent,
                                                 os.path.join(os.path.dirname(__file__),
-                                                             "../../Icons/Parameters/History.png"))),"")
+                                                             "../../Icons/Parameters/History.png"))), "")
         self.tabWidget.addTab(self.bookmarksPage,
                               QIcon(geticonpath(self.parent,
                                                 os.path.join(os.path.dirname(__file__),
-                                                             "../../Icons/Parameters/Fav.png"))),"")
+                                                             "../../Icons/Parameters/Fav.png"))), "")
         self.tabWidget.addTab(self.raccourcisPage,
                               QIcon(geticonpath(self.parent,
                                                 os.path.join(os.path.dirname(__file__),
-                                                             "../../Icons/Parameters/Raccourcis.png"))),"")
+                                                             "../../Icons/Parameters/Raccourcis.png"))), "")
         self.tabWidget.addTab(self.sessionsPage,
                               QIcon(geticonpath(self.parent,
                                                 os.path.join(os.path.dirname(__file__),
