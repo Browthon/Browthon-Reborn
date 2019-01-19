@@ -17,7 +17,7 @@ class InformationsPage(QWidget):
         self.bwiki = PushButton("Wiki")
         self.ltitre = QLabel("Browthon Reborn")
         d = "Browthon Reborn est créé par LavaPower avec Python et PyQt\n" \
-            "Version : 0.1.0\n\nMerci à Feldrise pour son aide\n\n\nLiens utiles :"
+            "Version : 1.0.0\n\nMerci à Feldrise pour son aide\n\n\nLiens utiles :"
         self.ldescription = QLabel(d)
         self.image = QPixmap("logo.png")
 

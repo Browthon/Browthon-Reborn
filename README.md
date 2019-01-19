@@ -27,11 +27,25 @@ Warning : If you are on Windows, you must have **Python 64Bits**. If you have Py
 
 ## Changelog
 
-### V 1.0.0 : First Update - XX XX 2019 (INDEV)
+### V 1.0.0 : First Update - 19 Jan 2019 (LATEST)
 
-- Add themes with defaults themes : Default, dark and Sielo
-- Add Addons with defaults addons : DiscordRPC
+- Update information page of parameters
+- Rework on history, bookmarks, raccourcis and sessions
+- Rework on loading of tabs and on some tab behaviors
+- Add downloads
+- Add themes (by default : default, dark and sielo)
+- Add addons (by default : Discord RPC)
+- Create a setup.py to have a easy installation
+- Add a warn when you have  anew version of Browthon
+- Add a system to update the database of Browthon
+- Add private browsing
+- Bugs Fixes : 
+  - Crash when you use middle click
+  - Crash when you click on "Voir Image" in context menu
+  - When you close a tab, the tab was always loaded
+  - Crash when you close a other tab than the current tab
+  
 
-### V 0.1.0 : Initial Update - 08 Dec 2018 (LATEST)
+### V 0.1.0 : Initial Update - 08 Dec 2018
 
 - First version

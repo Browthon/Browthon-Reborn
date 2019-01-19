@@ -28,7 +28,7 @@ class Browser(QMainWindow):
         self.centralWidget = QWidget(self)
         self.grid = QGridLayout(self.centralWidget)
         self.theme = ""
-        self.version = "0.1.0"
+        self.version = "1.0.0"
         self.versionCompaDB = 1
         self.versionAccDB = self.dbConnection.executewithreturn("""SELECT version FROM informations""")[0][0]
         if self.versionAccDB != self.versionCompaDB:
