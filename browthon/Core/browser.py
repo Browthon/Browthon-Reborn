@@ -9,7 +9,7 @@ from PyQt5.QtWebEngineWidgets import QWebEngineSettings, QWebEngineProfile
 from browthon.Core.Widgets.urlInput import UrlInput
 from browthon.Core.Widgets.tabWidget import TabWidget
 from browthon.Core.Widgets.pushButton import PushButton
-from browthon.Core.Utils.dbUtils import DBConnection
+from browthon.Core.Utils.dbUtils import DBConnection, majdb
 from browthon.Core.Utils.urlUtils import getgoodurl
 from browthon.Core.Utils.dateUtils import getdate
 from browthon.Core.Utils.themeUtils import parsetheme, geticonpath
@@ -29,13 +29,15 @@ class Browser(QMainWindow):
         self.grid = QGridLayout(self.centralWidget)
         self.theme = ""
         self.version = "0.1.0"
-        self.versionDB = "1"
-        if self.dbConnection.executewithreturn("""SELECT version FROM informations""")[0][0] != self.versionDB:
+        self.versionCompaDB = 1
+        self.versionAccDB = self.dbConnection.executewithreturn("""SELECT version FROM informations""")[0][0]
+        if self.versionAccDB != self.versionCompaDB:
             QMessageBox.information(self, "Base de donnée non à jour", "La Base de donnée n'est pas compatible avec "
                                                                        "cette version de Browthon.\n"
-                                                                       "Elle va être réinitialisé.")
+                                                                       "Elle va être mise à jour.")
             self.dbConnection.disconnect()
-            os.remove(os.path.join(os.path.dirname(__file__), "data.db"))
+            self.versionAccDB = majdb(os.path.join(os.path.dirname(__file__), "data.db"),
+                                      self.versionAccDB, self.versionCompaDB)
             self.dbConnection.reconnect(os.path.join(os.path.dirname(__file__), "data.db"))
             self.dbConnection.createdb()
         QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)

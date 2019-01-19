@@ -1,6 +1,13 @@
 import sqlite3
 
 
+def majdb(fichier, versionacc, versioncompa):
+    while versionacc < versioncompa:
+        eval("majdbto"+str(versionacc+1)+"("+fichier+")")
+        versionacc += 1
+    return versionacc
+
+
 class DBConnection:
     def __init__(self, fichier):
         self.connection = sqlite3.connect(fichier)
@@ -71,10 +78,10 @@ CREATE TABLE IF NOT EXISTS sessions(
         self.executewithoutreturn("""
 CREATE TABLE IF NOT EXISTS informations(
     id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
-    version TEXT
+    version INTEGER
 )""")
         if not self.executewithreturn("""SELECT home FROM parameters"""):
             self.executewithoutreturn("""INSERT INTO parameters(home, moteur, js, theme, first, private) VALUES("http://google.com",
              "Google", "Activé", "default", "O", "Désactivé")""")
         if not self.executewithreturn("""SELECT version FROM informations"""):
-            self.executewithoutreturn("""INSERT INTO informations(version) VALUES("1")""")
+            self.executewithoutreturn("""INSERT INTO informations(version) VALUES(1)""")
