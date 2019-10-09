@@ -15,16 +15,16 @@ class GeneralPage(QWidget):
         self.grid = QVBoxLayout()
 
         self.listeMoteur = ["Google", "Duckduckgo", "Ecosia", "Yahoo", "Bing"]
-        moteuracc = self.parent.parent.dbConnection.executewithreturn("""SELECT moteur FROM parameters""")[0][0]
+        moteuracc = self.parent.parent.db.executewithreturn("""SELECT moteur FROM parameters""")[0][0]
         for i in range(len(self.listeMoteur)):
             if self.listeMoteur[i] == moteuracc:
                 self.listeMoteur[i], self.listeMoteur[0] = self.listeMoteur[0], self.listeMoteur[i]
-        jsacc = self.parent.parent.dbConnection.executewithreturn("""SELECT js FROM parameters""")[0][0]
+        jsacc = self.parent.parent.db.executewithreturn("""SELECT js FROM parameters""")[0][0]
         if jsacc == "Activé":
             self.listejs = ["Activé", "Désactivé"]
         else:
             self.listejs = ["Désactivé", "Activé"]
-        privateacc = self.parent.parent.dbConnection.executewithreturn("""SELECT private FROM parameters""")[0][0]
+        privateacc = self.parent.parent.db.executewithreturn("""SELECT private FROM parameters""")[0][0]
         if privateacc == "Activé":
             self.listeprivate = ["Activé", "Désactivé"]
         else:
@@ -33,7 +33,7 @@ class GeneralPage(QWidget):
         self.lAccueil = QLabel("Page d'accueil")
         self.lAccueil.setAlignment(Qt.AlignHCenter)
         self.urlAccueil = QLineEdit(
-            self.parent.parent.dbConnection.executewithreturn("""SELECT home FROM parameters""")[0][0])
+            self.parent.parent.db.executewithreturn("""SELECT home FROM parameters""")[0][0])
         self.urlAccueil.setAlignment(Qt.AlignHCenter)
         self.lMoteur = QLabel("Moteur de recherche")
         self.lMoteur.setAlignment(Qt.AlignHCenter)
@@ -70,10 +70,10 @@ class GeneralPage(QWidget):
         self.setLayout(self.grid)
     
     def valider(self):
-        parameters = self.parent.parent.dbConnection.executewithreturn("""SELECT * FROM parameters""")
-        self.parent.parent.dbConnection.executewithoutreturn(
+        parameters = self.parent.parent.db.executewithreturn("""SELECT * FROM parameters""")
+        self.parent.parent.db.executewithoutreturn(
             """UPDATE parameters SET home = ? WHERE id = ?""", (self.urlAccueil.text(), parameters[0][0]))
-        self.parent.parent.dbConnection.executewithoutreturn(
+        self.parent.parent.db.executewithoutreturn(
             """UPDATE parameters SET moteur = ? WHERE id = ?""",
             (self.listeMoteur[self.moteurBox.currentIndex()],
              parameters[0][0]))
@@ -85,7 +85,7 @@ class GeneralPage(QWidget):
             QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.JavascriptEnabled, True)
         else:
             QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.JavascriptEnabled, False)
-        self.parent.parent.dbConnection.executewithoutreturn(
+        self.parent.parent.db.executewithoutreturn(
             """UPDATE parameters SET private = ? WHERE id = ?""",
             (self.listeprivate[self.privatebox.currentIndex()],
              parameters[0][0]))

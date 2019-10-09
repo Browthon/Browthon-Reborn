@@ -9,11 +9,12 @@ from PySide2.QtWebEngineWidgets import QWebEngineSettings, QWebEngineProfile
 from browthon.Core.Widgets.urlInput import UrlInput
 from browthon.Core.Widgets.tabWidget import TabWidget
 from browthon.Core.Widgets.pushButton import PushButton
-from browthon.Core.Utils.dbUtils import DBConnection, majdb
+from browthon.Core.Utils.dbUtils import majdb
 from browthon.Core.Utils.urlUtils import getgoodurl
 from browthon.Core.Utils.dateUtils import getdate
 from browthon.Core.Utils.themeUtils import parsetheme, geticonpath
 from browthon.Core.Windows.parameterWindow import ParameterWindow
+from browthon.Core.Database import Database
 
 import os
 from urllib.request import urlopen
@@ -22,15 +23,15 @@ from urllib.request import urlopen
 class Browser(QMainWindow):
     def __init__(self):
         super(Browser, self).__init__()
-        self.dbConnection = DBConnection(os.path.join(os.path.dirname(__file__), "data.db"))
-        self.dbConnection.createdb()
+        self.db = Database(os.path.join(os.path.dirname(__file__), "data.db"))
+        self.db.createdb()
 
         self.centralWidget = QWidget(self)
         self.grid = QGridLayout(self.centralWidget)
         self.theme = ""
         self.version = "1.0.0"
         self.versionCompaDB = 1
-        self.versionAccDB = self.dbConnection.executewithreturn("""SELECT version FROM informations""")[0][0]
+        self.versionAccDB = self.db.executewithreturn("""SELECT version FROM informations""")[0][0]
         if self.versionAccDB != self.versionCompaDB:
             QMessageBox.information(self, "Base de donnée non à jour", "La Base de donnée n'est pas compatible avec "
                                                                        "cette version de Browthon.\n"
@@ -41,11 +42,11 @@ class Browser(QMainWindow):
             self.dbConnection.reconnect(os.path.join(os.path.dirname(__file__), "data.db"))
             self.dbConnection.createdb()
         QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)
-        if self.dbConnection.executewithreturn("""SELECT js FROM parameters""")[0][0] == "Activé":
+        if self.db.executewithreturn("""SELECT js FROM parameters""")[0][0] == "Activé":
             QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.JavascriptEnabled, True)
         else:
             QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.JavascriptEnabled, False)
-        if self.dbConnection.executewithreturn("""SELECT private FROM parameters""")[0][0] == "Activé":
+        if self.db.executewithreturn("""SELECT private FROM parameters""")[0][0] == "Activé":
             self.privateBrowsing = True
             QWebEngineProfile.defaultProfile().setHttpCacheType(QWebEngineProfile.MemoryHttpCache)
         else:
@@ -76,7 +77,7 @@ class Browser(QMainWindow):
         self.forward.clicked.connect(self.browserWidget.forward)
         self.bookmark.clicked.connect(self.fav)
         self.home.clicked.connect(lambda: self.urlInput.enterurlgiven(
-            self.dbConnection.executewithreturn("""SELECT home FROM parameters""")[0][0]))
+            self.db.executewithreturn("""SELECT home FROM parameters""")[0][0]))
         self.parameter.clicked.connect(self.openparameter)
 
         self.grid.addWidget(self.back, 0, 0)
@@ -98,7 +99,7 @@ class Browser(QMainWindow):
         QWebEngineProfile.defaultProfile().\
             downloadRequested.connect(self.parameterWindow.downloadPage.downloadrequested)
 
-        theme = self.dbConnection.executewithreturn("""SELECT theme FROM parameters""")[0][0]
+        theme = self.db.executewithreturn("""SELECT theme FROM parameters""")[0][0]
         if theme == "":
             self.theme = ""
             self.applytheme()
@@ -113,9 +114,9 @@ class Browser(QMainWindow):
 
         self.parameterWindow.addonsPage.launchaddons("load")
         self.show()
-        if self.dbConnection.executewithreturn("""SELECT first FROM parameters""")[0][0] == "O":
+        if self.db.executewithreturn("""SELECT first FROM parameters""")[0][0] == "O":
             parameters = self.dbConnection.executewithreturn("""SELECT * FROM parameters""")
-            self.dbConnection.executewithoutreturn(
+            self.db.executewithoutreturn(
                 """UPDATE parameters SET first = ? WHERE id = ?""", ("N", parameters[0][0]))
         # self.checkmaj()
 
@@ -212,17 +213,17 @@ class Browser(QMainWindow):
         self.parameterWindow.show()
     
     def fav(self):
-        bookmarks = self.dbConnection.executewithreturn("""SELECT * FROM bookmarks""")
+        bookmarks = self.db.executewithreturn("""SELECT * FROM bookmarks""")
         find = False
         for i in bookmarks:
             if i[2] == self.browserWidget.url().toString():
-                self.dbConnection.executewithoutreturn("""DELETE FROM bookmarks WHERE id = ?""", (i[0],))
+                self.db.executewithoutreturn("""DELETE FROM bookmarks WHERE id = ?""", (i[0],))
                 self.bookmark.setIcon(QIcon(geticonpath(self,
                                                         os.path.join(os.path.dirname(__file__),
                                                                      "../Icons/NavigationBar/noFav.png"))))
                 find = True
         if not find:
-            self.dbConnection.executewithoutreturn("""INSERT INTO bookmarks(name, url, date) VALUES(?, ?, ?)""", (
+            self.db.executewithoutreturn("""INSERT INTO bookmarks(name, url, date) VALUES(?, ?, ?)""", (
                 self.browserWidget.title(), self.browserWidget.url().toString(),
                 getdate()))
             self.bookmark.setIcon(QIcon(geticonpath(self,
@@ -237,7 +238,7 @@ class Browser(QMainWindow):
         self.tabWidget.settitle(widget)
 
     def checkbookmarkbutton(self):
-        bookmarks = self.dbConnection.executewithreturn("""SELECT * FROM bookmarks""")
+        bookmarks = self.db.executewithreturn("""SELECT * FROM bookmarks""")
         find = False
         for i in bookmarks:
             if i[2] == self.browserWidget.url().toString():
@@ -252,7 +253,7 @@ class Browser(QMainWindow):
     
     def addhistory(self, widget):
         if not self.privateBrowsing:
-            self.dbConnection.executewithoutreturn("""INSERT INTO history(name, url, date) VALUES(?, ?, ?)""", (
+            self.db.executewithoutreturn("""INSERT INTO history(name, url, date) VALUES(?, ?, ?)""", (
                 widget.title(), widget.url().toString(),
                 getdate()))
     
@@ -299,7 +300,7 @@ class Browser(QMainWindow):
         else:
             if QMessageBox().question(self, "Quitter ?", "Voulez vous quitter Browthon ?", QMessageBox.Yes,
                                       QMessageBox.No) == 16384:
-                self.dbConnection.disconnect()
+                self.db.disconnect()
                 self.parameterWindow.addonsPage.launchaddons("unload")
                 event.accept()
             else:

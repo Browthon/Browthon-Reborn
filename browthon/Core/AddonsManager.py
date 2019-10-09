@@ -3,6 +3,7 @@
 
 import os
 import glob
+import json
 
 
 class AddonsManager:
@@ -14,27 +15,21 @@ class AddonsManager:
         self.unimported = []
 
     def include_all_modules(self):
-        if os.path.exists(os.path.join(os.path.dirname(__file__), "..", "..", "Addons")):
-            filess = glob.glob(os.path.join(os.path.dirname(__file__), "..", "..", "Addons", "*", "*.py"))
+        addonsdir = os.path.join(os.path.dirname(__file__), "..", "Addons")
+        if os.path.exists(addonsdir):
+            jsons = glob.glob(os.path.join(addonsdir, "*", "addon.json"))
         else:
-            filess = []
+            jsons = []
             print("Aucun addon trouvé")
-        i=0
-        while True:
-            filesss = filess[i].split("\\")
-            if len(filesss) == 1:
-                filesss = filess[i].split("/")
-            if filesss[-1] == "__init__.py":
-                del filess[i]
-            i += 1
-            if i >= len(filess):
-                break
         ext_libs = []
-        for f in filess:
-            liste = f.split("\\")
-            if len(liste) == 1:
-                liste = f.split("/")
-            ext_libs.append("browthon.Addons.{}.{}".format(liste[-2], os.path.basename(f).split('.')[0]))
+        for f in jsons:
+            with open(f, "r") as file:
+                datas = json.load(file)
+            if datas["Activation"]:
+                liste = f.split("\\")
+                if len(liste) == 1:
+                    liste = f.split("/")
+                ext_libs.append("browthon.Addons.{}.{}".format(liste[-2], datas["MainFile"]))
         self.imported = []
         for module in ext_libs:
             try:
@@ -69,7 +64,7 @@ class AddonsManager:
                             self.LML[i].enterurl(self.LML[i], self.main, args)
                         elif function == "openOnglet":
                             self.LML[i].openonglet(self.LML[i], self.main, args)
-                    except Exception:
+                    except AttributeError:
                         pass
                     break
 

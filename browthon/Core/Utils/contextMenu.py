@@ -20,7 +20,7 @@ class ContextMenu(QMenu):
         self.addAction("Copier Lien", lambda: QApplication.clipboard().setText(self.onglet.url().toString()))
         self.addAction("Enregistrer Page", lambda: self.onglet.page.triggerAction(self.onglet.SavePage))
         self.addSeparator()
-        bookmarks = self.onglet.parent.dbConnection.executewithreturn("""SELECT * FROM bookmarks""")
+        bookmarks = self.onglet.parent.db.executewithreturn("""SELECT * FROM bookmarks""")
         find = False
         for i in bookmarks:
             if i[2] == self.onglet.parent.browserWidget.url().toString():

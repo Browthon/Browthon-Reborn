@@ -1,0 +1,15 @@
+{
+    "Name": "Blacklist",
+    "NameCode": "blacklist",
+    "Author": "LavaPower",
+    "Description": "Bloque le chargement de certains sites",
+    "Url": "http://lavapower.github.io",
+    "Version": "0.0.1",
+    "Logo": "logo.png",
+    "Activation": "True",
+    "MainFile": "blacklist",
+    "Sites": [
+        "9minecraft.net",
+        "minecraftsix.com"
+    ]
+}

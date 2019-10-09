@@ -20,7 +20,7 @@ class BookmarksPage(QWidget):
 
         self.title = QLabel("Favoris")
         self.title.setAlignment(Qt.AlignHCenter)
-        self.listeW = ListWidget(self.parent.parent.dbConnection.executewithreturn("""SELECT * FROM bookmarks"""))
+        self.listeW = ListWidget(self.parent.parent.db.executewithreturn("""SELECT * FROM bookmarks"""))
         self.liste = []
         self.supp = PushButton("Supprimer")
         self.suppAll = PushButton("Tout supprimer")
@@ -48,7 +48,7 @@ class BookmarksPage(QWidget):
                     break
     
     def addfavf(self):
-        bookmarks = self.parent.parent.dbConnection.executewithreturn("""SELECT * FROM bookmarks""")
+        bookmarks = self.parent.parent.db.executewithreturn("""SELECT * FROM bookmarks""")
         for i in bookmarks:
             bool1 = i[1] == self.parent.parent.browserWidget.title()
             bool2 = i[2] == self.parent.parent.browserWidget.url().toString()
@@ -56,7 +56,7 @@ class BookmarksPage(QWidget):
                 QMessageBox.warning(self, "Erreur", "Cette page est déjà en favori.")
                 return
 
-        self.parent.parent.dbConnection.executewithoutreturn(
+        self.parent.parent.db.executewithoutreturn(
             """INSERT INTO bookmarks(name, url, date) VALUES(?, ?, ?)""",
             (self.parent.parent.browserWidget.title(), self.parent.parent.browserWidget.url().toString(),
              getdate())
@@ -67,14 +67,14 @@ class BookmarksPage(QWidget):
 
     def showupdate(self):
         self.listeW.deleteallitems()
-        self.liste = self.parent.parent.dbConnection.executewithreturn("""SELECT * FROM bookmarks""")
+        self.liste = self.parent.parent.db.executewithreturn("""SELECT * FROM bookmarks""")
         self.listeW.updatelist(self.liste)
 
     def delete(self):
         if self.listeW.currentItem():
             for i in self.liste:
                 if str(i[0]) == self.listeW.currentItem().text(3):
-                    self.parent.parent.dbConnection.executewithoutreturn(
+                    self.parent.parent.db.executewithoutreturn(
                         """DELETE FROM bookmarks WHERE id = ?""", (i[0],))
                     if i[2] == self.parent.parent.browserWidget.url().toString():
                         self.parent.parent.bookmark.setIcon(QIcon(os.path.join(os.path.dirname(__file__),
@@ -82,7 +82,7 @@ class BookmarksPage(QWidget):
         self.showupdate()
     
     def deleteall(self):
-        self.parent.parent.dbConnection.executewithoutreturn("""DELETE FROM bookmarks""")
+        self.parent.parent.db.executewithoutreturn("""DELETE FROM bookmarks""")
         self.parent.parent.bookmark.setIcon(QIcon(os.path.join(os.path.dirname(__file__),
                                                                "/Icons/NavigationBar/noFav.png")))
         self.showupdate()

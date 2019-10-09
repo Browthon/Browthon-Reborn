@@ -17,7 +17,7 @@ class SessionsPage(QWidget):
 
         self.title = QLabel("Sessions")
         self.title.setAlignment(Qt.AlignHCenter)
-        self.listeW = ListWidget(self.parent.parent.dbConnection.executewithreturn("""SELECT * FROM sessions"""))
+        self.listeW = ListWidget(self.parent.parent.db.executewithreturn("""SELECT * FROM sessions"""))
         self.liste = self.listeW.liste
         self.supp = PushButton("Supprimer")
         self.suppAll = PushButton("Tout supprimer")
@@ -51,7 +51,7 @@ class SessionsPage(QWidget):
                     break
 
     def addsession(self):
-        sessions = self.parent.parent.dbConnection.executewithreturn("""SELECT * FROM sessions""")
+        sessions = self.parent.parent.db.executewithreturn("""SELECT * FROM sessions""")
         for i in sessions:
             if i[1] == self.tEntry.text():
                 QMessageBox.warning(self, "Erreur", "Cette session existe déjà.")
@@ -62,7 +62,7 @@ class SessionsPage(QWidget):
             urls = ""
             for i in range(self.parent.parent.tabWidget.count()):
                 urls += self.parent.parent.tabWidget.widget(i).url().toString() + " | "
-            self.parent.parent.dbConnection.executewithoutreturn(
+            self.parent.parent.db.executewithoutreturn(
                 """INSERT INTO sessions(name, urls, date) VALUES(?, ?, ?)""",
                 (self.tEntry.text(), urls[:-3], getdate())
             )
@@ -70,17 +70,17 @@ class SessionsPage(QWidget):
 
     def showupdate(self):
         self.listeW.deleteallitems()
-        self.liste = self.parent.parent.dbConnection.executewithreturn("""SELECT * FROM sessions""")
+        self.liste = self.parent.parent.db.executewithreturn("""SELECT * FROM sessions""")
         self.listeW.updatelist(self.liste)
 
     def delete(self):
         if self.listeW.currentItem():
             for i in self.liste:
                 if str(i[0]) == self.listeW.currentItem().text(3):
-                    self.parent.parent.dbConnection.executewithoutreturn(
+                    self.parent.parent.db.executewithoutreturn(
                         """DELETE FROM sessions WHERE id = ?""", (i[0],))
         self.showupdate()
 
     def deleteall(self):
-        self.parent.parent.dbConnection.executewithoutreturn("""DELETE FROM sessions""")
+        self.parent.parent.db.executewithoutreturn("""DELETE FROM sessions""")
         self.showupdate()

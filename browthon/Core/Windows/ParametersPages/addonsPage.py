@@ -5,7 +5,7 @@ from PySide2.QtWidgets import QWidget, QVBoxLayout, QLabel, QScrollArea, QMessag
 from PySide2.QtCore import Qt
 
 from browthon.Core.Widgets.addonWidget import AddonWidget
-from browthon.Core.Utils.addonsUtils import AddonsManager
+from browthon.Core.AddonsManager import AddonsManager
 
 
 class AddonsPage(QWidget):

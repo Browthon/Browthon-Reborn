@@ -52,8 +52,8 @@ class ThemesPage(QWidget):
                     self.parent.parent.theme = os.path.join(os.path.dirname(__file__), "..", "..", "..", "Themes",
                                                             i["folder"])
                     self.parent.parent.applytheme()
-                    parameters = self.parent.parent.dbConnection.executewithreturn("""SELECT * FROM parameters""")
-                    self.parent.parent.dbConnection.executewithoutreturn(
+                    parameters = self.parent.parent.db.executewithreturn("""SELECT * FROM parameters""")
+                    self.parent.parent.db.executewithoutreturn(
                         """UPDATE parameters SET theme = ? WHERE id = ?""", (i["folder"], parameters[0][0]))
                     break
 
@@ -81,20 +81,18 @@ class ThemesPage(QWidget):
                                                                 "..", "..", "..", "Themes", i["folder"]):
                         self.parent.parent.theme = ""
                         self.parent.parent.applytheme()
-                    contenu = os.listdir(os.path.join(os.path.dirname(__file__), "..", "..", "..", "Themes",
-                                                      i["folder"]))
-                    for x in contenu:
-                        os.remove(os.path.join(os.path.dirname(__file__), "..", "..", "..", "Themes",
-                                               i["folder"], x))
-                    os.rmdir(os.path.join(os.path.dirname(__file__), "..", "..", "..", "Themes", i["folder"]))
+                    self.delete_item(i)
         self.showupdate()
 
     def deleteall(self):
         self.parent.parent.theme = ""
         self.parent.parent.applytheme()
         for i in self.liste:
-            contenu = os.listdir(os.path.join(os.path.dirname(__file__), "..", "..", "..", "Themes", i["folder"]))
-            for x in contenu:
-                os.remove(os.path.join(os.path.dirname(__file__), "..", "..", "..", "Themes", i["folder"], x))
-            os.rmdir(os.path.join(os.path.dirname(__file__), "..", "..", "..", "Themes", i["folder"]))
+            self.delete_item(i)
         self.showupdate()
+
+    def delete_item(self, i):
+        contenu = os.listdir(os.path.join(os.path.dirname(__file__), "..", "..", "..", "Themes", i["folder"]))
+        for x in contenu:
+            os.remove(os.path.join(os.path.dirname(__file__), "..", "..", "..", "Themes", i["folder"], x))
+        os.rmdir(os.path.join(os.path.dirname(__file__), "..", "..", "..", "Themes", i["folder"]))

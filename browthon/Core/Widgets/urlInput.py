@@ -14,12 +14,12 @@ class UrlInput(QLineEdit):
         self.returnPressed.connect(self.enterurl)
     
     def enterurlgiven(self, url):
-        url, error = getgoodurl(self.parent.dbConnection, url)
+        url, error = getgoodurl(self.parent.db, url)
         if error == "SESSION":
             self.parent.opennewongletwithurllist(url.split(" | "))
         else:
-            self.parent.browserWidget.load(QUrl(url))
             self.parent.parameterWindow.addonsPage.launchaddons("enterUrl", url)
+            self.parent.browserWidget.load(QUrl(url))
     
     def enterurl(self):
         url = self.text()

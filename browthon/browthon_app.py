@@ -13,7 +13,7 @@ else:
     from PySide2.QtWidgets import QApplication
     from PySide2.QtGui import QIcon
 
-    from browthon.Core.browser import Browser
+    from browthon.Core.Browser import Browser
 
 
 def launch():

@@ -16,7 +16,7 @@ class HistoryPage(QWidget):
 
         self.title = QLabel("Historique")
         self.title.setAlignment(Qt.AlignHCenter)
-        self.liste = self.parent.parent.dbConnection.executewithreturn("""SELECT * FROM history""")
+        self.liste = self.parent.parent.db.executewithreturn("""SELECT * FROM history""")
         self.listeW = ListWidget(self.liste)
         self.supp = PushButton("Supprimer")
         self.suppAll = PushButton("Tout supprimer")
@@ -42,7 +42,7 @@ class HistoryPage(QWidget):
 
     def showupdate(self):
         self.listeW.deleteallitems()
-        self.liste = self.parent.parent.dbConnection.executewithreturn("""SELECT * FROM history""")
+        self.liste = self.parent.parent.db.executewithreturn("""SELECT * FROM history""")
         self.listeW.updatelist(self.liste)
         self.show()
 
@@ -50,10 +50,10 @@ class HistoryPage(QWidget):
         if self.listeW.currentItem():
             for i in self.liste:
                 if str(i[0]) == self.listeW.currentItem().text(3):
-                    self.parent.parent.dbConnection.executewithoutreturn(
+                    self.parent.parent.db.executewithoutreturn(
                         """DELETE FROM history WHERE id = ?""", (i[0],))
         self.showupdate()
     
     def deleteall(self):
-        self.parent.parent.dbConnection.executewithoutreturn("""DELETE FROM history""")
+        self.parent.parent.db.executewithoutreturn("""DELETE FROM history""")
         self.showupdate()

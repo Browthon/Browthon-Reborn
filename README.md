@@ -1,13 +1,17 @@
 # Browthon-Reborn
 
-Latest version of Browthon. A clean version in Python with PyQt5
+Latest version of Browthon. A clean version in Python with PySide2
 
 ## Dependances
 
 - Python 3.5+
-- PyQt5 (pip install PyQt5)
+- PySide2 (pip install PySide2)
 
-Warning : If you are on Windows, you must have **Python 64Bits**. If you have Python 32Bits, PyQt don't have web engine.
+## Install
+
+- Launch in cmd : `pip install Browthon-Reborn`
+- Launch in cmd : `browthon`
+- Enjoy
 
 ## Other informations
 
@@ -27,6 +31,10 @@ Warning : If you are on Windows, you must have **Python 64Bits**. If you have Py
 - /
 
 ## Changelog
+
+### V 2.0.0 : Rework Update - XX/XX/19 (IN DEV)
+
+- Rework on Browthon
 
 ### V 1.0.1 : PySide2 Update - 09/10/19 (LATEST)
 
