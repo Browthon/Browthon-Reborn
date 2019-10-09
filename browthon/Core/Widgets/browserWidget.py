@@ -1,10 +1,10 @@
 #!/usr/bin/python3.7
 # coding: utf-8
 
-from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEnginePage
-from PyQt5.QtCore import QUrl, Qt, QEvent, QEventLoop, QPoint, QPointF, QVariant, QTimer
-from PyQt5.QtWidgets import QAction
-from PyQt5.QtGui import QKeySequence
+from PySide2.QtWebEngineWidgets import QWebEngineView, QWebEnginePage
+from PySide2.QtCore import QUrl, Qt, QEvent, QEventLoop, QPoint, QPointF, QTimer
+from PySide2.QtWidgets import QAction
+from PySide2.QtGui import QKeySequence
 
 from browthon.Core.Utils.webHitTestResult import WebHitTestResult
 from browthon.Core.Utils.contextMenu import ContextMenu
@@ -94,7 +94,7 @@ class Page(QWebEnginePage):
         super(Page, self).__init__()
         self.parent = view.parent
         self.view = view
-        self.result = QVariant()
+        self.result = None
         self.fullView = QWebEngineView()
         self.exitFSAction = QAction(self.fullView)
         self.loop = None
@@ -116,7 +116,7 @@ class Page(QWebEnginePage):
 
     def executejavascript(self, scriptsrc):
         self.loop = QEventLoop()
-        self.result = QVariant()
+        self.result = None
         QTimer.singleShot(250, self.loop.quit)
 
         self.runJavaScript(scriptsrc, self.callbackjs)

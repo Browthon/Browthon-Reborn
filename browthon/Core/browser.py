@@ -1,10 +1,10 @@
 #!/usr/bin/python3.7
 # coding: utf-8
 
-from PyQt5.QtWidgets import QWidget, QMainWindow, QGridLayout, QMessageBox
-from PyQt5.QtCore import Qt, QUrl
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWebEngineWidgets import QWebEngineSettings, QWebEngineProfile
+from PySide2.QtWidgets import QWidget, QMainWindow, QGridLayout, QMessageBox
+from PySide2.QtCore import Qt, QUrl
+from PySide2.QtGui import QIcon
+from PySide2.QtWebEngineWidgets import QWebEngineSettings, QWebEngineProfile
 
 from browthon.Core.Widgets.urlInput import UrlInput
 from browthon.Core.Widgets.tabWidget import TabWidget

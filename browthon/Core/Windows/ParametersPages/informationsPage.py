@@ -1,9 +1,9 @@
 #!/usr/bin/python3.7
 # coding: utf-8
 
-from PyQt5.QtWidgets import QWidget, QLabel, QGridLayout, QSpacerItem
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import Qt
+from PySide2.QtWidgets import QWidget, QLabel, QGridLayout, QSpacerItem
+from PySide2.QtGui import QPixmap
+from PySide2.QtCore import Qt
 
 from browthon.Core.Widgets.pushButton import PushButton
 

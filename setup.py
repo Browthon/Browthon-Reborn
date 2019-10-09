@@ -1,15 +1,15 @@
 from setuptools import setup, find_packages
 
 setup(name='Browthon-Reborn',
-    version='1.0.0',
-    description='A webbrowser made with Python and PyQt',
+    version='1.0.1',
+    description='A webbrowser made with Python and PySide2',
     url='https://github.com/Browthon/Browthon-Reborn',
     author='LavaPower',
     author_email='lavapower84@gmail.com',
     license='GNU GPLv3',
     packages=find_packages(),
     install_requires=[
-        'PyQt5',
+        'PySide2',
         'pypresence'
     ],
     entry_points={

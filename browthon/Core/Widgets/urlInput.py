@@ -1,8 +1,8 @@
 #!/usr/bin/python3.7
 # coding: utf-8
 
-from PyQt5.QtWidgets import QLineEdit
-from PyQt5.QtCore import QUrl
+from PySide2.QtWidgets import QLineEdit
+from PySide2.QtCore import QUrl
 
 from browthon.Core.Utils.urlUtils import getgoodurl
 

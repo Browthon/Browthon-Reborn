@@ -19,7 +19,8 @@ Warning : If you are on Windows, you must have **Python 64Bits**. If you have Py
   - Version of Python :
     - 3.7.1 (V 0.1.0 --> Latest)
   - Librairy :
-    - PyQt5 (V 0.1.0 --> Latest)
+    - PyQt5 (V 0.1.0 --> V 1.0.1)
+    - PySide2 (V 1.0.1 --> LATEST)
 
 ## Known bugs of the developing version
 
@@ -27,7 +28,14 @@ Warning : If you are on Windows, you must have **Python 64Bits**. If you have Py
 
 ## Changelog
 
-### V 1.0.0 : First Update - 19 Jan 2019 (LATEST)
+### V 2.0.0 : XXX Update - XX/XX/19 (IN DEV)
+
+### V 1.0.1 : PySide2 Update - 09/10/19 (LATEST)
+
+- Remove Updater
+- Use PySide2
+
+### V 1.0.0 : First Update - 19 Jan 2019
 
 - Update information page of parameters
 - Rework on history, bookmarks, raccourcis and sessions

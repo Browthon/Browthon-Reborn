@@ -1,8 +1,8 @@
 #!/usr/bin/python3.7
 # coding: utf-8
 
-from PyQt5.QtWidgets import QMenu
-from PyQt5.QtWidgets import QApplication
+from PySide2.QtWidgets import QMenu
+from PySide2.QtWidgets import QApplication
 
 from browthon.Core.Utils.downloadUtils import downloadfile
 

@@ -1,9 +1,9 @@
 #!/usr/bin/python3.7
 # coding: utf-8
 
-from PyQt5.QtWidgets import QWidget, QGridLayout, QLabel, QProgressBar
-from PyQt5.QtWebEngineWidgets import QWebEngineDownloadItem
-from PyQt5.QtCore import QFileInfo
+from PySide2.QtWidgets import QWidget, QGridLayout, QLabel, QProgressBar
+from PySide2.QtWebEngineWidgets import QWebEngineDownloadItem
+from PySide2.QtCore import QFileInfo
 
 from browthon.Core.Widgets.pushButton import PushButton
 from browthon.Core.Utils.downloadUtils import DownloadSignal

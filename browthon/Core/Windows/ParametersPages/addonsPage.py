@@ -1,8 +1,8 @@
 #!/usr/bin/python3.7
 # coding: utf-8
 
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QScrollArea, QMessageBox
-from PyQt5.QtCore import Qt
+from PySide2.QtWidgets import QWidget, QVBoxLayout, QLabel, QScrollArea, QMessageBox
+from PySide2.QtCore import Qt
 
 from browthon.Core.Widgets.addonWidget import AddonWidget
 from browthon.Core.Utils.addonsUtils import AddonsManager
