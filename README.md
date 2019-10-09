@@ -28,8 +28,6 @@ Warning : If you are on Windows, you must have **Python 64Bits**. If you have Py
 
 ## Changelog
 
-### V 2.0.0 : XXX Update - XX/XX/19 (IN DEV)
-
 ### V 1.0.1 : PySide2 Update - 09/10/19 (LATEST)
 
 - Remove Updater
