@@ -7,10 +7,11 @@ sys.path.append('..')
 
 try:
     from pypresence import Presence, Activity
-    import time
-    from threading import Thread
 except ImportError:
     print("PyPresence n'est pas installé sur votre machine.")
+
+import time
+from threading import Thread
 
 
 class DiscordRPC(Thread):
