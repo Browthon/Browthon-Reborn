@@ -117,7 +117,7 @@ class Browser(QMainWindow):
             parameters = self.dbConnection.executewithreturn("""SELECT * FROM parameters""")
             self.dbConnection.executewithoutreturn(
                 """UPDATE parameters SET first = ? WHERE id = ?""", ("N", parameters[0][0]))
-        self.checkmaj()
+        # self.checkmaj()
 
     def settitle(self, widget):
         if self.privateBrowsing:
